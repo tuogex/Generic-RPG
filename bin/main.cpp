@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
 */
     load_files();
 
-    if(!settingsFile()) return -1;
+    settingsFile();
 
     if( !devModeB) intro();
     if( !devModeB) instructScreen(event);

@@ -17,9 +17,12 @@ namespace StartApp
         TextWriter dm = new StreamWriter("bin/settings/development-mode");
         TextWriter tc = new StreamWriter("bin/settings/13centurycalamity");
 
+        Process rpg = new Process();
+
         public Form1()
         {
             InitializeComponent();
+            rpg.StartInfo.FileName = "start.shortcut.bat";
         }
 
         private void devModeBox_CheckedChanged(object sender, EventArgs e)
@@ -36,11 +39,11 @@ namespace StartApp
         {
             if (devModeBox.Checked)
             {
-                dm.WriteLine("1");
+                dm.WriteLine("yes");
             }
             else
             {
-                dm.WriteLine("0");
+                dm.WriteLine("no");
             }
 
             if (cal13cen.Checked)
@@ -53,7 +56,7 @@ namespace StartApp
             }
             dm.Close();
             tc.Close();
-            Process.Start("RPG.exe");
+            rpg.Start();
             Environment.Exit(0);
 
         }
