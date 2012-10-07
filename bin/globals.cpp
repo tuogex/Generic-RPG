@@ -35,7 +35,9 @@ int controlMode = 0;
 const int FRAMES_PER_SECOND = 60;
 Timer fpsTime;
 Timer update;
+Timer totalGameTime;
 int currentFps;
+int heroUpdateTime;
 
 int xp;
 bool zombXp[zombAmt];
@@ -53,6 +55,9 @@ signed int ortOffsetY[ortAmt];
 
 
 int level = 1;
+int gameLevel = 1;
+int totalEnemyKills = 0;
+int previousLevelKills = 0;
 
 SDL_Rect zombRect[zombAmt];
 SDL_Rect skelRect[skelAmt];
@@ -148,6 +153,7 @@ SDL_Surface *creditsImage = NULL;
 SDL_Surface *youLoseText = NULL;
 SDL_Surface *healthDisplay = NULL;
 SDL_Surface *heroFront = NULL;
+SDL_Surface *heroAnimateTest = NULL;
 SDL_Surface *heroBack = NULL;
 SDL_Surface *heroLeft = NULL;
 SDL_Surface *heroRight = NULL;
@@ -170,6 +176,7 @@ SDL_Surface *quad = NULL;
 SDL_Surface *xpAmt = NULL;
 SDL_Surface *levelSh = NULL;
 SDL_Surface *healthPck = NULL;
+SDL_Surface *levelTick = NULL;
 
 SDL_Surface *zombHealthShow[zombAmt];
 SDL_Surface *skelHealthShow[zombAmt];
@@ -213,6 +220,7 @@ bool playerUp;
 bool playerDown;
 bool playerRight;
 bool playerLeft;
+bool keyDown;
 
 Actor hero;
 Actor zombie;

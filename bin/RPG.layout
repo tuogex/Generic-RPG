@@ -8,10 +8,10 @@
 		<Cursor position="405" topLine="2" />
 	</File>
 	<File name="game_engine.cpp" open="1" top="0" tabpos="7">
-		<Cursor position="5775" topLine="237" />
+		<Cursor position="5365" topLine="189" />
 	</File>
 	<File name="globals.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="497" topLine="6" />
+		<Cursor position="1067" topLine="39" />
 	</File>
 	<File name="headers\SDL_functions.h" open="0" top="0" tabpos="6">
 		<Cursor position="0" topLine="0" />
@@ -26,21 +26,21 @@
 		<Cursor position="199" topLine="0" />
 	</File>
 	<File name="headers\globals.h" open="1" top="0" tabpos="4">
-		<Cursor position="4878" topLine="205" />
+		<Cursor position="1138" topLine="49" />
 	</File>
 	<File name="headers\timer.h" open="0" top="0" tabpos="6">
-		<Cursor position="591" topLine="0" />
+		<Cursor position="397" topLine="11" />
 	</File>
 	<File name="headers\windowEvents.h" open="1" top="0" tabpos="9">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="2125" topLine="97" />
+		<Cursor position="11922" topLine="374" />
 	</File>
 	<File name="timer.cpp" open="0" top="0" tabpos="11">
-		<Cursor position="101" topLine="32" />
+		<Cursor position="822" topLine="8" />
 	</File>
 	<File name="windowEvents.cpp" open="1" top="0" tabpos="8">
-		<Cursor position="567" topLine="0" />
+		<Cursor position="273" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

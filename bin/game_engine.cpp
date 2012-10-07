@@ -21,6 +21,7 @@ void Actor::slashTime() {
 
 
 void Actor::move(int dx, int dy) {
+
     //if( heroTileType == 0 ) {
         x += ( dx + dx );
         y += ( dy + dy );
@@ -123,6 +124,18 @@ if(fast) {
 
     switch( charPos ) {
         case 1:
+        /*
+            if( ( totalGameTime.get_ticks() - heroUpdateTime < 500 ) && keyDown ) {
+                if(!playerSlash) apply_surface( x, y, heroFront, screen );
+                else apply_surface(x, y, heroSlashFront, screen );
+            } else if( keyDown ) {
+                apply_surface(x, y, heroAnimateTest, screen);
+                if( totalGameTime.get_ticks() - heroUpdateTime > 1000 ) {
+                    heroUpdateTime = totalGameTime.get_ticks();
+                }
+            } else if( !keyDown ) {
+                apply_surface(x, y, heroFront, screen );
+            }*/
             if(!playerSlash) apply_surface( x, y, heroFront, screen );
             else apply_surface(x, y, heroSlashFront, screen );
             break;
@@ -190,6 +203,10 @@ if(fast) {
     //level = xp / 100;
 
     level = sqrt(xp/50);
+    if( totalEnemyKills - previousLevelKills > 5 ) {
+        gameLevel++;
+        previousLevelKills = totalEnemyKills;
+    }
 
     stringstream quadss;
     quadss << mapPickX << mapPickY;
@@ -230,6 +247,7 @@ if(fast){
 
     if( mobHealth <= 0 ) {
         ifDead = true;
+        totalEnemyKills += 1;
     }
 
     stringstream ss;

@@ -54,6 +54,9 @@ extern signed int ortOffsetX[];
 extern signed int ortOffsetY[];
 
 extern int level;
+extern int gameLevel;
+extern int totalEnemyKills;
+extern int previousLevelKills;
 
 extern SDL_Rect zombRect[];
 extern SDL_Rect skelRect[];
@@ -67,7 +70,9 @@ extern bool heroSpawn;
 extern const int FRAMES_PER_SECOND;
 extern Timer fpsTime;
 extern Timer update;
+extern Timer totalGameTime;
 extern int currentFps;
+extern int heroUpdateTime;
 
 extern int heroX;
 extern int heroY;
@@ -161,6 +166,7 @@ extern SDL_Surface *creditsImage;
 extern SDL_Surface *youLoseText;
 extern SDL_Surface *healthDisplay;
 extern SDL_Surface *heroFront;
+extern SDL_Surface *heroAnimateTest;
 extern SDL_Surface *heroBack;
 extern SDL_Surface *heroLeft;
 extern SDL_Surface *heroRight;
@@ -183,6 +189,7 @@ extern SDL_Surface *quad;
 extern SDL_Surface *xpAmt;
 extern SDL_Surface *levelSh;
 extern SDL_Surface *healthPck;
+extern SDL_Surface *levelTick;
 
 extern SDL_Surface *zombHealthShow[];
 extern SDL_Surface *skelHealthShow[];
@@ -237,7 +244,7 @@ extern bool playerUp;
 extern bool playerDown;
 extern bool playerRight;
 extern bool playerLeft;
-
+extern bool keyDown;
 
 extern int frameCount;
 

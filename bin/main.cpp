@@ -103,6 +103,7 @@ int main(int argc, char **argv) {
 
     fpsTime.start();
     update.start();
+    totalGameTime.start();
 
     while(quit == false) {
 
@@ -293,6 +294,10 @@ if(!fast) {
 
 void HUD() {
 
+        for( int i = 0; i < gameLevel; i++ ) {
+            apply_surface(3 + i*23, SCREEN_HEIGHT - 85, levelTick, screen );
+        }
+
         stringstream ss;
         ss << "fps:" <<  currentFps;
         string st;
@@ -410,10 +415,12 @@ void items() {
 }
 
 void Actor::mobs() {
+
+if( gameLevel >= 3 ) {
     for(int i = 0; i < zombAmt; i++ ) {
         zombie.moveMob( 0, zombRect[i], zombRespawn[i], zombDead[i], zombHealth[i], zombHealthShow[i], zombXp[i], zombSurf[i], zombOffsetX[i], zombOffsetY[i] );
     }
-
+}
     for(int j = 0; j < skelAmt; j++ ) {
         skeleton.moveMob( 1, skelRect[j], skelRespawn[j], skelDead[j], skelHealth[j], skelHealthShow[j], skelXp[j], skelSurf[j], skelOffsetX[j], skelOffsetY[j] );
     }
@@ -498,16 +505,17 @@ void load_files() {
 
     slash = Mix_LoadWAV( "audio/slash.wav" );
 
-    introTitle = load_image( "images/title.png" );
+    introTitle = load_image( "images/Other/title.png" );
 
-    instruct = load_image("images/instructions.png");
+    instruct = load_image("images/Other/instructions.png");
 
-    introBackground = load_image( "images/introBackground.jpg" );
+    introBackground = load_image( "images/Other/introBackground.jpg" );
 
-    creditsImage = load_image( "images/credits.png" );
+    creditsImage = load_image( "images/Other/credits.png" );
 
     youLoseText = TTF_RenderText_Solid(largeFont, "You Lose!", whiteTextColor );
 
+    heroAnimateTest = load_image("images/RPG Sprites/hero/animationTestImage.png");
     heroFront = load_image( "images/RPG Sprites/hero/mainFront.png" );
     heroBack = load_image( "images/RPG Sprites/hero/mainBack.png" );
     heroLeft = load_image( "images/RPG Sprites/hero/mainLeft.png" );
@@ -569,11 +577,12 @@ void load_files() {
     healthPckR.h = 50;
     healthPckR.w = 50;
 
-    grass = load_image( "Images/grass4.png" );
-    road = load_image( "Images/concrete2.png" );
-    water = load_image( "Images/water.png" );
+    grass = load_image( "Images/Other/grass4.png" );
+    road = load_image( "Images/Other/concrete2.png" );
+    water = load_image( "Images/Other/water.png" );
 
-    backbackground = load_image( "images/backbackground.png" );
+    backbackground = load_image( "images/Other/backbackground.png" );
+    levelTick = load_image("images/HUD/levelTick.png");
 }
 
 /////////////////////////////////////
@@ -582,6 +591,9 @@ void keyReg(SDL_Event event) {
 
     int x = 0, y = 0;
     if(event.type == SDL_KEYDOWN) {
+
+        keyDown = true;
+
         switch( event.key.keysym.sym ) {
         case SDLK_w:
             if(controlMode == 0) playerUp = true;
@@ -636,6 +648,9 @@ void keyReg(SDL_Event event) {
     }
 
     if(event.type == SDL_KEYUP) {
+
+        keyDown = false;
+
         switch( event.key.keysym.sym ) {
         case SDLK_w:
             playerUp = false;
