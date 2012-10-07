@@ -156,6 +156,7 @@ if(fast) {
     if( (x + 50) > 800 ) {
         mapPickX++;
         x = 0;
+        mapOffsetXAmt += 800;
 
         for(int i = 0; i < zombAmt; i++ ) {
             zombRect[i].x -= 800;
@@ -167,6 +168,7 @@ if(fast) {
     }
     if( (y + 40) > 600 ) {
        mapPickY--;
+       mapOffsetYAmt-=600;
        y = 0;
 
        for(int j = 0; j < zombAmt; j++ ) {
@@ -180,6 +182,7 @@ if(fast) {
     if( y < 0 ) {
         mapPickY++;
         y = 550;
+        mapOffsetYAmt+=600;
 
         for( int k = 0; k < zombAmt; k++ ) {
           zombRect[k].y += 600;
@@ -191,6 +194,7 @@ if(fast) {
     if( (x + 50) < 0 ) {
         mapPickX--;
         x = 750;
+        mapOffsetXAmt -= 800;
 
         for(int h = 0; h < zombAmt; h++ ) {
             zombRect[h].x += 800;
@@ -202,8 +206,10 @@ if(fast) {
 
     //level = xp / 100;
 
+gameLevelKillsNeeded = gameLevel * 3;
+
     level = sqrt(xp/50);
-    if( totalEnemyKills - previousLevelKills > 5 ) {
+    if( totalEnemyKills - previousLevelKills > gameLevelKillsNeeded ) {
         gameLevel++;
         previousLevelKills = totalEnemyKills;
     }

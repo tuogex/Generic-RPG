@@ -16,6 +16,8 @@ namespace StartApp
     {
         TextWriter dm = new StreamWriter("bin/settings/development-mode");
         TextWriter tc = new StreamWriter("bin/settings/13centurycalamity");
+        TextWriter fg = new StreamWriter("bin/settings/graphics");
+        TextWriter gl = new StreamWriter("bin/settings/login data/ifLauncher");
 
         Process rpg = new Process();
 
@@ -54,10 +56,29 @@ namespace StartApp
             {
                 tc.WriteLine("0");
             }
+
+            if (fancyBox.Checked)
+            {
+                fg.WriteLine("high");
+            }
+            else
+            {
+                fg.WriteLine("low");
+            }
+
+            gl.WriteLine("true");
+
             dm.Close();
             tc.Close();
+            fg.Close();
+            gl.Close();
             rpg.Start();
             Environment.Exit(0);
+
+        }
+
+        private void fancyBox_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
     }

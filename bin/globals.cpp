@@ -36,6 +36,7 @@ const int FRAMES_PER_SECOND = 60;
 Timer fpsTime;
 Timer update;
 Timer totalGameTime;
+int totalGameFrames;
 int currentFps;
 int heroUpdateTime;
 
@@ -58,6 +59,7 @@ int level = 1;
 int gameLevel = 1;
 int totalEnemyKills = 0;
 int previousLevelKills = 0;
+int gameLevelKillsNeeded = 0;
 
 SDL_Rect zombRect[zombAmt];
 SDL_Rect skelRect[skelAmt];

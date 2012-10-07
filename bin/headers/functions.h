@@ -26,24 +26,11 @@ void drawMap(int **intMap );
 
 void HUD();
 
-bool loginTest();
-
-void logFile();
-
 void movePlayer(SDL_Event event);
 
 void playerLose( SDL_Event event );
 
 void mapPicker();
-
-void instructScreen(SDL_Event event);
-
-int settings(int item);
-
-void credits();
-int intro();
-
-void writeFile();
 
 void items();
 

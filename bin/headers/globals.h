@@ -57,6 +57,7 @@ extern int level;
 extern int gameLevel;
 extern int totalEnemyKills;
 extern int previousLevelKills;
+extern int gameLevelKillsNeeded;
 
 extern SDL_Rect zombRect[];
 extern SDL_Rect skelRect[];
@@ -70,6 +71,7 @@ extern bool heroSpawn;
 extern const int FRAMES_PER_SECOND;
 extern Timer fpsTime;
 extern Timer update;
+extern int totalGameFrames;
 extern Timer totalGameTime;
 extern int currentFps;
 extern int heroUpdateTime;

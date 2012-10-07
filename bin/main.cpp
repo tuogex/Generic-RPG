@@ -28,6 +28,7 @@ OF THE AUTHORS OF THE SOURCE CODE.
 #include "headers/functions.h"
 #include "headers/timer.h"
 #include "headers/windowEvents.h"
+#include "headers/loadingScreens.h"
 
 
 
@@ -41,9 +42,7 @@ int main(int argc, char **argv) {
 
     srand(time(NULL));
 
-    //if( !loginTest() ) return 0;
-
-    bool lose;
+    bool lose = false;
 
     init();
 
@@ -91,8 +90,17 @@ int main(int argc, char **argv) {
 
     settingsFile();
 
+    ifstream file;
+    file.open("settings\login data\ifLauncher");
+    string test;
+    file >> test;
+    bool noLogin = false;
+    if( test == "false") noLogin = true;
+    else if(test == "true" ) noLogin = false;
+
+    if( noLogin ) return -1;
+
     if( !devModeB) intro();
-    if( !devModeB) instructScreen(event);
 
     apply_surface( 0, 0, introBackground, screen );
     SDL_Flip(screen);
@@ -104,6 +112,9 @@ int main(int argc, char **argv) {
     fpsTime.start();
     update.start();
     totalGameTime.start();
+
+    mapOffsetXAmt = 0;
+    mapOffsetYAmt = 0;
 
     while(quit == false) {
 
@@ -123,6 +134,7 @@ int main(int argc, char **argv) {
 
         SDL_Flip(screen);
         frameCount++;
+        totalGameFrames++;
         fpsCalc();
 
         if( heroHealth <= 0 ) {
@@ -151,6 +163,10 @@ int main(int argc, char **argv) {
     if( !devModeB ) credits();
 
     logFile();
+    ofstream resetLauncher;
+    resetLauncher.open("settings/login data/ifLauncher");
+    resetLauncher << "false";
+    resetLauncher.close();
 
     uninit();
 
@@ -158,6 +174,8 @@ int main(int argc, char **argv) {
 }
 
 void axisMath() {
+
+if(fast) {
     switch(mapPickX) {
         case 0:
             mapXAxis = heroR.x;
@@ -185,6 +203,7 @@ void axisMath() {
     mapXAxis += mapOffsetXAmt;
     mapYAxis += mapOffsetYAmt;
 
+}
 
 }
 
@@ -469,7 +488,7 @@ void init() {
 
     screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE );
     SDL_WM_SetCaption( "Generic RPG", NULL );
-    SDL_WM_SetIcon(load_image("images/icon.bmp"), NULL);
+    SDL_WM_SetIcon(load_image("images/other/icon.bmp"), NULL);
 }
 
 
@@ -888,275 +907,3 @@ void drawMapFast1( int offsetX, int offsetY, int **intMap ) {
 }
 
 
-/////////////////////////////////////
-int intro() {
-/////////////////////////////////////
-
-/*
-    Mix_PlayMusic( introMusic, -1 );
-
-    introMessage = TTF_RenderText_Solid( font, "Sub-Par Game Dev presents...", whiteTextColor );
-
-    pressStart = TTF_RenderText_Solid( font, "Press 'Enter'", whiteTextColor );
-
-
-
-    SDL_Flip(screen);
-
-    Uint32 timer = SDL_GetTicks();
-
-    bool endIntro = false;
-
-	while( ( endIntro == false ) && ( quit == false ) )
-	{
-		if( SDL_PollEvent( &event ) )
-		{
-
-			if( event.type == SDL_KEYDOWN )
-			{
-
-                if( event.key.keysym.sym == SDLK_ESCAPE )
-				{
-
-                    quit = true;
-                }
-
-
-                endIntro = true;
-			}
-
-			if( event.type == SDL_QUIT )
-			{
-
-                quit = true;
-            }
-		}
-
-		timer = SDL_GetTicks();
-
-
-		if( timer > 3000 )
-		{
-
-            endIntro = true;
-        }
-	}
-
-    apply_surface( 0, 0, introBackground, screen );
-
-    apply_surface( 145, 30, introTitle, screen );
-
-    apply_surface( 235, 300, pressStart, screen );
-
-    SDL_Flip(screen);
-
-    bool enter = false;
-
-    while( ( enter == false ) && ( quit == false ) ) {
-        while( SDL_PollEvent( &event ) ) {
-            if( event.type == SDL_KEYDOWN ) {
-                if( event.key.keysym.sym == SDLK_RETURN ) {
-                    enter = true;
-                }
-            }
-        }
-    }
-*/
-}
-
-void instructScreen( SDL_Event event ) {
-
-    bool instructQuit = false;
-
-    while( !quit && !instructQuit ) {
-        SDL_PollEvent(&event);
-        apply_surface( 0, 0, instruct, screen );
-        SDL_Flip(screen);
-        if(event.type == SDL_QUIT) quit = true;
-
-        if(event.type == SDL_KEYDOWN ) instructQuit = true;
-        if( event.type == SDL_MOUSEBUTTONDOWN ) instructQuit = true;
-    }
-
-}
-
-/////////////////////////////////////
-void credits() {
-/////////////////////////////////////
-
-    apply_surface( 0, 0, creditsImage, screen );
-    SDL_Flip( screen );
-
-    bool quit2 = false;
-
-    while( quit2 == false ) {
-        while( SDL_PollEvent( &event ) ) {
-            if( event.type == SDL_KEYDOWN ) {
-                    quit2 = true;
-            }
-
-            if( event.type == SDL_QUIT ) {
-                quit = true;
-                quit2 = true;
-            }
-        }
-    }
-
-}
-
-
-void playerLose( SDL_Event event ) {
-    SDL_FillRect(screen,NULL,0x000000);
-    apply_surface( 230, 200, youLoseText, screen );
-    SDL_Flip(screen);
-    SDL_Delay(500);
-
-    /*
-    bool quit2;
-    apply_surface( 0, 0, introBackground, screen );
-    apply_surface( 230, 200, youLoseText, screen );
-    SDL_Flip(screen);
-    while( !quit2 ) {
-        while( SDL_PollEvent(&event) ) {
-            if( event.type == SDL_KEYDOWN ) quit2 = true;
-            if( event.type == SDL_QUIT ) quit2 = true;
-            if( event.type == SDL_MOUSEBUTTONDOWN ) quit2 = true;
-        }
-    }
-    */
-}
-
-
-bool settingsFile() {
-    ifstream graphics;
-    graphics.open("settings/graphics");
-    string graphicsStr;
-    graphics >> graphicsStr;
-    if( graphicsStr == "high" ) fast = true;
-    else if(graphicsStr == "low" ) fast = false;
-    else {
-        graphicsFail = true;
-        return false;
-    }
-
-    ifstream difficulty;
-    difficulty.open("settings/difficulty");
-    string difficultyStr;
-    difficulty >> difficultyStr;
-    if( difficultyStr == "easy" ) {
-        heroHealth = 1000;
-        heroMaxHealth = 1000;
-        heroHealthUpSpd = 500;
-
-        heroMagica = 1000;
-        heroMaxMagica = 1000;
-        heroMagicaUpSpd = 200;
-
-        difficultyLevel = 0;
-    } else if( difficultyStr == "medium" ) {
-
-        heroHealth = 500;
-        heroMaxHealth = 500;
-        heroHealthUpSpd = 400;
-
-        heroMagica = 250;
-        heroMaxMagica = 250;
-        heroMagicaUpSpd = 200;
-
-        difficultyLevel = 1;
-    } else if( difficultyStr == "hard" ) {
-
-        heroHealth = 400;
-        heroMaxHealth = 400;
-        heroHealthUpSpd = 375;
-
-        heroMagica = 200;
-        heroMaxMagica = 200;
-        heroMagicaUpSpd = 200;
-
-        difficultyLevel = 2;
-    } else{
-        difficultyFail = true;
-        return false;
-    }
-
-    ifstream devMode;
-    devMode.open("settings/development-mode");
-    string devModeStr;
-    devMode >> devModeStr;
-    if( devModeStr == "yes" ) {
-        devModeB = true;
-    } else if( devModeStr == "no" ) {
-        devModeB = false;
-    } else {
-        devModeError = true;
-        return false;
-    }
-
-    return true;
-}
-
-void logFile() {
-    ofstream myfile;
-    myfile.open("log.txt");
-    myfile << "Total time spent in game: " << SDL_GetTicks() / 1000 << " seconds" << endl;
-    myfile << "Average fps: " << ( frameCount / ( (SDL_GetTicks() - startTime) / 1000 ) ) << endl;
-    myfile << "Total frames: " << frameCount << endl << endl;
-
-    myfile << "Difficulty: ";
-    switch(difficultyLevel) {
-        case 0:
-            myfile << "easy" << endl;
-            break;
-        case 1:
-            myfile << "medium" << endl;
-            break;
-        case 2:
-            myfile << "hard" << endl;
-            break;
-        default:
-            myfile << "NULL" << endl;
-            break;
-    }
-
-    myfile << "Graphics level: ";
-    if(fast) myfile << "high" << endl;
-    else if(!fast) myfile << "low" << endl;
-    else myfile << "NULL";
-
-    myfile << endl;
-
-    myfile << "SDL Init: ";
-    if( initFail ) myfile << "FAILED" << endl;
-    else myfile << "SUCCEDED" << endl << endl;
-
-    myfile << "Development Mode Loader: ";
-    if( !devModeError ) myfile << "SUCCEDED" << endl;
-    else myfile<< "FAILED" << endl;
-
-    myfile << "Graphics setting loader: ";
-    if( graphicsFail ) myfile << "FAILED" << endl;
-    else myfile << "SUCCEDED" << endl;
-
-    myfile << "Difficulty setting loader: ";
-    if( difficultyFail ) myfile << "FAILED" << endl;
-    else myfile << "SUCCEDED" << endl;
-
-    ofstream reset;
-    reset.open("settings\login data\ifLogin");
-    reset << "";
-
-    myfile.close();
-
-}
-
-
-bool loginTest() {
-
-    ifstream file;
-    file.open("settings\login data\ifLogin");
-    string test;
-    file >> test;
-    if( test == "011110010110010101110011")
-    return true;
-}

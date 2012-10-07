@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.devModeBox = new System.Windows.Forms.CheckBox();
             this.cal13cen = new System.Windows.Forms.CheckBox();
             this.SubmitButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.fancyBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // devModeBox
@@ -59,7 +61,7 @@
             // 
             // SubmitButton
             // 
-            this.SubmitButton.Location = new System.Drawing.Point(47, 101);
+            this.SubmitButton.Location = new System.Drawing.Point(114, 106);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(75, 23);
             this.SubmitButton.TabIndex = 4;
@@ -76,17 +78,35 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Pre-game Settings";
             // 
+            // fancyBox
+            // 
+            this.fancyBox.AutoSize = true;
+            this.fancyBox.Checked = true;
+            this.fancyBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fancyBox.Location = new System.Drawing.Point(12, 82);
+            this.fancyBox.Name = "fancyBox";
+            this.fancyBox.Size = new System.Drawing.Size(104, 17);
+            this.fancyBox.TabIndex = 6;
+            this.fancyBox.Text = "Fancy graphics?";
+            this.fancyBox.UseVisualStyleBackColor = true;
+            this.fancyBox.CheckedChanged += new System.EventHandler(this.fancyBox_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(210, 141);
+            this.Controls.Add(this.fancyBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.SubmitButton);
             this.Controls.Add(this.cal13cen);
             this.Controls.Add(this.devModeBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
-            this.Text = "Generic RPG ";
+            this.Text = "Generic RPG Launcher";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -98,6 +118,7 @@
         private System.Windows.Forms.CheckBox cal13cen;
         private System.Windows.Forms.Button SubmitButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox fancyBox;
 
     }
 }
