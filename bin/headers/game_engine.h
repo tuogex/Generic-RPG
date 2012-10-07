@@ -17,4 +17,7 @@ public:
     void mobs();
 };
 
+void saveGame(int location);
+void loadSave(int location);
+
 #endif

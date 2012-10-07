@@ -8,6 +8,8 @@
 int MAP_WIDTH;
 int MAP_HEIGHT;
 
+int gameSaveInt;
+
 int textureMap[150][113];
 std::string tileTypeStr;
 int heroTileType;
@@ -26,6 +28,7 @@ const int skelAmt = 2;
 const int ortAmt = 10;
 
 bool ifOrt;
+bool ifOrtSetting;
 
 Uint32 startTime;
 Uint32 gameTime;

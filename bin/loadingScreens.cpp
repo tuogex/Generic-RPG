@@ -98,7 +98,7 @@ int intro() {
 	}
 
 	int x = mapOffsetYAmt;
-
+if(!quit) {
 	for( int i = 0; i <= x; i++ ) {
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT * 2, fileReader12->map);
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT, fileReader11->map);
@@ -117,6 +117,7 @@ int intro() {
 
         SDL_Flip(screen);
 	}
+}
 
 }
 
@@ -258,6 +259,22 @@ bool settingsFile() {
         devModeError = true;
         return false;
     }
+
+    ifstream ifOrti;
+    ifOrti.open("settings/13centurycalamity");
+    string ifOrts;
+    ifOrti >> ifOrts;
+    if(ifOrts == "1" ) {
+        ifOrtSetting = true;
+    } else if(ifOrts == "0") {
+        ifOrtSetting = false;
+    } else {
+        return false;
+    }
+
+    ifstream gameSave;
+    gameSave.open("settings/saveGame");
+    gameSave >> gameSaveInt;
 
     return true;
 }

@@ -16,9 +16,14 @@
 extern int MAP_WIDTH;
 extern int MAP_HEIGHT;
 
+extern int gameSaveInt;
+
 extern int textureMap[150][113];
 extern std::string tileTypeStr;
 extern int heroTileType;
+
+extern bool ifOrt;
+extern bool ifOrtSetting;
 
 extern bool fast;
 extern int difficultyLevel;

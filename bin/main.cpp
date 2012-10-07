@@ -116,6 +116,8 @@ int main(int argc, char **argv) {
     mapOffsetXAmt = 0;
     mapOffsetYAmt = 0;
 
+    loadSave(gameSaveInt);
+
     while(quit == false) {
 
         SDL_PollEvent(&event);
@@ -157,6 +159,8 @@ int main(int argc, char **argv) {
     }
 
     arrayFile.close();
+
+    saveGame(gameSaveInt);
 
     if( lose ) playerLose(event);
 
@@ -636,6 +640,9 @@ void keyReg(SDL_Event event) {
         case SDLK_F5:
             screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_FULLSCREEN );
             break;
+        case SDLK_F11:
+            saveGame(gameSaveInt);
+            break;
         case SDLK_SPACE:
             if(controlMode == 0 ) playerSlash = true;
             while(!spaceClick) {
@@ -659,7 +666,7 @@ void keyReg(SDL_Event event) {
             break;
         }
         if(event.type == SDL_KEYDOWN ) {
-            if((event.key.keysym.sym == SDLK_o))
+            if((event.key.keysym.sym == SDLK_o)&&ifOrtSetting)
                 ifOrt = true;
         }
 

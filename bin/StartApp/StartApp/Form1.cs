@@ -18,6 +18,7 @@ namespace StartApp
         TextWriter tc = new StreamWriter("bin/settings/13centurycalamity");
         TextWriter fg = new StreamWriter("bin/settings/graphics");
         TextWriter gl = new StreamWriter("bin/settings/login data/ifLauncher");
+        TextWriter sg = new StreamWriter("bin/settings/saveGame");
 
         Process rpg = new Process();
 
@@ -66,18 +67,56 @@ namespace StartApp
                 fg.WriteLine("low");
             }
 
+            string gameSave = "0";
+
+            if (radioButton1.Checked)
+            {
+                gameSave = "1";
+            }
+            else if (radioButton2.Checked)
+            {
+                gameSave = "2";
+            }
+            else if (radioButton3.Checked)
+            {
+                gameSave = "3";
+            }
+
+            sg.WriteLine(gameSave);
+
             gl.WriteLine("true");
 
             dm.Close();
             tc.Close();
             fg.Close();
             gl.Close();
+            sg.Close();
             rpg.Start();
             Environment.Exit(0);
 
         }
 
         private void fancyBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
 
         }

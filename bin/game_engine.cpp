@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include <math.h>
+#include <fstream>
 using namespace std;
 #include "headers/game_engine.h"
 #include "headers/globals.h"
@@ -448,3 +449,344 @@ bool Actor::zombHitDetect( int type, int x, int y, SDL_Rect locate ) {
     return true;
 }
 
+void saveGame(int location) {
+    ofstream saveFileMOX;
+    ofstream saveFileMOY;
+    ofstream saveFilePXL;
+    ofstream saveFilePYL;
+    ofstream saveFileHH;
+    ofstream saveFileTK;
+    ofstream saveFilePXP;
+    ofstream saveFileGL;
+    ofstream saveFileHL;
+    ofstream saveFileHM;
+    ofstream saveFileMPX;
+    ofstream saveFileMPY;
+
+    ofstream saveFileZXL[zombAmt];
+    ofstream saveFileZYL[zombAmt];
+
+    ofstream saveFileSXL[skelAmt];
+    ofstream saveFileSYL[skelAmt];
+
+    ofstream saveFileSOX[skelAmt];
+    ofstream saveFileSOY[skelAmt];
+
+    switch(location) {
+        case 1:
+            saveFileMOX.open("saves/gameOne/game/mapOffsetX");
+            saveFileMOY.open("saves/gameOne/game/mapOffsetY");
+            saveFilePXL.open("saves/gameOne/player/PSLX");
+            saveFilePYL.open("saves/gameOne/player/PSLY");
+            saveFileHH.open("saves/gameOne/player/hh");
+            saveFileTK.open("saves/gameOne/player/tk");
+            saveFilePXP.open("saves/gameOne/player/PXP");
+            saveFileGL.open("saves/gameOne/game/gl");
+            saveFileHL.open("saves/gameOne/player/hl");
+            saveFileHM.open("saves/gameOne/player/hm");
+            saveFileMPX.open("saves/gameOne/game/MPX");
+            saveFileMPY.open("saves/gameOne/game/MPY");
+
+            saveFileSXL[0].open("saves/gameOne/mobs/skel/SXL0");
+            saveFileSXL[1].open("saves/gameOne/mobs/skel/SXL1");
+
+            saveFileSYL[0].open("saves/gameOne/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameOne/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameOne/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameOne/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameOne/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameOne/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameOne/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameOne/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameOne/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameOne/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameOne/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameOne/mobs/zomb/ZYL2");
+
+            break;
+
+        case 2:
+           saveFileMOX.open("saves/gameTwo/game/mapOffsetX");
+            saveFileMOY.open("saves/gameTwo/game/mapOffsetY");
+            saveFilePXL.open("saves/gameTwo/player/PSLX");
+            saveFilePYL.open("saves/gameTwo/player/PSLY");
+            saveFileHH.open("saves/gameTwo/player/hh");
+            saveFileTK.open("saves/gameTwo/player/tk");
+            saveFilePXP.open("saves/gameTwo/player/PXP");
+            saveFileGL.open("saves/gameTwo/game/gl");
+            saveFileHL.open("saves/gameTwo/player/hl");
+            saveFileHM.open("saves/gameTwo/player/hm");
+            saveFileMPX.open("saves/gameTwo/game/MPX");
+            saveFileMPY.open("saves/gameTwo/game/MPY");
+
+            saveFileSXL[0].open("saves/gameTwo/mobs/skel/SXL0");
+            saveFileSXL[1].open("saves/gameTwo/mobs/skel/SXL1");
+
+            saveFileSYL[0].open("saves/gameTwo/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameTwo/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameTwo/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameTwo/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameTwo/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameTwo/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameTwo/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameTwo/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameTwo/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameTwo/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameTwo/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameTwo/mobs/zomb/ZYL2");
+
+            break;
+
+        case 3:
+            saveFileMOX.open("saves/gameThree/game/mapOffsetX");
+            saveFileMOY.open("saves/gameThree/game/mapOffsetY");
+            saveFilePXL.open("saves/gameThree/player/PSLX");
+            saveFilePYL.open("saves/gameThree/player/PSLY");
+            saveFileHH.open("saves/gameThree/player/hh");
+            saveFileTK.open("saves/gameThree/player/tk");
+            saveFilePXP.open("saves/gameThree/player/PXP");
+            saveFileGL.open("saves/gameThree/game/gl");
+            saveFileHL.open("saves/gameThree/player/hl");
+            saveFileHM.open("saves/gameThree/player/hm");
+            saveFileMPX.open("saves/gameThree/game/MPX");
+            saveFileMPY.open("saves/gameThree/game/MPY");
+
+            saveFileSXL[0].open("saves/gameThree/mobs/skel/SXL0");
+            saveFileSXL[1].open("saves/gameThree/mobs/skel/SXL1");
+
+            saveFileSYL[0].open("saves/gameThree/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameThree/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameThree/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameThree/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameThree/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameThree/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameThree/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameThree/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameThree/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameThree/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameThree/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameThree/mobs/zomb/ZYL2");
+
+            break;
+    }
+
+    saveFileMOX << mapOffsetXAmt;
+    saveFileMOY << mapOffsetYAmt;
+    saveFilePXL << heroR.x;
+    saveFilePYL << heroR.y;
+    saveFileHH << heroHealth;
+    saveFileTK << totalEnemyKills;
+    saveFileHL << level;
+    saveFilePXP << xp;
+    saveFileGL << gameLevel;
+    saveFileMPX << mapPickX;
+    saveFileMPY << mapPickY;
+
+    for(int i = 0; i < skelAmt; i++) {
+        saveFileSXL[i] << skelRect[i].x;
+        saveFileSYL[i] << skelRect[i].y;
+        saveFileSOX[i] << skelOffsetX[i];
+        saveFileSOY[i] << skelOffsetY[i];
+    }
+
+    saveFileMOX.close();
+    saveFileMOX.close();
+    saveFileMOX.close();
+    saveFileMOX.close();
+    saveFileHH.close();
+    saveFileMPX.close();
+    saveFileMPY.close();
+    saveFileHM.close();
+
+    for(int i = 0; i < skelAmt; i++) {
+        saveFileSXL[i].close();
+        saveFileSYL[i].close();
+        saveFileSOX[i].close();
+        saveFileSOY[i].close();
+    }
+}
+
+void loadSave(int position) {
+
+    ifstream saveFileMOX;
+    ifstream saveFileMOY;
+    ifstream saveFilePXL;
+    ifstream saveFilePYL;
+    ifstream saveFileHH;
+    ifstream saveFileTK;
+    ifstream saveFilePXP;
+    ifstream saveFileGL;
+    ifstream saveFileHL;
+    ifstream saveFileHM;
+    ifstream saveFileMPX;
+    ifstream saveFileMPY;
+
+    ifstream saveFileZXL[zombAmt];
+    ifstream saveFileZYL[zombAmt];
+
+    ifstream saveFileSXL[skelAmt];
+    ifstream saveFileSYL[skelAmt];
+
+    ifstream saveFileSOX[skelAmt];
+    ifstream saveFileSOY[skelAmt];
+
+    switch(position) {
+        case 1:
+            saveFileMOX.open("saves/gameOne/game/mapOffsetX");
+            saveFileMOY.open("saves/gameOne/game/mapOffsetY");
+            saveFilePXL.open("saves/gameOne/player/PSLX");
+            saveFilePYL.open("saves/gameOne/player/PSLY");
+            saveFileHH.open("saves/gameOne/player/hh");
+            saveFileTK.open("saves/gameOne/player/tk");
+            saveFilePXP.open("saves/gameOne/player/PXP");
+            saveFileGL.open("saves/gameOne/game/gl");
+            saveFileHL.open("saves/gameOne/player/hl");
+            saveFileHM.open("saves/gameOne/player/hm");
+            saveFileMPX.open("saves/gameOne/game/MPX");
+            saveFileMPY.open("saves/gameOne/game/MPY");
+
+            saveFileSXL[0].open("saves/gameOne/mobs/skel/SXL0");
+            saveFileSXL[1].open("saves/gameOne/mobs/skel/SXL1");
+
+            saveFileSYL[0].open("saves/gameOne/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameOne/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameOne/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameOne/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameOne/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameOne/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameOne/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameOne/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameOne/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameOne/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameOne/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameOne/mobs/zomb/ZYL2");
+
+            break;
+
+        case 2:
+           saveFileMOX.open("saves/gameTwo/game/mapOffsetX");
+            saveFileMOY.open("saves/gameTwo/game/mapOffsetY");
+            saveFilePXL.open("saves/gameTwo/player/PSLX");
+            saveFilePYL.open("saves/gameTwo/player/PSLY");
+            saveFileHH.open("saves/gameTwo/player/hh");
+            saveFileTK.open("saves/gameTwo/player/tk");
+            saveFilePXP.open("saves/gameTwo/player/PXP");
+            saveFileGL.open("saves/gameTwo/game/gl");
+            saveFileHL.open("saves/gameTwo/player/hl");
+            saveFileHM.open("saves/gameTwo/player/hm");
+            saveFileMPX.open("saves/gameTwo/game/MPX");
+            saveFileMPY.open("saves/gameTwo/game/MPY");
+
+            saveFileSXL[0].open("saves/gameTwo/mobs/skel/SXL0");
+            saveFileSXL[1].open("saves/gameTwo/mobs/skel/SXL1");
+
+            saveFileSYL[0].open("saves/gameTwo/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameTwo/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameTwo/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameTwo/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameTwo/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameTwo/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameTwo/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameTwo/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameTwo/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameTwo/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameTwo/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameTwo/mobs/zomb/ZYL2");
+
+            break;
+
+        case 3:
+            saveFileMOX.open("saves/gameThree/game/mapOffsetX");
+            saveFileMOY.open("saves/gameThree/game/mapOffsetY");
+            saveFilePXL.open("saves/gameThree/player/PSLX");
+            saveFilePYL.open("saves/gameThree/player/PSLY");
+            saveFileHH.open("saves/gameThree/player/hh");
+            saveFileTK.open("saves/gameThree/player/tk");
+            saveFilePXP.open("saves/gameThree/player/PXP");
+            saveFileGL.open("saves/gameThree/game/gl");
+            saveFileHL.open("saves/gameThree/player/hl");
+            saveFileHM.open("saves/gameThree/player/hm");
+            saveFileMPX.open("saves/gameThree/game/MPX");
+            saveFileMPY.open("saves/gameThree/game/MPY");
+
+            saveFileSXL[0].open("saves/gameThree/mobs/skel/SXL0");
+            saveFileSXL[1].open("saves/gameThree/mobs/skel/SXL1");
+
+            saveFileSYL[0].open("saves/gameThree/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameThree/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameThree/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameThree/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameThree/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameThree/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameThree/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameThree/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameThree/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameThree/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameThree/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameThree/mobs/zomb/ZYL2");
+
+            break;
+    }
+
+
+    saveFileHH >> heroHealth;
+    saveFileMOX >> mapOffsetXAmt;
+    saveFileMOY >> mapOffsetYAmt;
+    saveFilePXL >> heroR.x;
+    saveFilePYL >> heroR.y;
+    saveFileTK >> totalEnemyKills;
+    saveFileHL >> level;
+    saveFilePXP >> xp;
+    saveFileGL >> gameLevel;
+    saveFileHM >> heroMagica;
+    saveFileMPX >> mapPickX;
+    saveFileMPY >> mapPickY;
+
+    for(int i; i < skelAmt; i++) {
+        saveFileSXL[i] >> skelRect[i].x;
+        saveFileSYL[i] >> skelRect[i].y;
+        saveFileSOX[i] >> skelOffsetX[i];
+        saveFileSOY[i] >> skelOffsetY[i];
+    }
+
+
+    saveFileMOX.close();
+    saveFileMOX.close();
+    saveFileMOX.close();
+    saveFileMOX.close();
+    saveFileHH.close();
+    saveFileMPX.close();
+    saveFileMPY.close();
+    saveFileHM.close();
+
+    for(int i = 0; i < skelAmt; i++) {
+        saveFileSXL[i].close();
+        saveFileSYL[i].close();
+        saveFileSOX[i].close();
+        saveFileSOY[i].close();
+    }
+}
