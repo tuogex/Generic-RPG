@@ -130,6 +130,8 @@ if(!quit) {
 void credits() {
 /////////////////////////////////////
 
+    saveGame(gameSaveInt);
+
     apply_surface( 0, 0, creditsImage, screen );
     SDL_Flip( screen );
 
@@ -153,6 +155,24 @@ void credits() {
 
 void playerLose( SDL_Event event ) {
     SDL_FillRect(screen,NULL,0x000000);
+
+    ofstream saveNum;
+    switch(gameSaveInt) {
+        case 1:
+            saveNum.open("settings/saves/one");
+        break;
+
+        case 2:
+            saveNum.open("settings/saves/two");
+        break;
+
+        case 3:
+            saveNum.open("settings/saves/three");
+        break;
+    }
+
+    saveNum << "0";
+    saveNum.close();
 
     SDL_Surface *finalLevel = NULL;
     SDL_Surface *timeSurvived = NULL;

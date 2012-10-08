@@ -15,6 +15,8 @@ public:
     bool zombHitDetect( int type, int x, int y, SDL_Rect locate);
     void slashTime();
     void mobs();
+    void getLastHeroCord();
+    void getMobCoord();
 };
 
 void saveGame(int location);

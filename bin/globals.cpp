@@ -23,8 +23,8 @@ bool graphicsFail= false;
 bool devModeError;
 
 bool initFail= false;
-const int zombAmt = 3;
-const int skelAmt = 2;
+const int zombAmt = 5;
+const int skelAmt = 4;
 const int ortAmt = 10;
 
 bool ifOrt;

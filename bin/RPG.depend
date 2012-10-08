@@ -1319,16 +1319,17 @@
 1344457506 c:\users\jacob pc\skydrive\generic rpg\bin\headers\file_reader.h
 	"globals.h"
 
-1349627805 c:\users\jacob pc\skydrive\generic rpg\bin\headers\game_engine.h
+1349642832 c:\users\jacob pc\skydrive\generic rpg\bin\headers\game_engine.h
 	<SDL/SDL.h>
 
 1345508950 c:\users\jacob pc\skydrive\generic rpg\bin\headers\timer.h
 
-1349630580 source:c:\users\jacob pc\skydrive\generic rpg\bin\game_engine.cpp
+1349643429 source:c:\users\jacob pc\skydrive\generic rpg\bin\game_engine.cpp
 	<string>
 	<sstream>
 	<math.h>
 	<fstream>
+	<stdio.h>
 	"headers/game_engine.h"
 	"headers/globals.h"
 	"headers/SDL_functions.h"
@@ -1337,7 +1338,7 @@
 	<string>
 	<SDL\SDL.h>
 
-1349628520 source:c:\users\jacob pc\skydrive\generic rpg\bin\globals.cpp
+1349637714 source:c:\users\jacob pc\skydrive\generic rpg\bin\globals.cpp
 	"headers/globals.h"
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
@@ -1347,7 +1348,7 @@
 
 1349620044 source:c:\users\jacob pc\skydrive\generic rpg\bin\headers\resources.rc
 
-1349628520 source:c:\users\jacob pc\skydrive\generic rpg\bin\main.cpp
+1349643133 source:c:\users\jacob pc\skydrive\generic rpg\bin\main.cpp
 	<windows.h>
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
@@ -1391,7 +1392,7 @@
 
 1349621819 c:\users\jacob pc\skydrive\generic rpg\bin\headers\loadingscreens.h
 
-1349628535 source:c:\users\jacob pc\skydrive\generic rpg\bin\loadingscreens.cpp
+1349641579 source:c:\users\jacob pc\skydrive\generic rpg\bin\loadingscreens.cpp
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
 	<SDL/SDL_mixer.h>

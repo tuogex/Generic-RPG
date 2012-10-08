@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="SDL_functions.cpp" open="1" top="0" tabpos="5">
+	<File name="SDL_functions.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="286" topLine="0" />
 	</File>
 	<File name="file_reader.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="405" topLine="2" />
 	</File>
-	<File name="game_engine.cpp" open="1" top="0" tabpos="7">
-		<Cursor position="5365" topLine="189" />
+	<File name="game_engine.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="0" topLine="478" />
 	</File>
-	<File name="globals.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="1067" topLine="39" />
+	<File name="globals.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="0" topLine="9" />
 	</File>
 	<File name="headers\SDL_functions.h" open="0" top="0" tabpos="6">
 		<Cursor position="0" topLine="0" />
@@ -19,28 +19,37 @@
 	<File name="headers\file_reader.h" open="0" top="0" tabpos="6">
 		<Cursor position="19" topLine="0" />
 	</File>
-	<File name="headers\functions.h" open="1" top="0" tabpos="2">
-		<Cursor position="256" topLine="0" />
+	<File name="headers\functions.h" open="1" top="0" tabpos="6">
+		<Cursor position="0" topLine="9" />
 	</File>
-	<File name="headers\game_engine.h" open="1" top="0" tabpos="6">
-		<Cursor position="199" topLine="0" />
+	<File name="headers\game_engine.h" open="1" top="0" tabpos="3">
+		<Cursor position="15" topLine="0" />
 	</File>
-	<File name="headers\globals.h" open="1" top="0" tabpos="4">
-		<Cursor position="1138" topLine="49" />
+	<File name="headers\globals.h" open="1" top="1" tabpos="8">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="headers\loadingScreens.h" open="1" top="0" tabpos="5">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="headers\resources.rc" open="0" top="0" tabpos="0">
+		<Cursor position="11" topLine="0" />
 	</File>
 	<File name="headers\timer.h" open="0" top="0" tabpos="6">
 		<Cursor position="397" topLine="11" />
 	</File>
-	<File name="headers\windowEvents.h" open="1" top="0" tabpos="9">
+	<File name="headers\windowEvents.h" open="0" top="0" tabpos="9">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="11922" topLine="374" />
+	<File name="loadingScreens.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="0" topLine="121" />
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="timer.cpp" open="0" top="0" tabpos="11">
 		<Cursor position="822" topLine="8" />
 	</File>
-	<File name="windowEvents.cpp" open="1" top="0" tabpos="8">
+	<File name="windowEvents.cpp" open="0" top="0" tabpos="8">
 		<Cursor position="273" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

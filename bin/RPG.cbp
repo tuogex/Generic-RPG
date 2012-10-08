@@ -40,11 +40,13 @@
 		<Unit filename="headers\functions.h" />
 		<Unit filename="headers\game_engine.h" />
 		<Unit filename="headers\globals.h" />
+		<Unit filename="headers\loadingScreens.h" />
 		<Unit filename="headers\resources.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="headers\timer.h" />
 		<Unit filename="headers\windowEvents.h" />
+		<Unit filename="loadingScreens.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="timer.cpp" />
 		<Unit filename="windowEvents.cpp" />

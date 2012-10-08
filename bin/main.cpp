@@ -117,6 +117,8 @@ int main(int argc, char **argv) {
     mapOffsetYAmt = 0;
 
     loadSave(gameSaveInt);
+    hero.getLastHeroCord();
+    //skeleton.getMobCoord();
 
     while(quit == false) {
 
@@ -162,7 +164,9 @@ int main(int argc, char **argv) {
 
     saveGame(gameSaveInt);
 
-    if( lose ) playerLose(event);
+    if( lose ) {
+        playerLose(event);
+    }
 
     if( !devModeB ) credits();
 

@@ -19,6 +19,7 @@ namespace StartApp
         TextWriter fg = new StreamWriter("bin/settings/graphics");
         TextWriter gl = new StreamWriter("bin/settings/login data/ifLauncher");
         TextWriter sg = new StreamWriter("bin/settings/saveGame");
+        TextWriter mw = new StreamWriter("bin/settings/musicPref");
 
         Process rpg = new Process();
 
@@ -82,7 +83,24 @@ namespace StartApp
                 gameSave = "3";
             }
 
+
+            string musicString = "0";
+
+            if (gameMusicCirc.Checked)
+            {
+                musicString = "1";
+            }
+            else if (userMusicCirc.Checked)
+            {
+                musicString = "2";
+            }
+            else if (noMusicCirc.Checked)
+            {
+                musicString = "3";
+            }
+
             sg.WriteLine(gameSave);
+            mw.WriteLine(musicString);
 
             gl.WriteLine("true");
 
@@ -91,6 +109,7 @@ namespace StartApp
             fg.Close();
             gl.Close();
             sg.Close();
+            mw.Close();
             rpg.Start();
             Environment.Exit(0);
 
@@ -119,6 +138,27 @@ namespace StartApp
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void gameMusicCirc_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void userMusicCirc_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void noMusicCirc_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void officialWeb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string url = @"http://jacob-hegna.github.com/Generic-RPG/";
+            System.Diagnostics.Process.Start(url);
         }
     }
 }

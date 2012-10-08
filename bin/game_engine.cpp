@@ -2,14 +2,16 @@
 #include <sstream>
 #include <math.h>
 #include <fstream>
+#include <stdio.h>
 using namespace std;
 #include "headers/game_engine.h"
 #include "headers/globals.h"
 #include "headers/SDL_functions.h"
 
 Actor::Actor() {
-    int x = 0;
-    int y = 0;
+    hero.getLastHeroCord();
+    int x = heroR.x;
+    int y = heroR.y;
 }
 
 Actor::~Actor() {}
@@ -18,6 +20,34 @@ void Actor::slashTime() {
     if( SDL_GetTicks() - attackTime > 100 ) {
         playerSlash = false;
     }
+}
+
+void Actor::getLastHeroCord() {
+    ifstream xcord;
+    ifstream ycord;
+
+    switch(gameSaveInt) {
+        case 1:
+            xcord.open("saves/gameOne/player/PSLX");
+            ycord.open("saves/gameOne/player/PSLY");
+            break;
+
+        case 2:
+            xcord.open("saves/gameTwo/player/PSLX");
+            ycord.open("saves/gameTwo/player/PSLY");
+            break;
+
+        case 3:
+            xcord.open("saves/gameThree/player/PSLX");
+            ycord.open("saves/gameThree/player/PSLY");
+            break;
+
+    }
+
+    xcord >> x;
+    xcord >> heroR.x;
+    ycord >> y;
+    ycord >> heroR.y;
 }
 
 
@@ -449,7 +479,127 @@ bool Actor::zombHitDetect( int type, int x, int y, SDL_Rect locate ) {
     return true;
 }
 
+void Actor::getMobCoord() {
+    ifstream saveFileZXL[zombAmt];
+    ifstream saveFileZYL[zombAmt];
+
+    ifstream saveFileSXL[skelAmt];
+    ifstream saveFileSYL[skelAmt];
+
+    ifstream saveFileSOX[skelAmt];
+    ifstream saveFileSOY[skelAmt];
+
+    switch(gameSaveInt) {
+        case 1:
+
+            saveFileSXL[0].open("saves/gameOne/mobs/skel/SXL0");
+            saveFileSXL[1].open("saves/gameOne/mobs/skel/SXL1");
+
+            saveFileSYL[0].open("saves/gameOne/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameOne/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameOne/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameOne/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameOne/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameOne/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameOne/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameOne/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameOne/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameOne/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameOne/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameOne/mobs/zomb/ZYL2");
+
+            break;
+
+        case 2:
+
+            saveFileSXL[0].open("saves/gameTwo/mobs/skel/SXL0");
+            saveFileSXL[1].open("saves/gameTwo/mobs/skel/SXL1");
+
+            saveFileSYL[0].open("saves/gameTwo/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameTwo/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameTwo/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameTwo/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameTwo/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameTwo/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameTwo/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameTwo/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameTwo/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameTwo/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameTwo/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameTwo/mobs/zomb/ZYL2");
+
+            break;
+
+        case 3:
+
+            saveFileSXL[0].open("saves/gameThree/mobs/skel/SXL0");
+            saveFileSXL[1].open("saves/gameThree/mobs/skel/SXL1");
+
+            saveFileSYL[0].open("saves/gameThree/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameThree/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameThree/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameThree/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameThree/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameThree/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameThree/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameThree/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameThree/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameThree/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameThree/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameThree/mobs/zomb/ZYL2");
+
+            break;
+    }
+
+    for(int i; i < skelAmt; i++) {
+        saveFileSXL[i] >> skelRect[i].x;
+        saveFileSYL[i] >> skelRect[i].y;
+        saveFileSOX[i] >> skelOffsetX[i];
+        saveFileSOY[i] >> skelOffsetY[i];
+    }
+
+    for(int i = 0; i < skelAmt; i++) {
+        saveFileSXL[i].close();
+        saveFileSYL[i].close();
+        saveFileSOX[i].close();
+        saveFileSOY[i].close();
+    }
+
+}
+
+
 void saveGame(int location) {
+
+    ofstream newGame;
+    switch(location) {
+        case 1:
+            newGame.open("settings/saves/one");
+        break;
+
+        case 2:
+            newGame.open("settings/saves/two");
+        break;
+
+        case 3:
+            newGame.open("settings/saves/three");
+        break;
+    }
+
+    newGame << "5";
+    newGame.close();
+
     ofstream saveFileMOX;
     ofstream saveFileMOY;
     ofstream saveFilePXL;
@@ -474,6 +624,22 @@ void saveGame(int location) {
 
     switch(location) {
         case 1:
+
+        if( location == 666 ) {
+        remove("saves/gameOne/game/mapOffsetX");
+        remove("saves/gameOne/game/mapOffsetY");
+        remove("saves/gameOne/player/PSLX");
+        remove("saves/gameOne/player/PSLY");
+        remove("saves/gameOne/player/hh");
+        remove("saves/gameOne/player/tk");
+        remove("saves/gameOne/player/PXP");
+        remove("saves/gameOne/game/gl");
+        remove("saves/gameOne/player/hl");
+        remove("saves/gameOne/player/hm");
+        remove("saves/gameOne/game/MPX");
+        remove("saves/gameOne/game/MPY");
+        }
+
             saveFileMOX.open("saves/gameOne/game/mapOffsetX");
             saveFileMOY.open("saves/gameOne/game/mapOffsetY");
             saveFilePXL.open("saves/gameOne/player/PSLX");
@@ -510,7 +676,23 @@ void saveGame(int location) {
             break;
 
         case 2:
-           saveFileMOX.open("saves/gameTwo/game/mapOffsetX");
+
+        if( location == 666 ) {
+        remove("saves/gameTwo/game/mapOffsetX");
+        remove("saves/gameTwo/game/mapOffsetY");
+        remove("saves/gameTwo/player/PSLX");
+        remove("saves/gameTwo/player/PSLY");
+        remove("saves/gameTwo/player/hh");
+        remove("saves/gameTwo/player/tk");
+        remove("saves/gameTwo/player/PXP");
+        remove("saves/gameTwo/game/gl");
+        remove("saves/gameTwo/player/hl");
+        remove("saves/gameTwo/player/hm");
+        remove("saves/gameTwo/game/MPX");
+        remove("saves/gameTwo/game/MPY");
+        }
+
+            saveFileMOX.open("saves/gameTwo/game/mapOffsetX");
             saveFileMOY.open("saves/gameTwo/game/mapOffsetY");
             saveFilePXL.open("saves/gameTwo/player/PSLX");
             saveFilePYL.open("saves/gameTwo/player/PSLY");
@@ -546,6 +728,22 @@ void saveGame(int location) {
             break;
 
         case 3:
+
+        if( location == 666 ) {
+        remove("saves/gameThree/game/mapOffsetX");
+        remove("saves/gameThree/game/mapOffsetY");
+        remove("saves/gameThree/player/PSLX");
+        remove("saves/gameThree/player/PSLY");
+        remove("saves/gameThree/player/hh");
+        remove("saves/gameThree/player/tk");
+        remove("saves/gameThree/player/PXP");
+        remove("saves/gameThree/game/gl");
+        remove("saves/gameThree/player/hl");
+        remove("saves/gameThree/player/hm");
+        remove("saves/gameThree/game/MPX");
+        remove("saves/gameThree/game/MPY");
+        }
+
             saveFileMOX.open("saves/gameThree/game/mapOffsetX");
             saveFileMOY.open("saves/gameThree/game/mapOffsetY");
             saveFilePXL.open("saves/gameThree/player/PSLX");
@@ -594,11 +792,11 @@ void saveGame(int location) {
     saveFileMPX << mapPickX;
     saveFileMPY << mapPickY;
 
-    for(int i = 0; i < skelAmt; i++) {
-        saveFileSXL[i] << skelRect[i].x;
-        saveFileSYL[i] << skelRect[i].y;
-        saveFileSOX[i] << skelOffsetX[i];
-        saveFileSOY[i] << skelOffsetY[i];
+    for(int q = 0; q < skelAmt; q++) {
+        saveFileSXL[q] << skelRect[q].x;
+        saveFileSYL[q] << skelRect[q].y;
+        saveFileSOX[q] << skelOffsetX[q];
+        saveFileSOY[q] << skelOffsetY[q];
     }
 
     saveFileMOX.close();
@@ -610,15 +808,34 @@ void saveGame(int location) {
     saveFileMPY.close();
     saveFileHM.close();
 
-    for(int i = 0; i < skelAmt; i++) {
-        saveFileSXL[i].close();
-        saveFileSYL[i].close();
-        saveFileSOX[i].close();
-        saveFileSOY[i].close();
+    for(int w = 0; w < skelAmt; w++) {
+        saveFileSXL[w].close();
+        saveFileSYL[w].close();
+        saveFileSOX[w].close();
+        saveFileSOY[w].close();
     }
 }
 
 void loadSave(int position) {
+
+    ifstream newGame;
+    int newGameCheck;
+    switch(position) {
+        case 1:
+            newGame.open("settings/saves/one");
+        break;
+
+        case 2:
+            newGame.open("settings/saves/two");
+        break;
+
+        case 3:
+            newGame.open("settings/saves/three");
+        break;
+    }
+
+    newGame >> newGameCheck;
+    if( !newGameCheck == 0 ) {
 
     ifstream saveFileMOX;
     ifstream saveFileMOY;
@@ -680,7 +897,7 @@ void loadSave(int position) {
             break;
 
         case 2:
-           saveFileMOX.open("saves/gameTwo/game/mapOffsetX");
+            saveFileMOX.open("saves/gameTwo/game/mapOffsetX");
             saveFileMOY.open("saves/gameTwo/game/mapOffsetY");
             saveFilePXL.open("saves/gameTwo/player/PSLX");
             saveFilePYL.open("saves/gameTwo/player/PSLY");
@@ -752,6 +969,9 @@ void loadSave(int position) {
             break;
     }
 
+    if(saveFileGL) {
+       heroSpawn = true;
+    }
 
     saveFileHH >> heroHealth;
     saveFileMOX >> mapOffsetXAmt;
@@ -775,18 +995,18 @@ void loadSave(int position) {
 
 
     saveFileMOX.close();
-    saveFileMOX.close();
-    saveFileMOX.close();
-    saveFileMOX.close();
-    saveFileHH.close();
+    saveFileMOY.close();
     saveFileMPX.close();
     saveFileMPY.close();
     saveFileHM.close();
+    saveFilePXL.close();
+    saveFilePYL.close();
 
-    for(int i = 0; i < skelAmt; i++) {
-        saveFileSXL[i].close();
-        saveFileSYL[i].close();
-        saveFileSOX[i].close();
-        saveFileSOY[i].close();
+    for(int j = 0; j < skelAmt; j++) {
+        saveFileSXL[j].close();
+        saveFileSYL[j].close();
+        saveFileSOX[j].close();
+        saveFileSOY[j].close();
+    }
     }
 }
