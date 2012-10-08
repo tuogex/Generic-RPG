@@ -22,11 +22,13 @@ namespace StartApp
         TextWriter mw = new StreamWriter("bin/settings/musicPref");
 
         Process rpg = new Process();
+        Process reset_saves = new Process();
 
         public Form1()
         {
             InitializeComponent();
             rpg.StartInfo.FileName = "start.shortcut.bat";
+            reset_saves.StartInfo.FileName = "reset_saves.bat";
         }
 
         private void devModeBox_CheckedChanged(object sender, EventArgs e)
@@ -99,6 +101,10 @@ namespace StartApp
                 musicString = "3";
             }
 
+            if (resetSaves.Checked || firstTime.Checked)
+            {
+                reset_saves.Start();
+            }
             sg.WriteLine(gameSave);
             mw.WriteLine(musicString);
 
@@ -159,6 +165,16 @@ namespace StartApp
         {
             string url = @"http://jacob-hegna.github.com/Generic-RPG/";
             System.Diagnostics.Process.Start(url);
+        }
+
+        private void resetSaves_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void firstTime_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

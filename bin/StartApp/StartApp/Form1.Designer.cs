@@ -39,10 +39,12 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.gameMusicCirc = new System.Windows.Forms.RadioButton();
-            this.userMusicCirc = new System.Windows.Forms.RadioButton();
             this.noMusicCirc = new System.Windows.Forms.RadioButton();
+            this.userMusicCirc = new System.Windows.Forms.RadioButton();
+            this.gameMusicCirc = new System.Windows.Forms.RadioButton();
             this.officialWeb = new System.Windows.Forms.LinkLabel();
+            this.resetSaves = new System.Windows.Forms.CheckBox();
+            this.firstTime = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -72,18 +74,18 @@
             // 
             // SubmitButton
             // 
-            this.SubmitButton.Location = new System.Drawing.Point(32, 168);
+            this.SubmitButton.Location = new System.Drawing.Point(154, 167);
             this.SubmitButton.Name = "SubmitButton";
             this.SubmitButton.Size = new System.Drawing.Size(75, 23);
             this.SubmitButton.TabIndex = 4;
-            this.SubmitButton.Text = "Submit";
+            this.SubmitButton.Text = "Play!";
             this.SubmitButton.UseVisualStyleBackColor = true;
             this.SubmitButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 9);
+            this.label1.Location = new System.Drawing.Point(136, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 13);
             this.label1.TabIndex = 5;
@@ -107,7 +109,7 @@
             this.groupBox1.Controls.Add(this.radioButton3);
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(221, 9);
+            this.groupBox1.Location = new System.Drawing.Point(258, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(128, 89);
             this.groupBox1.TabIndex = 7;
@@ -155,12 +157,36 @@
             this.groupBox2.Controls.Add(this.noMusicCirc);
             this.groupBox2.Controls.Add(this.userMusicCirc);
             this.groupBox2.Controls.Add(this.gameMusicCirc);
-            this.groupBox2.Location = new System.Drawing.Point(221, 105);
+            this.groupBox2.Location = new System.Drawing.Point(258, 107);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(128, 86);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Audio Preference";
+            // 
+            // noMusicCirc
+            // 
+            this.noMusicCirc.AutoSize = true;
+            this.noMusicCirc.Location = new System.Drawing.Point(7, 66);
+            this.noMusicCirc.Name = "noMusicCirc";
+            this.noMusicCirc.Size = new System.Drawing.Size(70, 17);
+            this.noMusicCirc.TabIndex = 2;
+            this.noMusicCirc.TabStop = true;
+            this.noMusicCirc.Text = "No Music";
+            this.noMusicCirc.UseVisualStyleBackColor = true;
+            this.noMusicCirc.CheckedChanged += new System.EventHandler(this.noMusicCirc_CheckedChanged);
+            // 
+            // userMusicCirc
+            // 
+            this.userMusicCirc.AutoSize = true;
+            this.userMusicCirc.Location = new System.Drawing.Point(7, 43);
+            this.userMusicCirc.Name = "userMusicCirc";
+            this.userMusicCirc.Size = new System.Drawing.Size(78, 17);
+            this.userMusicCirc.TabIndex = 1;
+            this.userMusicCirc.TabStop = true;
+            this.userMusicCirc.Text = "User Music";
+            this.userMusicCirc.UseVisualStyleBackColor = true;
+            this.userMusicCirc.CheckedChanged += new System.EventHandler(this.userMusicCirc_CheckedChanged);
             // 
             // gameMusicCirc
             // 
@@ -176,34 +202,10 @@
             this.gameMusicCirc.UseVisualStyleBackColor = true;
             this.gameMusicCirc.CheckedChanged += new System.EventHandler(this.gameMusicCirc_CheckedChanged);
             // 
-            // userMusicCirc
-            // 
-            this.userMusicCirc.AutoSize = true;
-            this.userMusicCirc.Location = new System.Drawing.Point(7, 43);
-            this.userMusicCirc.Name = "userMusicCirc";
-            this.userMusicCirc.Size = new System.Drawing.Size(78, 17);
-            this.userMusicCirc.TabIndex = 1;
-            this.userMusicCirc.TabStop = true;
-            this.userMusicCirc.Text = "User Music";
-            this.userMusicCirc.UseVisualStyleBackColor = true;
-            this.userMusicCirc.CheckedChanged += new System.EventHandler(this.userMusicCirc_CheckedChanged);
-            // 
-            // noMusicCirc
-            // 
-            this.noMusicCirc.AutoSize = true;
-            this.noMusicCirc.Location = new System.Drawing.Point(7, 66);
-            this.noMusicCirc.Name = "noMusicCirc";
-            this.noMusicCirc.Size = new System.Drawing.Size(70, 17);
-            this.noMusicCirc.TabIndex = 2;
-            this.noMusicCirc.TabStop = true;
-            this.noMusicCirc.Text = "No Music";
-            this.noMusicCirc.UseVisualStyleBackColor = true;
-            this.noMusicCirc.CheckedChanged += new System.EventHandler(this.noMusicCirc_CheckedChanged);
-            // 
             // officialWeb
             // 
             this.officialWeb.AutoSize = true;
-            this.officialWeb.Location = new System.Drawing.Point(12, 125);
+            this.officialWeb.Location = new System.Drawing.Point(12, 172);
             this.officialWeb.Name = "officialWeb";
             this.officialWeb.Size = new System.Drawing.Size(121, 13);
             this.officialWeb.TabIndex = 9;
@@ -211,11 +213,35 @@
             this.officialWeb.Text = "Visit the Official Website";
             this.officialWeb.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.officialWeb_LinkClicked);
             // 
+            // resetSaves
+            // 
+            this.resetSaves.AutoSize = true;
+            this.resetSaves.Location = new System.Drawing.Point(12, 105);
+            this.resetSaves.Name = "resetSaves";
+            this.resetSaves.Size = new System.Drawing.Size(93, 17);
+            this.resetSaves.TabIndex = 10;
+            this.resetSaves.Text = "Reset Saves?";
+            this.resetSaves.UseVisualStyleBackColor = true;
+            this.resetSaves.CheckedChanged += new System.EventHandler(this.resetSaves_CheckedChanged);
+            // 
+            // firstTime
+            // 
+            this.firstTime.AutoSize = true;
+            this.firstTime.Location = new System.Drawing.Point(12, 12);
+            this.firstTime.Name = "firstTime";
+            this.firstTime.Size = new System.Drawing.Size(114, 17);
+            this.firstTime.TabIndex = 11;
+            this.firstTime.Text = "First Time Playing?";
+            this.firstTime.UseVisualStyleBackColor = true;
+            this.firstTime.CheckedChanged += new System.EventHandler(this.firstTime_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(376, 203);
+            this.ClientSize = new System.Drawing.Size(398, 203);
+            this.Controls.Add(this.firstTime);
+            this.Controls.Add(this.resetSaves);
             this.Controls.Add(this.officialWeb);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -257,6 +283,8 @@
         private System.Windows.Forms.RadioButton userMusicCirc;
         private System.Windows.Forms.RadioButton noMusicCirc;
         private System.Windows.Forms.LinkLabel officialWeb;
+        private System.Windows.Forms.CheckBox resetSaves;
+        private System.Windows.Forms.CheckBox firstTime;
 
     }
 }
