@@ -124,7 +124,7 @@ int main(int argc, char **argv) {
 
         SDL_PollEvent(&event);
 
-        axisMath();
+        ///axisMath();
         SDL_FillRect(screen,NULL,0xFFFFFF);
         hero.slashTime();
         gameTime = SDL_GetTicks() - startTime;
@@ -133,7 +133,7 @@ int main(int argc, char **argv) {
         HUD();
         skeleton.mobs();
         items();
-        keyReg(event);
+        hero.keyReg(event);
         movePlayer(event);
         HUD();
 
@@ -431,8 +431,8 @@ void HUD() {
         if(!fast) apply_surface( 3, 3, quad, screen);
         apply_surface( SCREEN_WIDTH-70, 27, levelSh, screen);
         apply_surface(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60, heroMagicaShow, screen );
-        apply_surface(5, 5, playerXLocSurf, screen );
-        apply_surface(5, 30, playerYLocSurf, screen);
+        //apply_surface(5, 5, playerXLocSurf, screen );
+        //apply_surface(5, 30, playerYLocSurf, screen);
         //apply_surface(5, 55, tileType, screen );
 
 
@@ -630,17 +630,30 @@ void load_files() {
 }
 
 /////////////////////////////////////
-void keyReg(SDL_Event event) {
+void Actor::keyReg(SDL_Event event) {
 /////////////////////////////////////
 
-    int x = 0, y = 0;
+    //int x = 0, y = 0;
 
 
     if(event.type == SDL_VIDEORESIZE ) {
+
+            if( event.resize.w < 500 ) {
+                event.resize.w = 500;
+            }
+
+            if( event.resize.h < 360 ) {
+                event.resize.h = 360;
+            }
+
+
+            screen = SDL_SetVideoMode(event.resize.w, event.resize.h, SCREEN_BPP, SDL_SWSURFACE | SDL_RESIZABLE);
+
+            x += (event.resize.w - SCREEN_WIDTH);
+            y += (event.resize.h - SCREEN_HEIGHT);
+
             SCREEN_WIDTH = event.resize.w;
             SCREEN_HEIGHT = event.resize.h;
-
-            screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE | SDL_RESIZABLE);
     }
 
     if(event.type == SDL_KEYDOWN) {
@@ -745,8 +758,8 @@ void keyReg(SDL_Event event) {
 
     }
 
-    x = event.motion.x;
-    y = event.motion.y;
+    //x = event.motion.x;
+    //y = event.motion.y;
 
     if( event.type == SDL_MOUSEBUTTONDOWN ) {
         if( (event.button.button == SDL_BUTTON_LEFT) && controlMode == 1 ) {

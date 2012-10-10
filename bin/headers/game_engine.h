@@ -17,6 +17,7 @@ public:
     void mobs();
     void getLastHeroCord();
     void getMobCoord();
+    void keyReg(SDL_Event event);
 };
 
 void saveGame(int location);

@@ -1552,7 +1552,7 @@
 1344457506 c:\users\jacob pc\dropbox\generic rpg\bin\headers\file_reader.h
 	"globals.h"
 
-1349642832 c:\users\jacob pc\dropbox\generic rpg\bin\headers\game_engine.h
+1349837381 c:\users\jacob pc\dropbox\generic rpg\bin\headers\game_engine.h
 	<SDL/SDL.h>
 
 1345508950 c:\users\jacob pc\dropbox\generic rpg\bin\headers\timer.h
@@ -1618,7 +1618,7 @@
 	"headers/SDL_functions.h"
 	"headers/globals.h"
 
-1349835587 source:c:\users\jacob pc\dropbox\generic rpg\bin\main.cpp
+1349837802 source:c:\users\jacob pc\dropbox\generic rpg\bin\main.cpp
 	<windows.h>
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>

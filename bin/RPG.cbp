@@ -45,11 +45,9 @@
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="headers\timer.h" />
-		<Unit filename="headers\windowEvents.h" />
 		<Unit filename="loadingScreens.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="timer.cpp" />
-		<Unit filename="windowEvents.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
