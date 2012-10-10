@@ -16,7 +16,7 @@ void logFile();
 
 void load_files();
 
-void axisMath();
+int axisMath();
 
 void keyReg(SDL_Event event);
 

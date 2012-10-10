@@ -20,6 +20,7 @@ OF THE AUTHORS OF THE SOURCE CODE.
 #include <time.h>
 #include <windows.h>
 #include <process.h>
+#include <SDL/SDL_thread.h>
 
 #include "headers/game_engine.h"
 #include "headers/SDL_functions.h"
@@ -27,7 +28,6 @@ OF THE AUTHORS OF THE SOURCE CODE.
 #include "headers/file_reader.h"
 #include "headers/functions.h"
 #include "headers/timer.h"
-#include "headers/windowEvents.h"
 #include "headers/loadingScreens.h"
 
 
@@ -123,6 +123,7 @@ int main(int argc, char **argv) {
     while(quit == false) {
 
         SDL_PollEvent(&event);
+
         axisMath();
         SDL_FillRect(screen,NULL,0xFFFFFF);
         hero.slashTime();
@@ -177,11 +178,12 @@ int main(int argc, char **argv) {
     resetLauncher.close();
 
     uninit();
+    SDL_KillThread( axisMathThread );
 
     return 0;
 }
 
-void axisMath() {
+int axisMath() {
 
 if(fast) {
     switch(mapPickX) {
@@ -210,6 +212,8 @@ if(fast) {
 
     mapXAxis += mapOffsetXAmt;
     mapYAxis += mapOffsetYAmt;
+
+    SDL_Delay(1);
 
 }
 
@@ -287,7 +291,7 @@ if(!fast) {
 
     //drawMapFast1(0, 0, mainFileReader->map);
 
-
+/*
     drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT * 2, fileReader12->map);
     drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT, fileReader11->map);
     drawMapFast1(SCREEN_WIDTH, 0, fileReader10->map);
@@ -299,7 +303,20 @@ if(!fast) {
     drawMapFast1(0, SCREEN_HEIGHT, errorFix->map);
     drawMapFast1(0, SCREEN_HEIGHT * 2, fileReader22->map);
     drawMapFast1(0, 0, fileReader20->map);
+*/
+            //////////////////////////////////
 
+    drawMapFast1(800, 600 * 2, fileReader12->map);
+    drawMapFast1(800, 600, fileReader11->map);
+    drawMapFast1(800, 0, fileReader10->map);
+
+    drawMapFast1(800 * 2, 600, fileReader01->map);
+    drawMapFast1(800 * 2, 600 * 2, fileReader02->map);
+    drawMapFast1(800 * 2, 0, fileReader00->map);
+
+    drawMapFast1(0, 600, errorFix->map);
+    drawMapFast1(0, 600 * 2, fileReader22->map);
+    drawMapFast1(0, 0, fileReader20->map);
             ///////////////////////////////
 /*
     drawMapFast1(0, SCREEN_HEIGHT, fileReader12->map);
@@ -494,7 +511,7 @@ void init() {
 
     Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 );
 
-    screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE );
+    screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE | SDL_RESIZABLE );
     SDL_WM_SetCaption( "Generic RPG", NULL );
     SDL_WM_SetIcon(load_image("images/other/icon.bmp"), NULL);
 }
@@ -617,6 +634,15 @@ void keyReg(SDL_Event event) {
 /////////////////////////////////////
 
     int x = 0, y = 0;
+
+
+    if(event.type == SDL_VIDEORESIZE ) {
+            SCREEN_WIDTH = event.resize.w;
+            SCREEN_HEIGHT = event.resize.h;
+
+            screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE | SDL_RESIZABLE);
+    }
+
     if(event.type == SDL_KEYDOWN) {
 
         keyDown = true;
@@ -878,7 +904,7 @@ void drawMapFast1( int offsetX, int offsetY, int **intMap ) {
                     //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
                         //if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
                             //if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
-                            apply_surface( (((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH, ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, water, screen );
+                            apply_surface( (((((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH) + resizeX), ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, water, screen );
                          //}
                     //}
                 //}
@@ -890,7 +916,7 @@ void drawMapFast1( int offsetX, int offsetY, int **intMap ) {
                         //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
                             //if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
                                 //if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
-                                apply_surface( (((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH, ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, road, screen );
+                                apply_surface( (((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH+ resizeX, ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, road, screen );
                             //}
                         //}
                     //}
@@ -902,7 +928,7 @@ void drawMapFast1( int offsetX, int offsetY, int **intMap ) {
                     //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 800 ) {
                         //if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
                             //if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
-                                apply_surface( (((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH, ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, grass, screen );
+                                apply_surface( (((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH + resizeX, ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, grass, screen );
                         //}
                     //}
                 //}

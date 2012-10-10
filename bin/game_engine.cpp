@@ -86,8 +86,8 @@ if(fast) {
         mapOffsetXAmt -= 2;
     }
 
-    if( (x + heroR.w)> 700 ) {
-        x = 700 - heroR.w;
+    if( (x + heroR.w) > (SCREEN_WIDTH - 100) ) {
+        x = (SCREEN_WIDTH - 100) - heroR.w;
         mapOffsetXAmt += 2;
     }
 
@@ -96,8 +96,8 @@ if(fast) {
         mapOffsetYAmt -= 2;
     }
 
-    if( (y + heroR.h) > 500 ) {
-        y = 500 - heroR.h;
+    if( (y + heroR.h) > (SCREEN_HEIGHT - 100) ) {
+        y = (SCREEN_HEIGHT - 100) - heroR.h;
         mapOffsetYAmt += 2;
     }
 }

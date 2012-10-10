@@ -12,7 +12,6 @@
 #include "headers/file_reader.h"
 #include "headers/functions.h"
 #include "headers/timer.h"
-#include "headers/windowEvents.h"
 #include "headers/loadingScreens.h"
 
 using namespace std;

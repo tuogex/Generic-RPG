@@ -13,8 +13,13 @@
 #include "game_engine.h"
 #include "timer.h"
 
+extern SDL_Thread *axisMathThread;
+
 extern int MAP_WIDTH;
 extern int MAP_HEIGHT;
+
+extern int resizeX;
+extern int resizeY;
 
 extern int gameSaveInt;
 

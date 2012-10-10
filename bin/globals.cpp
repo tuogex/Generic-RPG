@@ -4,9 +4,15 @@
 #include <SDL/SDL_mixer.h>
 #include <iostream>
 #include <string>
+#include <SDL/SDL_Thread.h>
+
+SDL_Thread *axisMathThread = NULL;
 
 int MAP_WIDTH;
 int MAP_HEIGHT;
+
+int resizeX;
+int resizeY;
 
 int gameSaveInt;
 
@@ -231,5 +237,6 @@ Actor hero;
 Actor zombie;
 Actor skeleton;
 Actor ortman;
+
 
 int frameCount = 0;
