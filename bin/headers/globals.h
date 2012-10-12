@@ -46,6 +46,7 @@ extern bool initFail;
 extern const int zombAmt;
 extern const int skelAmt;
 extern const int ortAmt;
+extern const int ghostAmt;
 
 extern Uint32 startTime;
 extern Uint32 gameTime;
@@ -56,6 +57,7 @@ extern int xp;
 extern bool zombXp[];
 extern bool skelXp[];
 extern bool ortXp[];
+extern bool ghostXp[];
 
 extern signed int zombOffsetX[];
 extern signed int zombOffsetY[];
@@ -66,6 +68,9 @@ extern signed int skelOffsetY[];
 extern signed int ortOffsetX[];
 extern signed int ortOffsetY[];
 
+extern signed int ghostOffsetX[];
+extern signed int ghostOffsetY[];
+
 extern int level;
 extern int gameLevel;
 extern int totalEnemyKills;
@@ -75,6 +80,7 @@ extern int gameLevelKillsNeeded;
 extern SDL_Rect zombRect[];
 extern SDL_Rect skelRect[];
 extern SDL_Rect ortRect[];
+extern SDL_Rect ghostRect[];
 
 extern int mapDetail[50][38];
 
@@ -113,14 +119,17 @@ extern int swordType;
 extern bool zombDead[];
 extern bool skelDead[];
 extern bool ortDead[];
+extern bool ghostDead[];
 
 extern Uint32 zombRespawn[];
 extern Uint32 skelRespawn[];
 extern Uint32 ortRespawn[];
+extern Uint32 ghostRespawn[];
 
 extern unsigned int zombHealth[];
 extern unsigned int skelHealth[];
 extern unsigned int ortHealth[];
+extern unsigned int ghostHealth[];
 
 extern unsigned int zomb1Health;
 extern unsigned int zomb2Health;
@@ -209,10 +218,12 @@ extern SDL_Surface *levelTick;
 extern SDL_Surface *zombHealthShow[];
 extern SDL_Surface *skelHealthShow[];
 extern SDL_Surface *ortHealthShow[];
+extern SDL_Surface *ghostHealthShow[];
 
 extern SDL_Surface *zombSurf[];
 extern SDL_Surface *skelSurf[];
 extern SDL_Surface *ortSurf[];
+extern SDL_Surface *ghostSurf[];
 
 extern SDL_Surface *heroMagicaShow;
 
@@ -240,6 +251,7 @@ extern Actor hero;
 extern Actor zombie;
 extern Actor skeleton;
 extern Actor ortman;
+extern Actor ghost;
 
 extern bool ifOrt;
 

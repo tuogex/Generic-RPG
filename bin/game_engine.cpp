@@ -674,7 +674,7 @@ void saveGame(int location) {
             saveFileZYL[0].open("saves/gameOne/mobs/zomb/ZYL0");
             saveFileZYL[1].open("saves/gameOne/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameOne/mobs/zomb/ZYL2");
-
+/*
     stringstream sfss;
     stringstream SYLss;
     stringstream SOXss;
@@ -693,7 +693,7 @@ void saveGame(int location) {
         saveFileSOX[qq].open(SOXss.str().c_str());
         saveFileSOY[qq].open(SOYss.str().c_str());
     }
-
+*/
     switch(location) {
         case 1:
 
@@ -724,7 +724,7 @@ void saveGame(int location) {
             saveFileHM.open("saves/gameOne/player/hm");
             saveFileMPX.open("saves/gameOne/game/MPX");
             saveFileMPY.open("saves/gameOne/game/MPY");
-/*
+
             saveFileSXL[0].open("saves/gameOne/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameOne/mobs/skel/SXL1");
 
@@ -736,7 +736,7 @@ void saveGame(int location) {
 
             saveFileSOY[0].open("saves/gameOne/mobs/skel/SOY0");
             saveFileSOY[1].open("saves/gameOne/mobs/skel/SOY1");
-*/
+
             saveFileZXL[0].open("saves/gameOne/mobs/zomb/ZXL0");
             saveFileZXL[1].open("saves/gameOne/mobs/zomb/ZXL1");
             saveFileZXL[2].open("saves/gameOne/mobs/zomb/ZXL2");
@@ -776,7 +776,7 @@ void saveGame(int location) {
             saveFileHM.open("saves/gameTwo/player/hm");
             saveFileMPX.open("saves/gameTwo/game/MPX");
             saveFileMPY.open("saves/gameTwo/game/MPY");
-/*
+
             saveFileSXL[0].open("saves/gameTwo/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameTwo/mobs/skel/SXL1");
 
@@ -788,7 +788,7 @@ void saveGame(int location) {
 
             saveFileSOY[0].open("saves/gameTwo/mobs/skel/SOY0");
             saveFileSOY[1].open("saves/gameTwo/mobs/skel/SOY1");
-*/
+
             saveFileZXL[0].open("saves/gameTwo/mobs/zomb/ZXL0");
             saveFileZXL[1].open("saves/gameTwo/mobs/zomb/ZXL1");
             saveFileZXL[2].open("saves/gameTwo/mobs/zomb/ZXL2");
@@ -828,7 +828,7 @@ void saveGame(int location) {
             saveFileHM.open("saves/gameThree/player/hm");
             saveFileMPX.open("saves/gameThree/game/MPX");
             saveFileMPY.open("saves/gameThree/game/MPY");
-/*
+
             saveFileSXL[0].open("saves/gameThree/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameThree/mobs/skel/SXL1");
 
@@ -840,7 +840,7 @@ void saveGame(int location) {
 
             saveFileSOY[0].open("saves/gameThree/mobs/skel/SOY0");
             saveFileSOY[1].open("saves/gameThree/mobs/skel/SOY1");
-*/
+
             saveFileZXL[0].open("saves/gameThree/mobs/zomb/ZXL0");
             saveFileZXL[1].open("saves/gameThree/mobs/zomb/ZXL1");
             saveFileZXL[2].open("saves/gameThree/mobs/zomb/ZXL2");

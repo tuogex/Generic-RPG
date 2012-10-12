@@ -90,6 +90,14 @@ int main(int argc, char **argv) {
         ortOffsetY[wx] = 1000;
     }
 
+    for( int gh = 0; gh < ghostAmt; gh++ ) {
+        ghostRect[gh].x = rand() % (600 + 200) + 800;
+        ghostRect[gh].y = rand() % (360 + 200) - 600;
+
+        ghostOffsetX[gh] = 1000;
+        ghostOffsetY[gh] = -1000;
+    }
+
 /*
     zombRect[0].x = rand() % 480 + 240;
     zombRect[0].y = rand() % 317 + 10;
@@ -163,7 +171,7 @@ int main(int argc, char **argv) {
         fpsCalc();
 
         if( heroHealth <= 0 ) {
-            //quit = true;
+            quit = true;
             lose = true;
         } else {
             lose = false;
@@ -496,6 +504,12 @@ if( gameLevel >= 3 ) {
             ortman.moveMob( 1, ortRect[k], ortRespawn[k], ortDead[k], ortHealth[k], ortHealthShow[k], ortXp[k], ortSurf[k], ortOffsetX[k], ortOffsetY[k] );
         }
     }
+
+if( gameLevel >= 2 ) {
+    for( int gh = 0; gh < ghostAmt; gh++ ) {
+        ghost.moveMob( 0, ghostRect[gh], ghostRespawn[gh], ghostDead[gh], ghostHealth[gh], ghostHealthShow[gh], ghostXp[gh], ghostSurf[gh], ghostOffsetX[gh], ghostOffsetY[gh] );
+    }
+}
 }
 
 /////////////////////////////////////
@@ -608,6 +622,13 @@ void load_files() {
         ortSurf[xy] = load_image("images/RPG Sprites/ort/front.png");
         ortRect[xy].w = 100;
         ortRect[xy].h = 126;
+    }
+    for( int yy = 0; yy < ghostAmt; yy++ ) {
+        ghostSurf[yy] = load_image("images/RPG Sprites/ghost/front.png");
+        ghostRect[yy].w = 100;
+        ghostRect[yy].h = 126;
+
+        ghostHealth[yy] = 500;
     }
 
     for( int u = 0; u < zombAmt; u++ ) {

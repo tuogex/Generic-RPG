@@ -35,6 +35,7 @@ bool initFail= false;
 const int zombAmt = 5;
 const int skelAmt = 4;
 const int ortAmt = 10;
+const int ghostAmt = 5;
 
 bool ifOrt;
 bool ifOrtSetting;
@@ -56,6 +57,7 @@ int xp;
 bool zombXp[zombAmt];
 bool skelXp[skelAmt];
 bool ortXp[ortAmt];
+bool ghostXp[ghostAmt];
 
 signed int zombOffsetX[zombAmt];
 signed int zombOffsetY[zombAmt];
@@ -65,6 +67,9 @@ signed int skelOffsetY[skelAmt];
 
 signed int ortOffsetX[ortAmt];
 signed int ortOffsetY[ortAmt];
+
+signed int ghostOffsetX[ghostAmt];
+signed int ghostOffsetY[ghostAmt];
 
 
 int level = 1;
@@ -76,6 +81,7 @@ int gameLevelKillsNeeded = 0;
 SDL_Rect zombRect[zombAmt];
 SDL_Rect skelRect[skelAmt];
 SDL_Rect ortRect[ortAmt];
+SDL_Rect ghostRect[ghostAmt];
 
 int mapDetail[50][38];
 
@@ -103,14 +109,17 @@ int swordType = 0;
 bool zombDead[zombAmt];
 bool skelDead[skelAmt];
 bool ortDead[ortAmt];
+bool ghostDead[ghostAmt];
 
 Uint32 zombRespawn[zombAmt];
 Uint32 skelRespawn[skelAmt];
 Uint32 ortRespawn[ortAmt];
+Uint32 ghostRespawn[ghostAmt];
 
 unsigned int zombHealth[zombAmt];
 unsigned int skelHealth[skelAmt];
 unsigned int ortHealth[ortAmt];
+unsigned int ghostHealth[ghostAmt];
 
 int mapAmt = 3;
 
@@ -195,10 +204,12 @@ SDL_Surface *levelTick = NULL;
 SDL_Surface *zombHealthShow[zombAmt];
 SDL_Surface *skelHealthShow[zombAmt];
 SDL_Surface *ortHealthShow[ortAmt];
+SDL_Surface *ghostHealthShow[ghostAmt];
 
 SDL_Surface *zombSurf[zombAmt];
 SDL_Surface *skelSurf[skelAmt];
 SDL_Surface *ortSurf[ortAmt];
+SDL_Surface *ghostSurf[ghostAmt];
 
 SDL_Surface *heroMagicaShow = NULL;
 
@@ -240,6 +251,6 @@ Actor hero;
 Actor zombie;
 Actor skeleton;
 Actor ortman;
-
+Actor ghost;
 
 int frameCount = 0;
