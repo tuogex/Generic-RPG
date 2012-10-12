@@ -14,6 +14,9 @@
 #include "timer.h"
 
 extern SDL_Thread *axisMathThread;
+extern SDL_Thread *mapLoader;
+
+extern bool moveOn;
 
 extern int MAP_WIDTH;
 extern int MAP_HEIGHT;

@@ -50,6 +50,42 @@ void Actor::getLastHeroCord() {
     ycord >> heroR.y;
 }
 
+void Actor::showHero() {
+
+        switch( charPos ) {
+        case 1:
+        /*
+            if( ( totalGameTime.get_ticks() - heroUpdateTime < 500 ) && keyDown ) {
+                if(!playerSlash) apply_surface( x, y, heroFront, screen );
+                else apply_surface(x, y, heroSlashFront, screen );
+            } else if( keyDown ) {
+                apply_surface(x, y, heroAnimateTest, screen);
+                if( totalGameTime.get_ticks() - heroUpdateTime > 1000 ) {
+                    heroUpdateTime = totalGameTime.get_ticks();
+                }
+            } else if( !keyDown ) {
+                apply_surface(x, y, heroFront, screen );
+            }*/
+            if(!playerSlash) apply_surface( x, y, heroFront, screen );
+            else apply_surface(x, y, heroSlashFront, screen );
+            break;
+        case 2:
+            if(!playerSlash) apply_surface( x, y, heroBack, screen );
+            else apply_surface(x, y, heroSlashBack, screen );
+            break;
+        case 3:
+            if( !playerSlash ) apply_surface( x, y, heroLeft, screen );
+            else apply_surface( x - 24, y, heroSlashLeft, screen );
+            break;
+        case 4:
+            if( !playerSlash ) apply_surface( x, y, heroRight, screen );
+            else apply_surface( x, y, heroSlashRight, screen );
+            break;
+    }
+
+}
+
+
 
 void Actor::move(int dx, int dy) {
 
@@ -152,7 +188,7 @@ if(fast) {
         heroHealthTimerSub = SDL_GetTicks();
     }
     heroHealthTimer = SDL_GetTicks() - heroHealthTimerSub;
-
+/*
     switch( charPos ) {
         case 1:
         /*
@@ -166,7 +202,7 @@ if(fast) {
                 }
             } else if( !keyDown ) {
                 apply_surface(x, y, heroFront, screen );
-            }*/
+            }
             if(!playerSlash) apply_surface( x, y, heroFront, screen );
             else apply_surface(x, y, heroSlashFront, screen );
             break;
@@ -183,7 +219,7 @@ if(fast) {
             else apply_surface( x, y, heroSlashRight, screen );
             break;
     }
-
+*/
     if( (x + 50) > 800 ) {
         mapPickX++;
         x = 0;
@@ -250,7 +286,7 @@ gameLevelKillsNeeded = gameLevel * 3;
     string quadst;
     quadss >> quadst;
     quad = TTF_RenderText_Solid( font, quadst.c_str(), textColor );
-    SDL_Flip( screen );
+    //SDL_Flip( screen );
 
 }
 
@@ -622,6 +658,42 @@ void saveGame(int location) {
     ofstream saveFileSOX[skelAmt];
     ofstream saveFileSOY[skelAmt];
 
+    saveFileSYL[0].open("saves/gameOne/mobs/skel/SYL0");
+            saveFileSYL[1].open("saves/gameOne/mobs/skel/SYL1");
+
+            saveFileSOX[0].open("saves/gameOne/mobs/skel/SOX0");
+            saveFileSOX[1].open("saves/gameOne/mobs/skel/SOX1");
+
+            saveFileSOY[0].open("saves/gameOne/mobs/skel/SOY0");
+            saveFileSOY[1].open("saves/gameOne/mobs/skel/SOY1");
+
+            saveFileZXL[0].open("saves/gameOne/mobs/zomb/ZXL0");
+            saveFileZXL[1].open("saves/gameOne/mobs/zomb/ZXL1");
+            saveFileZXL[2].open("saves/gameOne/mobs/zomb/ZXL2");
+
+            saveFileZYL[0].open("saves/gameOne/mobs/zomb/ZYL0");
+            saveFileZYL[1].open("saves/gameOne/mobs/zomb/ZYL1");
+            saveFileZYL[2].open("saves/gameOne/mobs/zomb/ZYL2");
+
+    stringstream sfss;
+    stringstream SYLss;
+    stringstream SOXss;
+    stringstream SOYss;
+    stringstream ZXLss;
+    stringstream ZYLss;
+
+    for( int qq = 0; qq < skelAmt; qq++ ) {
+        sfss << "saves/" << location << "mobs/skel/SXL" << qq;
+        SYLss << "saves/" << location << "mobs/skel/SYL" << qq;
+        SOXss << "saves/" << location << "mobs/skel/SOX" << qq;
+        SOYss << "saves/" << location << "mobs/skel/SOY" << qq;
+
+        saveFileSXL[qq].open(sfss.str().c_str());
+        saveFileSYL[qq].open(SYLss.str().c_str());
+        saveFileSOX[qq].open(SOXss.str().c_str());
+        saveFileSOY[qq].open(SOYss.str().c_str());
+    }
+
     switch(location) {
         case 1:
 
@@ -652,7 +724,7 @@ void saveGame(int location) {
             saveFileHM.open("saves/gameOne/player/hm");
             saveFileMPX.open("saves/gameOne/game/MPX");
             saveFileMPY.open("saves/gameOne/game/MPY");
-
+/*
             saveFileSXL[0].open("saves/gameOne/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameOne/mobs/skel/SXL1");
 
@@ -664,7 +736,7 @@ void saveGame(int location) {
 
             saveFileSOY[0].open("saves/gameOne/mobs/skel/SOY0");
             saveFileSOY[1].open("saves/gameOne/mobs/skel/SOY1");
-
+*/
             saveFileZXL[0].open("saves/gameOne/mobs/zomb/ZXL0");
             saveFileZXL[1].open("saves/gameOne/mobs/zomb/ZXL1");
             saveFileZXL[2].open("saves/gameOne/mobs/zomb/ZXL2");
@@ -704,7 +776,7 @@ void saveGame(int location) {
             saveFileHM.open("saves/gameTwo/player/hm");
             saveFileMPX.open("saves/gameTwo/game/MPX");
             saveFileMPY.open("saves/gameTwo/game/MPY");
-
+/*
             saveFileSXL[0].open("saves/gameTwo/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameTwo/mobs/skel/SXL1");
 
@@ -716,7 +788,7 @@ void saveGame(int location) {
 
             saveFileSOY[0].open("saves/gameTwo/mobs/skel/SOY0");
             saveFileSOY[1].open("saves/gameTwo/mobs/skel/SOY1");
-
+*/
             saveFileZXL[0].open("saves/gameTwo/mobs/zomb/ZXL0");
             saveFileZXL[1].open("saves/gameTwo/mobs/zomb/ZXL1");
             saveFileZXL[2].open("saves/gameTwo/mobs/zomb/ZXL2");
@@ -756,7 +828,7 @@ void saveGame(int location) {
             saveFileHM.open("saves/gameThree/player/hm");
             saveFileMPX.open("saves/gameThree/game/MPX");
             saveFileMPY.open("saves/gameThree/game/MPY");
-
+/*
             saveFileSXL[0].open("saves/gameThree/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameThree/mobs/skel/SXL1");
 
@@ -768,7 +840,7 @@ void saveGame(int location) {
 
             saveFileSOY[0].open("saves/gameThree/mobs/skel/SOY0");
             saveFileSOY[1].open("saves/gameThree/mobs/skel/SOY1");
-
+*/
             saveFileZXL[0].open("saves/gameThree/mobs/zomb/ZXL0");
             saveFileZXL[1].open("saves/gameThree/mobs/zomb/ZXL1");
             saveFileZXL[2].open("saves/gameThree/mobs/zomb/ZXL2");

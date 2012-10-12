@@ -8,7 +8,7 @@
 		<Cursor position="405" topLine="2" />
 	</File>
 	<File name="game_engine.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="2163" topLine="138" />
+		<Cursor position="20083" topLine="673" />
 	</File>
 	<File name="globals.cpp" open="1" top="0" tabpos="2">
 		<Cursor position="2898" topLine="200" />
@@ -38,10 +38,10 @@
 		<Cursor position="397" topLine="11" />
 	</File>
 	<File name="loadingScreens.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="357" topLine="2" />
+		<Cursor position="4209" topLine="146" />
 	</File>
 	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="11729" topLine="409" />
+		<Cursor position="3094" topLine="116" />
 	</File>
 	<File name="timer.cpp" open="0" top="0" tabpos="11">
 		<Cursor position="822" topLine="8" />

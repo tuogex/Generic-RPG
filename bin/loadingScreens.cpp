@@ -20,6 +20,7 @@ using namespace std;
 int intro() {
 /////////////////////////////////////
 
+    screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE );
 
     Mix_PlayMusic( introMusic, -1 );
 
@@ -129,6 +130,8 @@ if(!quit) {
 void credits() {
 /////////////////////////////////////
 
+    screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE );
+
     saveGame(gameSaveInt);
 
     apply_surface( 0, 0, creditsImage, screen );
@@ -153,6 +156,9 @@ void credits() {
 
 
 void playerLose( SDL_Event event ) {
+
+    screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE );
+
     SDL_FillRect(screen,NULL,0x000000);
 
     ofstream saveNum;

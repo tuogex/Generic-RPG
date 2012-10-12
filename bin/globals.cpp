@@ -7,6 +7,9 @@
 #include <SDL/SDL_Thread.h>
 
 SDL_Thread *axisMathThread = NULL;
+SDL_Thread *mapLoader = NULL;
+
+bool moveOn;
 
 int MAP_WIDTH;
 int MAP_HEIGHT;

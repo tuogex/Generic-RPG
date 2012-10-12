@@ -34,6 +34,20 @@ OF THE AUTHORS OF THE SOURCE CODE.
 
 using namespace std;
 
+
+int mapper( void *data ) {
+
+    while(!quit) {
+
+        movePlayer(event);
+
+        while(!moveOn) {}
+
+    }
+
+}
+
+
 /////////////////////////////////////
 int main(int argc, char **argv) {
 /////////////////////////////////////
@@ -120,21 +134,27 @@ int main(int argc, char **argv) {
     hero.getLastHeroCord();
     //skeleton.getMobCoord();
 
+    //mapLoader = SDL_CreateThread( mapper, NULL );
+
+    screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE | SDL_RESIZABLE );
+
+
     while(quit == false) {
 
         SDL_PollEvent(&event);
 
-        ///axisMath();
+        moveOn = false;
+
+        //axisMath();
         SDL_FillRect(screen,NULL,0xFFFFFF);
         hero.slashTime();
         gameTime = SDL_GetTicks() - startTime;
-        HUD();
         mapPicker();
-        HUD();
-        skeleton.mobs();
         items();
+        skeleton.mobs();
         hero.keyReg(event);
         movePlayer(event);
+        hero.showHero();
         HUD();
 
         SDL_Flip(screen);
@@ -143,12 +163,13 @@ int main(int argc, char **argv) {
         fpsCalc();
 
         if( heroHealth <= 0 ) {
-            quit = true;
+            //quit = true;
             lose = true;
         } else {
             lose = false;
         }
         hero.slashTime();
+
     }
 
     ofstream arrayFile;
@@ -178,6 +199,7 @@ int main(int argc, char **argv) {
     resetLauncher.close();
 
     uninit();
+    SDL_KillThread(mapLoader);
     SDL_KillThread( axisMathThread );
 
     return 0;
