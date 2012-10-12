@@ -352,8 +352,42 @@ if(fast){
     }
 
 
-    signed int zombAcc1 = rand() % 650 - 650;
+    signed int zombAcc1 = rand() % 200 + 50;
 
+    //int zombAcc1 = 50;
+
+    SDL_Rect zombAcc;
+    zombAcc.w = (zombAcc1 * 2);
+    zombAcc.h = (zombAcc1 * 2);
+    zombAcc.x = (zomb.x + 50) - zombAcc1;
+    zombAcc.y = (zomb.y + 63) - zombAcc1;
+
+    switch( type ) {
+        case 0:
+            if( (heroR.x + 50) > (zombAcc.x + zombAcc.w)) zomb.x++;
+            else if( (heroR.x + 50) < zombAcc.x) zomb.x--;
+
+            if( ( heroR.y + 63) > (zombAcc.y + zombAcc.h)) zomb.y++;
+            else if( (heroR.y + 63) < zombAcc.y ) zomb.y--;
+        break;
+
+        case 1:
+            if( (heroR.x + 50) > (zombAcc.x + zombAcc.w)) zomb.x+=2;
+            else if( (heroR.x + 50) < zombAcc.x) zomb.x-=2;
+
+            if( ( heroR.y + 63) > (zombAcc.y + zombAcc.h)) zomb.y+=2;
+            else if( (heroR.y + 63) < zombAcc.y ) zomb.y-=2;
+        break;
+
+        case 2:
+            if( (heroR.x + 50) > (zombAcc.x + zombAcc.w)) zomb.x+=2;
+            else if( (heroR.x + 50) < zombAcc.x) zomb.x-=2;
+
+            if( ( heroR.y + 63) > (zombAcc.y + zombAcc.h)) zomb.y+=2;
+            else if( (heroR.y + 63) < zombAcc.y ) zomb.y-=2;
+        break;
+    }
+/*
     switch( type ) {
         case 0:
             if( heroR.x > zomb.x ) {
@@ -385,6 +419,7 @@ if(fast){
             else if( heroR.y < ( zomb.y + zombAcc1) ) zomb.y -= 2;
             break;
     }
+    */
 if(fast) {
     zomb.x += mapOffsetXAmt;
     zomb.y += mapOffsetYAmt;
