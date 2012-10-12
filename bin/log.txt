@@ -1,6 +1,6 @@
-Total time spent in game: 30 seconds
-Average fps: 61
-Total frames: 1839
+Total time spent in game: 9 seconds
+Average fps: 38
+Total frames: 344
 
 Difficulty: medium
 Graphics level: high

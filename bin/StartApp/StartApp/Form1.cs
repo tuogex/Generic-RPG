@@ -92,13 +92,9 @@ namespace StartApp
             {
                 musicString = "1";
             }
-            else if (userMusicCirc.Checked)
-            {
-                musicString = "2";
-            }
             else if (noMusicCirc.Checked)
             {
-                musicString = "3";
+                musicString = "2";
             }
 
             if (resetSaves.Checked || firstTime.Checked)
@@ -173,6 +169,11 @@ namespace StartApp
         }
 
         private void firstTime_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
         {
 
         }

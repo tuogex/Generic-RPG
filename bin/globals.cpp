@@ -40,6 +40,8 @@ const int ghostAmt = 5;
 bool ifOrt;
 bool ifOrtSetting;
 
+bool ifNoSound;
+
 Uint32 startTime;
 Uint32 gameTime;
 

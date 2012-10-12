@@ -255,6 +255,7 @@ extern Actor ghost;
 
 extern bool ifOrt;
 
+extern bool ifNoSound;
 
 extern int charPos;
 

@@ -22,7 +22,7 @@ int intro() {
 
     screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE );
 
-    Mix_PlayMusic( introMusic, -1 );
+    if( !ifNoSound) Mix_PlayMusic( introMusic, -1 );
 
     introMessage = TTF_RenderText_Solid( font, "Sub-Par Game Dev presents...", whiteTextColor );
 
@@ -278,6 +278,7 @@ bool settingsFile() {
     devMode >> devModeStr;
     if( devModeStr == "yes" ) {
         devModeB = true;
+        ifNoSound = true;
     } else if( devModeStr == "no" ) {
         devModeB = false;
     } else {
@@ -295,6 +296,16 @@ bool settingsFile() {
         ifOrtSetting = false;
     } else {
         return false;
+    }
+
+    ifstream musicPreference;
+    musicPreference.open("settings/musicPref");
+    string musicString;
+    musicPreference >> musicString;
+    if( musicString == "1") {
+        ifNoSound = false;
+    } else if( musicString == "2" ) {
+        ifNoSound = true;
     }
 
     ifstream gameSave;

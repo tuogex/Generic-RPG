@@ -129,7 +129,9 @@ int main(int argc, char **argv) {
 
     Uint32 fpsReg = SDL_GetTicks();
 
-    if( devModeB == false ) Mix_PlayMusic( gameMusic, -1 );
+    if( !ifNoSound ) Mix_PlayMusic( gameMusic, -1 );
+    if( devModeB ) Mix_CloseAudio();
+    if( ifNoSound ) Mix_CloseAudio();
 
     fpsTime.start();
     update.start();
@@ -865,7 +867,10 @@ if(controlMode == 1) {
     if( (heroR.y + 63) < mouseDesY ) yVel++;
     else if((heroR.y + 63) > mouseDesY ) yVel--;
 }
+
+if( !ifNoSound ) {
     if( !playSlash && playerSlash && !devModeB ) { Mix_PlayChannel( -1, slash, 0 ); playSlash = true; }
+}
 
     hero.slashTime();
     hero.move( xVel, yVel );

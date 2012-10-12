@@ -40,7 +40,6 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.noMusicCirc = new System.Windows.Forms.RadioButton();
-            this.userMusicCirc = new System.Windows.Forms.RadioButton();
             this.gameMusicCirc = new System.Windows.Forms.RadioButton();
             this.officialWeb = new System.Windows.Forms.LinkLabel();
             this.resetSaves = new System.Windows.Forms.CheckBox();
@@ -155,19 +154,19 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.noMusicCirc);
-            this.groupBox2.Controls.Add(this.userMusicCirc);
             this.groupBox2.Controls.Add(this.gameMusicCirc);
             this.groupBox2.Location = new System.Drawing.Point(258, 107);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(128, 86);
+            this.groupBox2.Size = new System.Drawing.Size(128, 78);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Audio Preference";
+            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // noMusicCirc
             // 
             this.noMusicCirc.AutoSize = true;
-            this.noMusicCirc.Location = new System.Drawing.Point(7, 66);
+            this.noMusicCirc.Location = new System.Drawing.Point(7, 43);
             this.noMusicCirc.Name = "noMusicCirc";
             this.noMusicCirc.Size = new System.Drawing.Size(70, 17);
             this.noMusicCirc.TabIndex = 2;
@@ -175,18 +174,6 @@
             this.noMusicCirc.Text = "No Music";
             this.noMusicCirc.UseVisualStyleBackColor = true;
             this.noMusicCirc.CheckedChanged += new System.EventHandler(this.noMusicCirc_CheckedChanged);
-            // 
-            // userMusicCirc
-            // 
-            this.userMusicCirc.AutoSize = true;
-            this.userMusicCirc.Location = new System.Drawing.Point(7, 43);
-            this.userMusicCirc.Name = "userMusicCirc";
-            this.userMusicCirc.Size = new System.Drawing.Size(78, 17);
-            this.userMusicCirc.TabIndex = 1;
-            this.userMusicCirc.TabStop = true;
-            this.userMusicCirc.Text = "User Music";
-            this.userMusicCirc.UseVisualStyleBackColor = true;
-            this.userMusicCirc.CheckedChanged += new System.EventHandler(this.userMusicCirc_CheckedChanged);
             // 
             // gameMusicCirc
             // 
@@ -280,7 +267,6 @@
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton gameMusicCirc;
-        private System.Windows.Forms.RadioButton userMusicCirc;
         private System.Windows.Forms.RadioButton noMusicCirc;
         private System.Windows.Forms.LinkLabel officialWeb;
         private System.Windows.Forms.CheckBox resetSaves;
