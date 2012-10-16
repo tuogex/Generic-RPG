@@ -59,6 +59,8 @@ extern bool skelXp[];
 extern bool ortXp[];
 extern bool ghostXp[];
 
+
+
 extern signed int zombOffsetX[];
 extern signed int zombOffsetY[];
 
@@ -224,6 +226,8 @@ extern SDL_Surface *zombSurf[];
 extern SDL_Surface *skelSurf[];
 extern SDL_Surface *ortSurf[];
 extern SDL_Surface *ghostSurf[];
+
+extern SDL_Surface *map11;
 
 extern SDL_Surface *heroMagicaShow;
 

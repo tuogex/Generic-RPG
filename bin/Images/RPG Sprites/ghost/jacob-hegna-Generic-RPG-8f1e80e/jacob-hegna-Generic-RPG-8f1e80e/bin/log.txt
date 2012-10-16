@@ -1,0 +1,12 @@
+Total time spent in game: 41 seconds
+Average fps: 63
+Total frames: 2618
+
+Difficulty: medium
+Graphics level: high
+
+SDL Init: SUCCEDED
+
+Development Mode Loader: SUCCEDED
+Graphics setting loader: SUCCEDED
+Difficulty setting loader: SUCCEDED

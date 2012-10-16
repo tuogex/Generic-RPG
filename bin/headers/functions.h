@@ -18,6 +18,8 @@ void load_files();
 
 int axisMath();
 
+void imageMapRender();
+
 void keyReg(SDL_Event event);
 
 void drawMapFast(int offsetX, int offsetY, int **intMap );
