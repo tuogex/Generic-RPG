@@ -7,6 +7,9 @@
 class Actor {
 private:
     int x, y;
+
+    int portalX, portalY;
+
 public:
     Actor();
     ~Actor();
@@ -19,6 +22,7 @@ public:
     void getMobCoord();
     void keyReg(SDL_Event event);
     void showHero();
+    void miscMapItems();
 };
 
 void saveGame(int location);

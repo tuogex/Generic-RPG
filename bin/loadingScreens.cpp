@@ -67,7 +67,7 @@ int intro() {
 			}
 		}
 
-/*
+
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT * 2, fileReader12->map);
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT, fileReader11->map);
         drawMapFast1(SCREEN_WIDTH, 0, fileReader10->map);
@@ -79,9 +79,9 @@ int intro() {
         drawMapFast1(0, SCREEN_HEIGHT, errorFix->map);
         drawMapFast1(0, SCREEN_HEIGHT * 2, fileReader22->map);
         drawMapFast1(0, 0, fileReader20->map);
-*/
 
-        imageMapRender();
+
+        //imageMapRender();
 
         if(xSlow == 0) {
             mapOffsetXAmt--;
@@ -103,7 +103,8 @@ int intro() {
 	int x = mapOffsetYAmt;
 if(!quit) {
 	for( int i = 0; i <= x; i++ ) {
-	    /*
+
+
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT * 2, fileReader12->map);
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT, fileReader11->map);
         drawMapFast1(SCREEN_WIDTH, 0, fileReader10->map);
@@ -115,9 +116,9 @@ if(!quit) {
         drawMapFast1(0, SCREEN_HEIGHT, errorFix->map);
         drawMapFast1(0, SCREEN_HEIGHT * 2, fileReader22->map);
         drawMapFast1(0, 0, fileReader20->map);
-*/
 
-        imageMapRender();
+
+        //imageMapRender();
 
         mapOffsetXAmt++;
         mapOffsetYAmt--;

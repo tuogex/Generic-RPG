@@ -21,6 +21,9 @@ OF THE AUTHORS OF THE SOURCE CODE.
 #include <windows.h>
 #include <process.h>
 #include <SDL/SDL_thread.h>
+#include <cstdio>
+#include <fcntl.h>
+#include <io.h>
 
 #include "headers/game_engine.h"
 #include "headers/SDL_functions.h"
@@ -30,22 +33,10 @@ OF THE AUTHORS OF THE SOURCE CODE.
 #include "headers/timer.h"
 #include "headers/loadingScreens.h"
 
-
+#define NO_STDIO_REDIRECT
 
 using namespace std;
 
-
-int mapper( void *data ) {
-
-    while(!quit) {
-
-        movePlayer(event);
-
-        while(!moveOn) {}
-
-    }
-
-}
 
 
 /////////////////////////////////////
@@ -62,14 +53,18 @@ int main(int argc, char **argv) {
 
     settingsFile();
 
+    bossOneHealth = 5000;
+    boss1Rect.w = 175;
+    boss1Rect.h = 175;
+
     for( int j = 0; j < zombAmt; j++ ) {
         zombRect[j].x = rand() % (480 + 240) + 800;
         zombRect[j].y = rand() % (317 + 240) + 600;
     }
 
     for( int t = 0; t < zombAmt; t++ ) {
-        zombOffsetX[t] = -1000;
-        zombOffsetY[t] = -1000;
+        zombOffsetX[t] = rand() % (2400 + 0) - 800;
+        zombOffsetY[t] = rand() % (1800 + 0) - 600;
     }
 
     for( int q = 0; q < skelAmt; q++ ) {
@@ -78,8 +73,8 @@ int main(int argc, char **argv) {
     }
 
     for( int w = 0; w < skelAmt; w++ ) {
-        skelOffsetX[w] = 800;
-        skelOffsetY[w] = 600;
+        skelOffsetX[w] = rand() % (2400 + 0) - 800;
+        skelOffsetY[w] = rand() % (1800 + 0) - 600;
     }
 
     for( int qx = 0; qx < ortAmt; qx++ ) {
@@ -88,16 +83,16 @@ int main(int argc, char **argv) {
     }
 
     for( int wx = 0; wx < ortAmt; wx++ ) {
-        ortOffsetX[wx] = 1000;
-        ortOffsetY[wx] = 1000;
+        ortOffsetX[wx] = rand() % (2400 + 0) - 800;
+        ortOffsetY[wx] = rand() % (1800 + 0) - 600;
     }
 
     for( int gh = 0; gh < ghostAmt; gh++ ) {
         ghostRect[gh].x = rand() % (600 + 200) + 800;
         ghostRect[gh].y = rand() % (360 + 200) - 600;
 
-        ghostOffsetX[gh] = 1000;
-        ghostOffsetY[gh] = -1000;
+        ghostOffsetX[gh] = rand() % (2400 + 0) - 800;
+        ghostOffsetY[gh] = rand() % (1800 + 0) - 600;
     }
 
 /*
@@ -158,8 +153,9 @@ int main(int argc, char **argv) {
         SDL_FillRect(screen,NULL,0xFFFFFF);
         hero.slashTime();
         gameTime = SDL_GetTicks() - startTime;
-        //mapPicker();
-        imageMapRender();
+        mapPicker();
+        //imageMapRender();
+        hero.miscMapItems();
         items();
         skeleton.mobs();
         hero.keyReg(event);
@@ -230,7 +226,7 @@ void imageMapRender() {
     apply_surface( 800 - mapOffsetXAmt, 600 - mapOffsetYAmt, map11, screen);
 */
 
-    apply_surface ( -800 - mapOffsetXAmt, -600 - mapOffsetYAmt, map11, screen );
+    apply_surface ( -800 - mapOffsetXAmt, -600 - mapOffsetYAmt, mapImage[mapLevel], screen );
 
 }
 
@@ -389,7 +385,7 @@ if(!fast) {
 
 void HUD() {
 
-        for( int i = 0; i < gameLevel; i++ ) {
+        for( int i = 0; i < mapLevel; i++ ) {
             apply_surface(3 + i*23, SCREEN_HEIGHT - 85, levelTick, screen );
         }
 
@@ -497,25 +493,33 @@ void items() {
         if( ( heroR.x + (heroR.w/2) < ((healthPckR.x + healthPckR.w + 175) - mapOffsetXAmt) ) ) {
             if( heroR.y < ((healthPckR.y + healthPckR.h + 175) - mapOffsetYAmt) ) {
                 if( wantHealthPck ) {
+                    healthPackUsed = true;
                     heroHealth += 150;
-                    healthPck = NULL;
-                    healthPckR.w = 0;
-                    healthPckR.h = 0;
-                    healthPckR.x = 99999999;
-                    healthPckR.y = 99999999;
                 }
             }
         }
+    }
+
+    if( healthPackUsed ) {
+        healthPck = NULL;
+        healthPckR.w = 0;
+        healthPckR.h = 0;
+        healthPckR.x = 99999999;
+        healthPckR.y = 99999999;
     }
 }
 
 void Actor::mobs() {
 
-if( gameLevel >= 3 ) {
-    for(int i = 0; i < zombAmt; i++ ) {
-        zombie.moveMob( 0, zombRect[i], zombRespawn[i], zombDead[i], zombHealth[i], zombHealthShow[i], zombXp[i], zombSurf[i], zombOffsetX[i], zombOffsetY[i] );
+if( !ifPortal ) {
+
+if( mapLevel != 4 ) {
+    if( mapLevel >= 3 ) {
+        for(int i = 0; i < zombAmt; i++ ) {
+            zombie.moveMob( 0, zombRect[i], zombRespawn[i], zombDead[i], zombHealth[i], zombHealthShow[i], zombXp[i], zombSurf[i], zombOffsetX[i], zombOffsetY[i] );
+        }
     }
-}
+
     for(int j = 0; j < skelAmt; j++ ) {
         skeleton.moveMob( 1, skelRect[j], skelRespawn[j], skelDead[j], skelHealth[j], skelHealthShow[j], skelXp[j], skelSurf[j], skelOffsetX[j], skelOffsetY[j] );
     }
@@ -526,11 +530,19 @@ if( gameLevel >= 3 ) {
         }
     }
 
-if( gameLevel >= 2 ) {
+if( mapLevel >= 2 ) {
     for( int gh = 0; gh < ghostAmt; gh++ ) {
-        ghost.moveMob( 0, ghostRect[gh], ghostRespawn[gh], ghostDead[gh], ghostHealth[gh], ghostHealthShow[gh], ghostXp[gh], ghostSurf[gh], ghostOffsetX[gh], ghostOffsetY[gh] );
+        ghost.moveMob( 2, ghostRect[gh], ghostRespawn[gh], ghostDead[gh], ghostHealth[gh], ghostHealthShow[gh], ghostXp[gh], ghostSurf[gh], ghostOffsetX[gh], ghostOffsetY[gh] );
     }
 }
+
+}
+}
+    bool idk = true;
+
+    if( mapLevel == 4 )
+        bossOne.moveMob( 5, boss1Rect, ghostRespawn[1], boss1Dead, bossOneHealth, bossOneHealthSurf, idk, bossOneSurf, boss1OffsetX, boss1OffsetY );
+
 }
 
 /////////////////////////////////////
@@ -649,7 +661,7 @@ void load_files() {
         ghostRect[yy].w = 100;
         ghostRect[yy].h = 126;
 
-        ghostHealth[yy] = 500;
+        ghostHealth[yy] = 350;
     }
 
     for( int u = 0; u < zombAmt; u++ ) {
@@ -685,14 +697,22 @@ void load_files() {
     healthPckR.h = 50;
     healthPckR.w = 50;
 
-    grass = load_image( "Images/Other/grass4.png" );
-    road = load_image( "Images/Other/concrete2.png" );
-    water = load_image( "Images/Other/water.png" );
+    grass = load_image( "Images/Other/level1/grass4.png" );
+    road = load_image( "Images/Other/level1/concrete2.png" );
+    water = load_image( "Images/Other/level1/water.png" );
 
     backbackground = load_image( "images/Other/backbackground.png" );
     levelTick = load_image("images/HUD/levelTick.png");
 
-    map11 = load_image("maps/images/bigMap.png");
+    mapImage[1] = load_image("images/maps/1.png");
+    mapImage[2] = load_image("images/maps/2.png");
+    mapImage[3] = load_image("images/maps/3.png");
+
+
+
+    portalSurf = load_image("images/Items/portal.png");
+
+    bossOneSurf = load_image("images/RPG sprites/bosses/bossOne.png");
 }
 
 /////////////////////////////////////
@@ -765,11 +785,12 @@ void Actor::keyReg(SDL_Event event) {
         case SDLK_F2:
             controlMode = 1;
             break;
-        case SDLK_CAPSLOCK:
-            if(!heroTeleOnce) heroTele = true;
-            break;
-        case SDLK_c:
+        //case SDLK_CAPSLOCK:
+            //if(!heroTeleOnce) heroTele = true;
+            //break;
+        case SDLK_e:
             wantHealthPck = true;
+            wantPortal = true;
             break;
         default:
             break;
@@ -806,16 +827,16 @@ void Actor::keyReg(SDL_Event event) {
             heroMagicaWant = false;
             break;
         case SDLK_e:
-            heroTeleOnce = false;
-            heroTele = false;
-            break;
-        case SDLK_c:
             wantHealthPck = false;
+            wantPortal = false;
             break;
         case SDLK_SPACE:
             spaceClick = false;
             playerSlash = false;
             playSlash = false;
+            break;
+        case SDLK_RETURN:
+            devPortalSkip = true;
             break;
         default:
             break;
@@ -890,7 +911,7 @@ if(controlMode == 1) {
 }
 
 if( !ifNoSound ) {
-    if( !playSlash && playerSlash && !devModeB ) { Mix_PlayChannel( -1, slash, 0 ); playSlash = true; }
+    if( !playSlash && playerSlash && !devModeB ) { /*Mix_PlayChannel( -1, slash, 0 );*/ playSlash = true; }
 }
 
     hero.slashTime();

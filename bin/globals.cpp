@@ -9,6 +9,12 @@
 SDL_Thread *axisMathThread = NULL;
 SDL_Thread *mapLoader = NULL;
 
+int mapLevel = 1;
+bool ifPortal;
+bool wantPortal;
+
+bool devPortalSkip;
+
 bool moveOn;
 
 int MAP_WIDTH;
@@ -32,10 +38,10 @@ bool graphicsFail= false;
 bool devModeError;
 
 bool initFail= false;
-const int zombAmt = 5;
-const int skelAmt = 4;
-const int ortAmt = 10;
-const int ghostAmt = 5;
+const int zombAmt = 8;
+const int skelAmt = 5;
+const int ortAmt = 30;
+const int ghostAmt = 3;
 
 bool ifOrt;
 bool ifOrtSetting;
@@ -55,6 +61,9 @@ int totalGameFrames;
 int currentFps;
 int heroUpdateTime;
 
+Uint32 heroMoveTimerReset = 0;
+Uint32 mapOffsetTimer = 0;
+
 int xp;
 bool zombXp[zombAmt];
 bool skelXp[skelAmt];
@@ -63,6 +72,9 @@ bool ghostXp[ghostAmt];
 
 signed int zombOffsetX[zombAmt];
 signed int zombOffsetY[zombAmt];
+
+signed int boss1OffsetX;
+signed int boss1OffsetY;
 
 signed int skelOffsetX[skelAmt];
 signed int skelOffsetY[skelAmt];
@@ -84,6 +96,7 @@ SDL_Rect zombRect[zombAmt];
 SDL_Rect skelRect[skelAmt];
 SDL_Rect ortRect[ortAmt];
 SDL_Rect ghostRect[ghostAmt];
+SDL_Rect boss1Rect;
 
 int mapDetail[50][38];
 
@@ -112,6 +125,7 @@ bool zombDead[zombAmt];
 bool skelDead[skelAmt];
 bool ortDead[ortAmt];
 bool ghostDead[ghostAmt];
+bool boss1Dead;
 
 Uint32 zombRespawn[zombAmt];
 Uint32 skelRespawn[skelAmt];
@@ -122,6 +136,7 @@ unsigned int zombHealth[zombAmt];
 unsigned int skelHealth[skelAmt];
 unsigned int ortHealth[ortAmt];
 unsigned int ghostHealth[ghostAmt];
+unsigned int bossOneHealth;
 
 int mapAmt = 3;
 
@@ -203,6 +218,8 @@ SDL_Surface *levelSh = NULL;
 SDL_Surface *healthPck = NULL;
 SDL_Surface *levelTick = NULL;
 
+SDL_Surface *portalSurf = NULL;
+
 SDL_Surface *zombHealthShow[zombAmt];
 SDL_Surface *skelHealthShow[zombAmt];
 SDL_Surface *ortHealthShow[ortAmt];
@@ -213,7 +230,10 @@ SDL_Surface *skelSurf[skelAmt];
 SDL_Surface *ortSurf[ortAmt];
 SDL_Surface *ghostSurf[ghostAmt];
 
-SDL_Surface *map11 = NULL;
+SDL_Surface *bossOneSurf = NULL;
+SDL_Surface *bossOneHealthSurf = NULL;
+
+SDL_Surface *mapImage[5];
 
 SDL_Surface *heroMagicaShow = NULL;
 
@@ -251,10 +271,14 @@ bool playerRight;
 bool playerLeft;
 bool keyDown;
 
+bool healthPackUsed;
+
 Actor hero;
 Actor zombie;
 Actor skeleton;
 Actor ortman;
 Actor ghost;
+
+Actor bossOne;
 
 int frameCount = 0;

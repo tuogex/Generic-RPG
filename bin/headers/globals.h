@@ -16,6 +16,12 @@
 extern SDL_Thread *axisMathThread;
 extern SDL_Thread *mapLoader;
 
+extern int mapLevel;
+extern bool ifPortal;
+extern bool wantPortal;
+
+extern bool devPortalSkip;
+
 extern bool moveOn;
 
 extern int MAP_WIDTH;
@@ -64,6 +70,9 @@ extern bool ghostXp[];
 extern signed int zombOffsetX[];
 extern signed int zombOffsetY[];
 
+extern signed int boss1OffsetX;
+extern signed int boss1OffsetY;
+
 extern signed int skelOffsetX[];
 extern signed int skelOffsetY[];
 
@@ -83,6 +92,7 @@ extern SDL_Rect zombRect[];
 extern SDL_Rect skelRect[];
 extern SDL_Rect ortRect[];
 extern SDL_Rect ghostRect[];
+extern SDL_Rect boss1Rect;
 
 extern int mapDetail[50][38];
 
@@ -96,6 +106,9 @@ extern int totalGameFrames;
 extern Timer totalGameTime;
 extern int currentFps;
 extern int heroUpdateTime;
+
+extern Uint32 heroMoveTimerReset;
+extern Uint32 mapOffsetTimer;
 
 extern int heroX;
 extern int heroY;
@@ -122,6 +135,7 @@ extern bool zombDead[];
 extern bool skelDead[];
 extern bool ortDead[];
 extern bool ghostDead[];
+extern bool boss1Dead;
 
 extern Uint32 zombRespawn[];
 extern Uint32 skelRespawn[];
@@ -132,6 +146,7 @@ extern unsigned int zombHealth[];
 extern unsigned int skelHealth[];
 extern unsigned int ortHealth[];
 extern unsigned int ghostHealth[];
+extern unsigned int bossOneHealth;
 
 extern unsigned int zomb1Health;
 extern unsigned int zomb2Health;
@@ -217,6 +232,8 @@ extern SDL_Surface *levelSh;
 extern SDL_Surface *healthPck;
 extern SDL_Surface *levelTick;
 
+extern SDL_Surface *portalSurf;
+
 extern SDL_Surface *zombHealthShow[];
 extern SDL_Surface *skelHealthShow[];
 extern SDL_Surface *ortHealthShow[];
@@ -227,9 +244,12 @@ extern SDL_Surface *skelSurf[];
 extern SDL_Surface *ortSurf[];
 extern SDL_Surface *ghostSurf[];
 
-extern SDL_Surface *map11;
+extern SDL_Surface *mapImage[];
 
 extern SDL_Surface *heroMagicaShow;
+
+extern SDL_Surface *bossOneSurf;
+extern SDL_Surface *bossOneHealthSurf;
 
 extern SDL_Rect zombHitSquare;
 
@@ -257,6 +277,8 @@ extern Actor skeleton;
 extern Actor ortman;
 extern Actor ghost;
 
+extern Actor bossOne;
+
 extern bool ifOrt;
 
 extern bool ifNoSound;
@@ -277,6 +299,8 @@ extern bool playerDown;
 extern bool playerRight;
 extern bool playerLeft;
 extern bool keyDown;
+
+extern bool healthPackUsed;
 
 extern int frameCount;
 

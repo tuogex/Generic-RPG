@@ -1650,7 +1650,7 @@
 	"headers/globals.h"
 	"headers/file_reader.h"
 
-1350272326 c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\globals.h
+1350788574 c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\globals.h
 	<SDL/SDL.h>
 	<SDL/SDL_ttf.h>
 	<SDL/SDL_image.h>
@@ -1663,12 +1663,12 @@
 1344457506 c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\file_reader.h
 	"globals.h"
 
-1349839249 c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\game_engine.h
+1350706016 c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\game_engine.h
 	<SDL/SDL.h>
 
 1345508950 c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\timer.h
 
-1350272327 source:c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\globals.cpp
+1350788574 source:c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\globals.cpp
 	"headers/globals.h"
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
@@ -1679,7 +1679,7 @@
 
 1349620044 source:c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\resources.rc
 
-1350350440 source:c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\loadingscreens.cpp
+1350704327 source:c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\loadingscreens.cpp
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
 	<SDL/SDL_mixer.h>
@@ -1699,13 +1699,13 @@
 	<string>
 	<SDL\SDL.h>
 
-1350347585 c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\functions.h
+1350255676 c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\functions.h
 	<SDL\SDL.h>
 	<string>
 
 1349621819 c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\headers\loadingscreens.h
 
-1350349497 source:c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\main.cpp
+1350791699 source:c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\main.cpp
 	<windows.h>
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
@@ -1719,6 +1719,9 @@
 	<windows.h>
 	<process.h>
 	<SDL/SDL_thread.h>
+	<cstdio>
+	<fcntl.h>
+	<io.h>
 	"headers/game_engine.h"
 	"headers/SDL_functions.h"
 	"headers/globals.h"
@@ -1736,7 +1739,7 @@
 	<SDL\SDL_image.h>
 	<string>
 
-1350348602 source:c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\game_engine.cpp
+1350792513 source:c:\users\jacob pc\dropbox\other useless stuff\coding\generic rpg\bin\game_engine.cpp
 	<string>
 	<sstream>
 	<math.h>
@@ -1745,4 +1748,104 @@
 	"headers/game_engine.h"
 	"headers/globals.h"
 	"headers/SDL_functions.h"
+
+1348987891 source:c:\dropbox\other useless stuff\coding\generic rpg\bin\file_reader.cpp
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<exception>
+	<fstream>
+	<string>
+	"headers/globals.h"
+	"headers/file_reader.h"
+
+1350752232 c:\dropbox\other useless stuff\coding\generic rpg\bin\headers\globals.h
+	<SDL/SDL.h>
+	<SDL/SDL_ttf.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_mixer.h>
+	<string>
+	"file_reader.h"
+	"game_engine.h"
+	"timer.h"
+
+1344457506 c:\dropbox\other useless stuff\coding\generic rpg\bin\headers\file_reader.h
+	"globals.h"
+
+1350706016 c:\dropbox\other useless stuff\coding\generic rpg\bin\headers\game_engine.h
+	<SDL/SDL.h>
+
+1345508950 c:\dropbox\other useless stuff\coding\generic rpg\bin\headers\timer.h
+
+1350714812 source:c:\dropbox\other useless stuff\coding\generic rpg\bin\game_engine.cpp
+	<string>
+	<sstream>
+	<math.h>
+	<fstream>
+	<stdio.h>
+	"headers/game_engine.h"
+	"headers/globals.h"
+	"headers/SDL_functions.h"
+
+1344309672 c:\dropbox\other useless stuff\coding\generic rpg\bin\headers\sdl_functions.h
+	<string>
+	<SDL\SDL.h>
+
+1349620044 source:c:\dropbox\other useless stuff\coding\generic rpg\bin\headers\resources.rc
+
+1350704327 source:c:\dropbox\other useless stuff\coding\generic rpg\bin\loadingscreens.cpp
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_mixer.h>
+	<SDL/SDL_ttf.h>
+	<string>
+	<sstream>
+	<fstream>
+	"headers/game_engine.h"
+	"headers/SDL_functions.h"
+	"headers/globals.h"
+	"headers/file_reader.h"
+	"headers/functions.h"
+	"headers/timer.h"
+	"headers/loadingScreens.h"
+
+1350255676 c:\dropbox\other useless stuff\coding\generic rpg\bin\headers\functions.h
+	<SDL\SDL.h>
+	<string>
+
+1349621819 c:\dropbox\other useless stuff\coding\generic rpg\bin\headers\loadingscreens.h
+
+1350714813 source:c:\dropbox\other useless stuff\coding\generic rpg\bin\main.cpp
+	<windows.h>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_ttf.h>
+	<SDL/SDL_mixer.h>
+	<string>
+	<sstream>
+	<fstream>
+	<iostream>
+	<time.h>
+	<windows.h>
+	<process.h>
+	<SDL/SDL_thread.h>
+	<cstdio>
+	<fcntl.h>
+	<io.h>
+	"headers/game_engine.h"
+	"headers/SDL_functions.h"
+	"headers/globals.h"
+	"headers/file_reader.h"
+	"headers/functions.h"
+	"headers/timer.h"
+	"headers/loadingScreens.h"
+
+1345160194 source:c:\dropbox\other useless stuff\coding\generic rpg\bin\timer.cpp
+	<SDL/SDL.h>
+	"headers/timer.h"
+
+1345165924 source:c:\dropbox\other useless stuff\coding\generic rpg\bin\sdl_functions.cpp
+	<SDL\SDL.h>
+	<SDL\SDL_image.h>
+	<string>
 

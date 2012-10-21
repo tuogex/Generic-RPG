@@ -16,6 +16,96 @@ Actor::Actor() {
 
 Actor::~Actor() {}
 
+
+void Actor::miscMapItems() {
+
+    portalX = ( (SCREEN_WIDTH /2 ) - 75) - mapOffsetXAmt;
+    portalY = ((SCREEN_HEIGHT/2) - 75 ) - mapOffsetYAmt;
+
+    if( ( totalEnemyKills > mapLevel * 20 ) ) {
+        apply_surface ( portalX, portalY, portalSurf, screen );
+
+        ifPortal = true;
+
+        if( ( heroR.x >  portalX - 50 ) && ( heroR.x + heroR.w < portalX + 200 ) && wantPortal ) {
+
+            if( ( heroR.y > portalY - 50 ) && ( heroR.y + heroR.h < portalY + 200 ) ) {
+                mapLevel += 1;
+
+                mapOffsetXAmt = 0;
+                mapOffsetYAmt = 0;
+
+                x = ( SCREEN_WIDTH / 2 ) - 50;
+                y = (SCREEN_HEIGHT / 2) - 67;
+
+                if( mapLevel == 2 ) {
+                    water = load_image("images/other/level2/water.png");
+                    grass = load_image("images/other/level2/grass.png");
+                    road = load_image("images/other/level2/concrete.png");
+                }
+
+                if( mapLevel == 3 ) {
+                    water = load_image("images/other/level3/water.png");
+                    grass = load_image("images/other/level3/grass.png");
+                    road = load_image("images/other/level3/concrete.png");
+                }
+
+                if( mapLevel == 4 ) {
+                    water = load_image("images/other/level4/water.png");
+                    grass = load_image("images/other/level4/grass.png");
+                    road = load_image("images/other/level4/concrete.png");
+                }
+
+                for( int j = 0; j < zombAmt; j++ ) {
+        zombRect[j].x = rand() % (480 + 240) + 800;
+        zombRect[j].y = rand() % (317 + 240) + 600;
+    }
+
+    for( int t = 0; t < zombAmt; t++ ) {
+        zombOffsetX[t] = -1000;
+        zombOffsetY[t] = -1000;
+    }
+
+    for( int q = 0; q < skelAmt; q++ ) {
+        skelRect[q].x = rand() % (480 + 240) - 800;
+        skelRect[q].y = rand() % (317 + 240) - 600;
+    }
+
+    for( int w = 0; w < skelAmt; w++ ) {
+        skelOffsetX[w] = 800;
+        skelOffsetY[w] = 600;
+    }
+
+    for( int qx = 0; qx < ortAmt; qx++ ) {
+        ortRect[qx].x = rand() % (480 + 240) - 800;
+        ortRect[qx].y = rand() % (317 + 240) + 600;
+    }
+
+    for( int wx = 0; wx < ortAmt; wx++ ) {
+        ortOffsetX[wx] = 1000;
+        ortOffsetY[wx] = 1000;
+    }
+
+    for( int gh = 0; gh < ghostAmt; gh++ ) {
+        ghostRect[gh].x = rand() % (600 + 200) + 800;
+        ghostRect[gh].y = rand() % (360 + 200) - 600;
+
+        ghostOffsetX[gh] = 1000;
+        ghostOffsetY[gh] = -1000;
+    }
+            }
+
+        }
+
+    devPortalSkip = false;
+
+    } else {
+        ifPortal = false;
+    }
+
+}
+
+
 void Actor::slashTime() {
     if( SDL_GetTicks() - attackTime > 100 ) {
         playerSlash = false;
@@ -53,10 +143,9 @@ void Actor::getLastHeroCord() {
 void Actor::showHero() {
 
         switch( charPos ) {
-        case 1:
-        /*
+        case 1:/*
             if( ( totalGameTime.get_ticks() - heroUpdateTime < 500 ) && keyDown ) {
-                if(!playerSlash) apply_surface( x, y, heroFront, screen );
+                if(!playerSlash) apply_surface( x, y, heroFront, screen );s
                 else apply_surface(x, y, heroSlashFront, screen );
             } else if( keyDown ) {
                 apply_surface(x, y, heroAnimateTest, screen);
@@ -68,6 +157,7 @@ void Actor::showHero() {
             }*/
             if(!playerSlash) apply_surface( x, y, heroFront, screen );
             else apply_surface(x, y, heroSlashFront, screen );
+
             break;
         case 2:
             if(!playerSlash) apply_surface( x, y, heroBack, screen );
@@ -82,7 +172,6 @@ void Actor::showHero() {
             else apply_surface( x, y, heroSlashRight, screen );
             break;
     }
-
 }
 
 
@@ -90,8 +179,8 @@ void Actor::showHero() {
 void Actor::move(int dx, int dy) {
 
     //if( heroTileType == 0 ) {
-        x += ( dx + dx );
-        y += ( dy + dy );
+        //x += ( dx + dx );
+        //y += ( dy + dy );
     //} else if( heroTileType == 1 ) {
         //x += ( dx * 3 );
         //y += ( dy * 3 );
@@ -99,6 +188,9 @@ void Actor::move(int dx, int dy) {
         //x += dx;
         //y += dy;
     //}
+
+        x += dx * 2;
+        y += dy * 2;
 
     if(!heroSpawn) {
         x = (SCREEN_WIDTH/2) - 63;
@@ -116,6 +208,7 @@ void Actor::move(int dx, int dy) {
 
     heroR.x = x;
     heroR.y = y;
+
 if(fast) {
     if( x < 100 ) {
         x = 100;
@@ -275,7 +368,7 @@ if(fast) {
         }
     }
 
-    level = xp / 100;
+    level = xp / 400;
 
     gameLevelKillsNeeded = gameLevel * 3;
 
@@ -313,7 +406,8 @@ if(fast){
                 mobHealth = 250;
                 break;
             case 2:
-                mobHealth = 300;
+                mobHealth = 350;
+                break;
         }
         zomb.w = 100;
         zomb.h = 126;
@@ -386,6 +480,14 @@ if(fast){
         break;
 
         case 2:
+            if( (heroR.x + 50) > (zombAcc.x + zombAcc.w)) zomb.x+=1;
+            else if( (heroR.x + 50) < zombAcc.x) zomb.x-=1;
+
+            if( ( heroR.y + 63) > (zombAcc.y + zombAcc.h)) zomb.y+=1;
+            else if( (heroR.y + 63) < zombAcc.y ) zomb.y-=1;
+        break;
+
+        case 5:
             if( (heroR.x + 50) > (zombAcc.x + zombAcc.w)) zomb.x+=2;
             else if( (heroR.x + 50) < zombAcc.x) zomb.x-=2;
 
@@ -542,7 +644,7 @@ bool Actor::zombHitDetect( int type, int x, int y, SDL_Rect locate ) {
         case 0:
             if( ( (heroR.x + 50) > x ) && ((heroR.y + 63)> y) ) {
                 if( ( ( heroR.x + 50 ) < x + locate.w )  && ( ( heroR.y + 63 ) < y + locate.h ) )
-                    heroHealth -= 2;
+                    heroHealth -= 3;
             }
         break;
 
@@ -550,6 +652,20 @@ bool Actor::zombHitDetect( int type, int x, int y, SDL_Rect locate ) {
             if( ( (heroR.x + 50) > x ) && ((heroR.y + 63)> y) ) {
                 if( ( ( heroR.x + 50 ) < x + locate.w )  && ( ( heroR.y + 63 ) < y + locate.h ) )
                     heroHealth -= 1;
+            }
+        break;
+
+        case 2:
+            if( ( (heroR.x + 50) > x ) && ((heroR.y + 63)> y) ) {
+                if( ( ( heroR.x + 50 ) < x + locate.w )  && ( ( heroR.y + 63 ) < y + locate.h ) )
+                    heroHealth -= 2;
+            }
+        break;
+
+        case 5:
+            if( ( (heroR.x + 50) > x ) && ((heroR.y + 63)> y) ) {
+                if( ( ( heroR.x + 50 ) < x + locate.w )  && ( ( heroR.y + 63 ) < y + locate.h ) )
+                    heroHealth -= 4;
             }
         break;
     }
