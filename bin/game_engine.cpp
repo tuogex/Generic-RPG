@@ -16,14 +16,21 @@ Actor::Actor() {
 
 Actor::~Actor() {}
 
-
 void Actor::miscMapItems() {
 
     portalX = ( (SCREEN_WIDTH /2 ) - 75) - mapOffsetXAmt;
     portalY = ((SCREEN_HEIGHT/2) - 75 ) - mapOffsetYAmt;
 
-    if( ( totalEnemyKills > mapLevel * 20 ) ) {
+    bool levelOver = false;
+
+    if( ( gameLevel == 4 ) && ( bossOneHealth <= 0 ) ) {
+        levelOver = true;
+    }
+
+    if( ( totalEnemyKills > mapLevel * 20 ) || levelOver ) {
         apply_surface ( portalX, portalY, portalSurf, screen );
+
+        levelOver = false;
 
         ifPortal = true;
 
@@ -395,6 +402,7 @@ if(fast){
     zomb.y -= mapOffsetYAmt;
 }
 
+if( type != 5 ) {
     if( ( SDL_GetTicks() - RespawnTimer >= 3000) && ifDead ) {
         ifDead = false;
         ifXp = false;
@@ -414,6 +422,7 @@ if(fast){
         zomb.x = rand() % ( rand() % 240 + 10 ) + respawnX;
         zomb.y = rand() % ( rand() % 317 + 10 ) + respawnY;
     }
+}
 
     if( zombie.zombHitDetect(type, zomb.x, zomb.y, zomb) && !ifDead ) ifDead = false;
     else  mobHealth -= 25;
@@ -422,7 +431,7 @@ if(fast){
         ifDead = true;
         totalEnemyKills += 1;
     }
-
+/*
     stringstream ss;
     ss << mobHealth;
     string healthString;
@@ -430,10 +439,37 @@ if(fast){
 
 
     mobHealthShow = TTF_RenderText_Solid(font, healthString.c_str(), whiteTextColor );
+*/
+
+
+    float maxMobHealth;
+    switch(type) {
+        case 0:
+            maxMobHealth = 500.f;
+            break;
+        case 1:
+            maxMobHealth = 250.f;
+            break;
+        case 2:
+            maxMobHealth = 350.f;
+            break;
+        case 5:
+            maxMobHealth = 10000.f;
+            break;
+    }
+
+    float mobHealthFlt = mobHealth;
+    float mobHealthAdj = 96.f * (mobHealthFlt/maxMobHealth);
 
     if( !ifDead ){
         apply_surface( zomb.x, zomb.y, zombSurf, screen );
-        apply_surface(zomb.x + 30, zomb.y - 40, mobHealthShow, screen );
+        //apply_surface(zomb.x + 30, zomb.y - 40, mobHealthShow, screen );
+
+        apply_surface( zomb.x, zomb.y - 35, mobHealthBar, screen );
+
+        for( int mh = 0; mh < mobHealthAdj; mh++ ) {
+            apply_surface( zomb.x + 2 + mh, zomb.y - 33, mobHealthBarTick, screen );
+        }
 
         /*
         apply_surface( zomb.x - mapOffsetXAmt, zomb.y - mapOffsetYAmt, zombSurf, screen );
@@ -441,6 +477,7 @@ if(fast){
         */
     }
 
+if(type != 5) {
     if( ifDead ) {
         zomb.w = 0;
         zomb.h = 0;
@@ -450,6 +487,16 @@ if(fast){
             RespawnTimer = SDL_GetTicks();
         }
     }
+} else if( type == 5 ) {
+    if(ifDead) {
+        if(!ifXp) {
+            xp += 1000;
+            ifXp = true;
+            zomb.w = 0;
+            zomb.h = 0;
+        }
+    }
+}
 
 
     signed int zombAcc1 = rand() % 200 + 50;
@@ -805,6 +852,7 @@ void saveGame(int location) {
     ofstream saveFileHM;
     ofstream saveFileMPX;
     ofstream saveFileMPY;
+    ofstream saveFileML;
 
     ofstream saveFileZXL[zombAmt];
     ofstream saveFileZYL[zombAmt];
@@ -881,6 +929,7 @@ void saveGame(int location) {
             saveFileHM.open("saves/gameOne/player/hm");
             saveFileMPX.open("saves/gameOne/game/MPX");
             saveFileMPY.open("saves/gameOne/game/MPY");
+            saveFileML.open("saves/gameOne/game/ML");
 
             saveFileSXL[0].open("saves/gameOne/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameOne/mobs/skel/SXL1");
@@ -933,6 +982,7 @@ void saveGame(int location) {
             saveFileHM.open("saves/gameTwo/player/hm");
             saveFileMPX.open("saves/gameTwo/game/MPX");
             saveFileMPY.open("saves/gameTwo/game/MPY");
+            saveFileML.open("saves/gameTwo/game/ML");
 
             saveFileSXL[0].open("saves/gameTwo/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameTwo/mobs/skel/SXL1");
@@ -985,6 +1035,7 @@ void saveGame(int location) {
             saveFileHM.open("saves/gameThree/player/hm");
             saveFileMPX.open("saves/gameThree/game/MPX");
             saveFileMPY.open("saves/gameThree/game/MPY");
+            saveFileML.open("saves/gameThree/game/ML");
 
             saveFileSXL[0].open("saves/gameThree/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameThree/mobs/skel/SXL1");
@@ -1020,6 +1071,7 @@ void saveGame(int location) {
     saveFileGL << gameLevel;
     saveFileMPX << mapPickX;
     saveFileMPY << mapPickY;
+    saveFileML << mapLevel;
 
     for(int q = 0; q < skelAmt; q++) {
         saveFileSXL[q] << skelRect[q].x;
@@ -1028,6 +1080,7 @@ void saveGame(int location) {
         saveFileSOY[q] << skelOffsetY[q];
     }
 
+    saveFileML.close();
     saveFileMOX.close();
     saveFileMOX.close();
     saveFileMOX.close();
@@ -1078,6 +1131,7 @@ void loadSave(int position) {
     ifstream saveFileHM;
     ifstream saveFileMPX;
     ifstream saveFileMPY;
+    ifstream saveFileML;
 
     ifstream saveFileZXL[zombAmt];
     ifstream saveFileZYL[zombAmt];
@@ -1102,6 +1156,7 @@ void loadSave(int position) {
             saveFileHM.open("saves/gameOne/player/hm");
             saveFileMPX.open("saves/gameOne/game/MPX");
             saveFileMPY.open("saves/gameOne/game/MPY");
+            saveFileML.open("saves/gameOne/game/ML");
 
             saveFileSXL[0].open("saves/gameOne/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameOne/mobs/skel/SXL1");
@@ -1138,6 +1193,7 @@ void loadSave(int position) {
             saveFileHM.open("saves/gameTwo/player/hm");
             saveFileMPX.open("saves/gameTwo/game/MPX");
             saveFileMPY.open("saves/gameTwo/game/MPY");
+            saveFileML.open("saves/gameTwo/game/ML");
 
             saveFileSXL[0].open("saves/gameTwo/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameTwo/mobs/skel/SXL1");
@@ -1174,6 +1230,7 @@ void loadSave(int position) {
             saveFileHM.open("saves/gameThree/player/hm");
             saveFileMPX.open("saves/gameThree/game/MPX");
             saveFileMPY.open("saves/gameThree/game/MPY");
+            saveFileML.open("saves/gameThree/game/ML");
 
             saveFileSXL[0].open("saves/gameThree/mobs/skel/SXL0");
             saveFileSXL[1].open("saves/gameThree/mobs/skel/SXL1");
@@ -1214,6 +1271,7 @@ void loadSave(int position) {
     saveFileHM >> heroMagica;
     saveFileMPX >> mapPickX;
     saveFileMPY >> mapPickY;
+    saveFileML >> mapLevel;
 
     for(int i; i < skelAmt; i++) {
         saveFileSXL[i] >> skelRect[i].x;
@@ -1223,6 +1281,7 @@ void loadSave(int position) {
     }
 
 
+    saveFileML.close();
     saveFileMOX.close();
     saveFileMOY.close();
     saveFileMPX.close();

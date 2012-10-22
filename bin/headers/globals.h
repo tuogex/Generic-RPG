@@ -13,12 +13,13 @@
 #include "game_engine.h"
 #include "timer.h"
 
-extern SDL_Thread *axisMathThread;
-extern SDL_Thread *mapLoader;
+extern SDL_Thread *consoleThread;
 
 extern int mapLevel;
 extern bool ifPortal;
 extern bool wantPortal;
+
+extern bool useKey;
 
 extern bool devPortalSkip;
 
@@ -53,6 +54,7 @@ extern const int zombAmt;
 extern const int skelAmt;
 extern const int ortAmt;
 extern const int ghostAmt;
+extern const int healthPckNum;
 
 extern Uint32 startTime;
 extern Uint32 gameTime;
@@ -64,7 +66,7 @@ extern bool zombXp[];
 extern bool skelXp[];
 extern bool ortXp[];
 extern bool ghostXp[];
-
+extern bool boss1Xp;
 
 
 extern signed int zombOffsetX[];
@@ -113,8 +115,9 @@ extern Uint32 mapOffsetTimer;
 extern int heroX;
 extern int heroY;
 
-extern int heroHealth;
-extern int heroMaxHealth;
+extern float heroHealth;
+extern float heroHealthAdj;
+extern float heroMaxHealth;
 extern Uint32 heroHealthTimer;
 extern Uint32 heroHealthTimerSub;
 extern int heroHealthUpSpd;
@@ -122,9 +125,10 @@ extern int heroHealthUpSpd;
 extern bool heroTele;
 extern bool heroTeleOnce;
 
-extern signed int heroMagica;
+extern float heroMagica;
+extern float heroMagicaAdj;
 extern bool heroMagicaWant;
-extern int heroMaxMagica;
+extern float heroMaxMagica;
 extern Uint32 heroMagicaTimer;
 extern Uint32 heroMagicaTimerSub;
 extern int heroMagicaUpSpd;
@@ -160,7 +164,7 @@ extern int mapPickY;
 extern unsigned int mapXAxis;
 extern unsigned int mapYAxis;
 
-extern SDL_Rect healthPckR;
+extern SDL_Rect healthPckR[];
 extern bool wantHealthPck;
 
 
@@ -229,7 +233,6 @@ extern SDL_Surface *water;
 extern SDL_Surface *quad;
 extern SDL_Surface *xpAmt;
 extern SDL_Surface *levelSh;
-extern SDL_Surface *healthPck;
 extern SDL_Surface *levelTick;
 
 extern SDL_Surface *portalSurf;
@@ -246,10 +249,27 @@ extern SDL_Surface *ghostSurf[];
 
 extern SDL_Surface *mapImage[];
 
+extern SDL_Surface *healthPck[];
+
 extern SDL_Surface *heroMagicaShow;
+
+extern SDL_Surface *heroHealthBarBack;
+extern SDL_Surface *heroHealthBarTick;
+extern SDL_Surface *heroMagicaBarTick;
+
+
+extern SDL_Surface *mobHealthBar;
+extern SDL_Surface *mobHealthBarTick;
+
 
 extern SDL_Surface *bossOneSurf;
 extern SDL_Surface *bossOneHealthSurf;
+
+extern SDL_Surface *swordTypeSurf;
+extern SDL_Surface *swordSquare;
+
+extern SDL_Surface *bagSurf;
+extern SDL_Surface *rareBagSurf;
 
 extern SDL_Rect zombHitSquare;
 
@@ -299,8 +319,6 @@ extern bool playerDown;
 extern bool playerRight;
 extern bool playerLeft;
 extern bool keyDown;
-
-extern bool healthPackUsed;
 
 extern int frameCount;
 

@@ -6,12 +6,13 @@
 #include <string>
 #include <SDL/SDL_Thread.h>
 
-SDL_Thread *axisMathThread = NULL;
-SDL_Thread *mapLoader = NULL;
+SDL_Thread *consoleThread = NULL;
 
 int mapLevel = 1;
 bool ifPortal;
 bool wantPortal;
+
+bool useKey;
 
 bool devPortalSkip;
 
@@ -42,6 +43,7 @@ const int zombAmt = 8;
 const int skelAmt = 5;
 const int ortAmt = 30;
 const int ghostAmt = 3;
+const int healthPckNum = 3;
 
 bool ifOrt;
 bool ifOrtSetting;
@@ -69,6 +71,7 @@ bool zombXp[zombAmt];
 bool skelXp[skelAmt];
 bool ortXp[ortAmt];
 bool ghostXp[ghostAmt];
+bool boss1Xp;
 
 signed int zombOffsetX[zombAmt];
 signed int zombOffsetY[zombAmt];
@@ -103,15 +106,17 @@ int mapDetail[50][38];
 SDL_Rect heroR;
 bool heroSpawn;
 
-int heroHealth;
-int heroMaxHealth;
+float heroHealth;
+float heroHealthAdj;
+float heroMaxHealth;
 Uint32 heroHealthTimer = SDL_GetTicks();
 Uint32 heroHealthTimerSub = 0;
 int heroHealthUpSpd;
 
-signed int heroMagica;
+float heroMagica;
+float heroMagicaAdj;
 bool heroMagicaWant;
-int heroMaxMagica;
+float heroMaxMagica;
 Uint32 heroMagicaTimer = SDL_GetTicks();
 Uint32 heroMagicaTimerSub = 0;
 int heroMagicaUpSpd;
@@ -146,8 +151,8 @@ int mapPickY = 1;
 unsigned int mapXAxis;
 unsigned int mapYAxis;
 
-SDL_Rect healthPckR;
-bool wantHealthPck;
+SDL_Rect healthPckR[healthPckNum];
+bool wantHealthPck = false;
 
 
 FileReader *fileReader11 = NULL;
@@ -215,7 +220,6 @@ SDL_Surface *water = NULL;
 SDL_Surface *quad = NULL;
 SDL_Surface *xpAmt = NULL;
 SDL_Surface *levelSh = NULL;
-SDL_Surface *healthPck = NULL;
 SDL_Surface *levelTick = NULL;
 
 SDL_Surface *portalSurf = NULL;
@@ -236,6 +240,19 @@ SDL_Surface *bossOneHealthSurf = NULL;
 SDL_Surface *mapImage[5];
 
 SDL_Surface *heroMagicaShow = NULL;
+
+SDL_Surface *heroHealthBarBack = NULL;
+SDL_Surface *heroHealthBarTick = NULL;
+SDL_Surface *heroMagicaBarTick = NULL;
+
+SDL_Surface *mobHealthBar = NULL;
+SDL_Surface *mobHealthBarTick = NULL;
+
+SDL_Surface *swordTypeSurf = NULL;
+SDL_Surface *swordSquare = NULL;
+
+SDL_Surface *bagSurf = NULL;
+SDL_Surface *rareBagSurf = NULL;
 
 SDL_Rect zombHitSquare;
 
@@ -271,7 +288,8 @@ bool playerRight;
 bool playerLeft;
 bool keyDown;
 
-bool healthPackUsed;
+bool healthPackUsed[healthPckNum];
+SDL_Surface *healthPck[healthPckNum];
 
 Actor hero;
 Actor zombie;

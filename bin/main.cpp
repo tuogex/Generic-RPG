@@ -33,11 +33,30 @@ OF THE AUTHORS OF THE SOURCE CODE.
 #include "headers/timer.h"
 #include "headers/loadingScreens.h"
 
-#define NO_STDIO_REDIRECT
-
 using namespace std;
 
 
+int devConsole( void *data ) {
+
+    while(!quit) {
+
+        system("cls");
+
+        cout << "Generic RPG Developer Console" << endl << endl;
+
+        cout << "Total Time: " << (totalGameTime.get_ticks() / 1000) << " seconds" << endl;
+        cout << "Frames: " << totalGameFrames << endl;
+        cout << "Current FPS: " << currentFps << endl;
+        cout << "Average FPS: " << ( (totalGameFrames * 1000)/ totalGameTime.get_ticks() ) << endl << endl;
+
+        cout << "Player XP: " << xp << endl;
+        cout << "Player Level: " << level << endl << endl;
+
+        SDL_Delay(1000);
+
+    }
+
+}
 
 /////////////////////////////////////
 int main(int argc, char **argv) {
@@ -53,7 +72,14 @@ int main(int argc, char **argv) {
 
     settingsFile();
 
-    bossOneHealth = 5000;
+if( devModeB ) {
+    AllocConsole();
+
+    freopen( "CON", "wt", stdout );
+    freopen( "CON", "wt", stderr );
+}
+
+    bossOneHealth = 10000;
     boss1Rect.w = 175;
     boss1Rect.h = 175;
 
@@ -137,11 +163,29 @@ int main(int argc, char **argv) {
 
     loadSave(gameSaveInt);
     hero.getLastHeroCord();
-    //skeleton.getMobCoord();
 
-    //mapLoader = SDL_CreateThread( mapper, NULL );
 
-    screen = SDL_SetVideoMode( SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE | SDL_RESIZABLE );
+                if( mapLevel == 2 ) {
+                    water = load_image("images/other/level2/water.png");
+                    grass = load_image("images/other/level2/grass.png");
+                    road = load_image("images/other/level2/concrete.png");
+                }
+
+                if( mapLevel == 3 ) {
+                    water = load_image("images/other/level3/water.png");
+                    grass = load_image("images/other/level3/grass.png");
+                    road = load_image("images/other/level3/concrete.png");
+                }
+
+                if( mapLevel == 4 ) {
+                    water = load_image("images/other/level4/water.png");
+                    grass = load_image("images/other/level4/grass.png");
+                    road = load_image("images/other/level4/concrete.png");
+                }
+
+    if( devModeB) consoleThread = SDL_CreateThread( devConsole, NULL );
+
+    screen = SDL_SetVideoMode( 800, 600, SCREEN_BPP, SDL_SWSURFACE | SDL_RESIZABLE );
 
     while(quit == false) {
 
@@ -205,8 +249,7 @@ int main(int argc, char **argv) {
     resetLauncher.close();
 
     uninit();
-    SDL_KillThread(mapLoader);
-    SDL_KillThread( axisMathThread );
+    SDL_KillThread(consoleThread);
 
     return 0;
 }
@@ -408,12 +451,12 @@ void HUD() {
         lx << level;
         string levelS;
         lx >> levelS;
-
+/*
         stringstream qq;
         qq << heroMagica;
         string heroMagicaString;
         qq >> heroMagicaString;
-
+*/
         stringstream xLocStrStr;
         string xLocStr;
         xLocStrStr << mapXAxis / 16;
@@ -443,7 +486,7 @@ void HUD() {
         tileTypeStrStr >> tileTypeStr;
 
         */
-
+/*
         stringstream tileTypeStrStr;
         string tileTypeStr;
         switch(textureMap[mapXAxis / 16][mapYAxis / 16] ) {
@@ -462,51 +505,70 @@ void HUD() {
         }
         tileTypeStrStr >> tileTypeStr;
 
+        */
+
+        heroHealthAdj = 146 * (heroHealth/heroMaxHealth);
+        heroMagicaAdj = 146 * (heroMagica/heroMaxMagica);
+
         xpAmt = TTF_RenderText_Solid( font, xpStr.c_str(), textColor );
         fpsDisplay = TTF_RenderText_Solid( font, st.c_str(), textColor );
-        healthDisplay = TTF_RenderText_Solid( font, healthString.c_str(), textColor );
+        //healthDisplay = TTF_RenderText_Solid( font, healthString.c_str(), textColor );
         levelSh = TTF_RenderText_Solid( font, levelS.c_str(), textColor);
-        heroMagicaShow = TTF_RenderText_Solid(font, heroMagicaString.c_str(), textColor );
+        //heroMagicaShow = TTF_RenderText_Solid(font, heroMagicaString.c_str(), textColor );
         playerXLocSurf = TTF_RenderText_Solid(font, xLocStr.c_str(), textColor);
         playerYLocSurf = TTF_RenderText_Solid(font, yLocStr.c_str(), textColor);
         tileType = TTF_RenderText_Solid(font, tileTypeStr.c_str(), textColor );
 
 
         apply_surface( SCREEN_WIDTH-70, 3, xpAmt, screen );
-        apply_surface( SCREEN_WIDTH - 60, SCREEN_HEIGHT - 35, healthDisplay, screen );
+        //apply_surface( SCREEN_WIDTH - 60, SCREEN_HEIGHT - 35, healthDisplay, screen );
         apply_surface( 3, SCREEN_HEIGHT - 35, fpsDisplay, screen );
         if(!fast) apply_surface( 3, 3, quad, screen);
         apply_surface( SCREEN_WIDTH-70, 27, levelSh, screen);
-        apply_surface(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60, heroMagicaShow, screen );
+        //apply_surface(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 60, heroMagicaShow, screen );
         //apply_surface(5, 5, playerXLocSurf, screen );
         //apply_surface(5, 30, playerYLocSurf, screen);
         //apply_surface(5, 55, tileType, screen );
+
+        apply_surface( SCREEN_WIDTH - 155, SCREEN_HEIGHT - 35, heroHealthBarBack, screen );
+        for( int ht = 0; ht < heroHealthAdj; ht++ ) {
+            apply_surface( (SCREEN_WIDTH - 153) + ht, SCREEN_HEIGHT - 33, heroHealthBarTick, screen );
+        }
+
+        apply_surface( SCREEN_WIDTH - 155, SCREEN_HEIGHT - 70, heroHealthBarBack, screen );
+        for( int mt = 0; mt < heroMagicaAdj; mt++ ) {
+            apply_surface( (SCREEN_WIDTH - 153) + mt, SCREEN_HEIGHT - 68, heroMagicaBarTick, screen );
+        }
+
+        apply_surface( SCREEN_WIDTH - 75, 150, swordTypeSurf, screen);
+        apply_surface( SCREEN_WIDTH - 80, 145, swordSquare, screen );
 
 
 }
 
 
 void items() {
-    apply_surface( healthPckR.x - mapOffsetXAmt, healthPckR.y - mapOffsetYAmt, healthPck, screen );
+    for( int i = 0; i < healthPckNum; i++ ) {
+        apply_surface( healthPckR[i].x - mapOffsetXAmt, healthPckR[i].y - mapOffsetYAmt, healthPck[i], screen );
 
-    if( ( heroR.x + (heroR.w/2) )> (healthPckR.x - mapOffsetXAmt - 175) && (heroR.y  > (healthPckR.y -mapOffsetYAmt - 175))) {
-        if( ( heroR.x + (heroR.w/2) < ((healthPckR.x + healthPckR.w + 175) - mapOffsetXAmt) ) ) {
-            if( heroR.y < ((healthPckR.y + healthPckR.h + 175) - mapOffsetYAmt) ) {
-                if( wantHealthPck ) {
-                    healthPackUsed = true;
-                    heroHealth += 150;
+        if( ( heroR.x + (heroR.w/2) )> (healthPckR[i].x - mapOffsetXAmt - 175) && (heroR.y  > (healthPckR[i].y -mapOffsetYAmt - 175))) {
+            if( ( heroR.x + (heroR.w/2) < ((healthPckR[i].x + healthPckR[i].w + 175) - mapOffsetXAmt) ) ) {
+                if( heroR.y < ((healthPckR[i].y + healthPckR[i].h + 175) - mapOffsetYAmt) ) {
+                    if( wantHealthPck ) {
+                        heroHealth += 150;
+                        healthPck[i] = NULL;
+                        healthPckR[i].w = 0;
+                        healthPckR[i].h = 0;
+                        healthPckR[i].x = 99999999;
+                        healthPckR[i].y = 99999999;
+                    }
+                    }
                 }
             }
         }
-    }
 
-    if( healthPackUsed ) {
-        healthPck = NULL;
-        healthPckR.w = 0;
-        healthPckR.h = 0;
-        healthPckR.x = 99999999;
-        healthPckR.y = 99999999;
-    }
+        //apply_surface( 150 - mapOffsetXAmt, 150 - mapOffsetYAmt, rareBagSurf, screen );
+
 }
 
 void Actor::mobs() {
@@ -541,7 +603,7 @@ if( mapLevel >= 2 ) {
     bool idk = true;
 
     if( mapLevel == 4 )
-        bossOne.moveMob( 5, boss1Rect, ghostRespawn[1], boss1Dead, bossOneHealth, bossOneHealthSurf, idk, bossOneSurf, boss1OffsetX, boss1OffsetY );
+        bossOne.moveMob( 5, boss1Rect, ghostRespawn[1], boss1Dead, bossOneHealth, bossOneHealthSurf, boss1Xp, bossOneSurf, boss1OffsetX, boss1OffsetY );
 
 }
 
@@ -664,6 +726,7 @@ void load_files() {
         ghostHealth[yy] = 350;
     }
 
+
     for( int u = 0; u < zombAmt; u++ ) {
         zombHealth[u] = 500;
     }
@@ -675,6 +738,9 @@ void load_files() {
     for( int yx = 0; yx < ortAmt; yx++ ) {
         ortHealth[yx] = 250;
     }
+
+    mobHealthBar = load_image("images/other/mobHealthBar.png");
+    mobHealthBarTick = load_image("images/other/mobHealthBarTick.png");
 
 
     /*
@@ -691,11 +757,13 @@ void load_files() {
     zombRect[2].h = 100;
     */
 
-    healthPck = load_image("images/items/health.png");
-    healthPckR.x = 500;
-    healthPckR.y = 500;
-    healthPckR.h = 50;
-    healthPckR.w = 50;
+    for( int hp = 0; hp < healthPckNum; hp++ ) {
+        healthPck[hp] = load_image("images/items/health.png");
+        healthPckR[hp].x = ( rand() % 2400 + 0 ) - 800;
+        healthPckR[hp].y = ( rand() % 2400 + 0 ) - 600;
+        healthPckR[hp].h = 50;
+        healthPckR[hp].w = 50;
+    }
 
     grass = load_image( "Images/Other/level1/grass4.png" );
     road = load_image( "Images/Other/level1/concrete2.png" );
@@ -713,6 +781,16 @@ void load_files() {
     portalSurf = load_image("images/Items/portal.png");
 
     bossOneSurf = load_image("images/RPG sprites/bosses/bossOne.png");
+
+    heroHealthBarBack = load_image("images/HUD/healthBack.png");
+    heroHealthBarTick = load_image("images/HUD/healthTick.png");
+    heroMagicaBarTick = load_image("images/HUD/magicaTick.png");
+
+    swordTypeSurf = load_image("images/items/sword1.png");
+    swordSquare = load_image("images/items/swordSquare.png");
+
+    bagSurf = load_image("images/items/bag.png");
+    rareBagSurf = load_image("images/items/rareBag.png");
 }
 
 /////////////////////////////////////
@@ -791,6 +869,7 @@ void Actor::keyReg(SDL_Event event) {
         case SDLK_e:
             wantHealthPck = true;
             wantPortal = true;
+            useKey = true;
             break;
         default:
             break;
@@ -829,6 +908,7 @@ void Actor::keyReg(SDL_Event event) {
         case SDLK_e:
             wantHealthPck = false;
             wantPortal = false;
+            useKey = false;
             break;
         case SDLK_SPACE:
             spaceClick = false;
