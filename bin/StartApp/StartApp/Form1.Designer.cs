@@ -46,8 +46,10 @@
             this.firstTime = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.xWinBox = new System.Windows.Forms.TextBox();
-            this.yWinBox = new System.Windows.Forms.TextBox();
+            this.zombNum = new System.Windows.Forms.TextBox();
+            this.skelNum = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ghostNum = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -231,44 +233,63 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(68, 130);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(102, 13);
+            this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 14;
-            this.label2.Text = "Game window width";
+            this.label2.Text = "Number of Zombies";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(68, 156);
+            this.label3.Location = new System.Drawing.Point(67, 156);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(106, 13);
+            this.label3.Size = new System.Drawing.Size(100, 13);
             this.label3.TabIndex = 15;
-            this.label3.Text = "Game window height";
+            this.label3.Text = "Numer of Skeletons";
             // 
-            // xWinBox
+            // zombNum
             // 
-            this.xWinBox.Location = new System.Drawing.Point(12, 127);
-            this.xWinBox.Name = "xWinBox";
-            this.xWinBox.Size = new System.Drawing.Size(50, 20);
-            this.xWinBox.TabIndex = 16;
-            this.xWinBox.Text = "800";
-            this.xWinBox.TextChanged += new System.EventHandler(this.xWinBox_TextChanged);
+            this.zombNum.Location = new System.Drawing.Point(12, 127);
+            this.zombNum.Name = "zombNum";
+            this.zombNum.Size = new System.Drawing.Size(50, 20);
+            this.zombNum.TabIndex = 16;
+            this.zombNum.Text = "5";
+            this.zombNum.TextChanged += new System.EventHandler(this.xWinBox_TextChanged);
             // 
-            // yWinBox
+            // skelNum
             // 
-            this.yWinBox.Location = new System.Drawing.Point(12, 156);
-            this.yWinBox.Name = "yWinBox";
-            this.yWinBox.Size = new System.Drawing.Size(50, 20);
-            this.yWinBox.TabIndex = 17;
-            this.yWinBox.Text = "600";
-            this.yWinBox.TextChanged += new System.EventHandler(this.yWinBox_TextChanged);
+            this.skelNum.Location = new System.Drawing.Point(12, 153);
+            this.skelNum.Name = "skelNum";
+            this.skelNum.Size = new System.Drawing.Size(50, 20);
+            this.skelNum.TabIndex = 17;
+            this.skelNum.Text = "8";
+            this.skelNum.TextChanged += new System.EventHandler(this.yWinBox_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(67, 182);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(86, 13);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Numer of Ghosts";
+            // 
+            // ghostNum
+            // 
+            this.ghostNum.Location = new System.Drawing.Point(12, 179);
+            this.ghostNum.Name = "ghostNum";
+            this.ghostNum.Size = new System.Drawing.Size(50, 20);
+            this.ghostNum.TabIndex = 19;
+            this.ghostNum.Text = "3";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(398, 238);
-            this.Controls.Add(this.yWinBox);
-            this.Controls.Add(this.xWinBox);
+            this.Controls.Add(this.ghostNum);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.skelNum);
+            this.Controls.Add(this.zombNum);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.firstTime);
@@ -317,8 +338,10 @@
         private System.Windows.Forms.CheckBox firstTime;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox xWinBox;
-        private System.Windows.Forms.TextBox yWinBox;
+        private System.Windows.Forms.TextBox zombNum;
+        private System.Windows.Forms.TextBox skelNum;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox ghostNum;
 
     }
 }

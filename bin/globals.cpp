@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <SDL/SDL_Thread.h>
+#include <vector>
 
 SDL_Thread *consoleThread = NULL;
 
@@ -39,10 +40,10 @@ bool graphicsFail= false;
 bool devModeError;
 
 bool initFail= false;
-const int zombAmt = 8;
-const int skelAmt = 5;
-const int ortAmt = 30;
-const int ghostAmt = 3;
+int zombAmt = 8;
+int skelAmt = 5;
+int ortAmt = 30;
+int ghostAmt = 3;
 const int healthPckNum = 3;
 
 bool ifOrt;
@@ -67,26 +68,32 @@ Uint32 heroMoveTimerReset = 0;
 Uint32 mapOffsetTimer = 0;
 
 int xp;
-bool zombXp[zombAmt];
+std::vector<bool> zombXp(zombAmt);
+std::vector<bool> skelXp(skelAmt);
+std::vector<bool> ortXp(ortAmt);
+std::vector<bool> ghostXp(ghostAmt);
+/*
 bool skelXp[skelAmt];
 bool ortXp[ortAmt];
 bool ghostXp[ghostAmt];
+*/
+
 bool boss1Xp;
 
-signed int zombOffsetX[zombAmt];
-signed int zombOffsetY[zombAmt];
+std::vector<signed int> zombOffsetX(zombAmt);
+std::vector<signed int> zombOffsetY(zombAmt);
 
 signed int boss1OffsetX;
 signed int boss1OffsetY;
 
-signed int skelOffsetX[skelAmt];
-signed int skelOffsetY[skelAmt];
+std::vector<signed int> skelOffsetX(skelAmt);
+std::vector<signed int> skelOffsetY(skelAmt);
 
-signed int ortOffsetX[ortAmt];
-signed int ortOffsetY[ortAmt];
+std::vector<signed int> ortOffsetX(ortAmt);
+std::vector<signed int> ortOffsetY(ortAmt);
 
-signed int ghostOffsetX[ghostAmt];
-signed int ghostOffsetY[ghostAmt];
+std::vector<signed int> ghostOffsetX(ghostAmt);
+std::vector<signed int> ghostOffsetY(ghostAmt);
 
 
 int level = 1;
@@ -95,10 +102,10 @@ int totalEnemyKills = 0;
 int previousLevelKills = 0;
 int gameLevelKillsNeeded = 0;
 
-SDL_Rect zombRect[zombAmt];
-SDL_Rect skelRect[skelAmt];
-SDL_Rect ortRect[ortAmt];
-SDL_Rect ghostRect[ghostAmt];
+std::vector<SDL_Rect> zombRect(zombAmt);
+std::vector<SDL_Rect> skelRect(skelAmt);
+std::vector<SDL_Rect> ortRect(ortAmt);
+std::vector<SDL_Rect> ghostRect(ghostAmt);
 SDL_Rect boss1Rect;
 
 int mapDetail[50][38];
@@ -126,21 +133,21 @@ bool heroTeleOnce;
 
 int swordType = 0;
 
-bool zombDead[zombAmt];
-bool skelDead[skelAmt];
-bool ortDead[ortAmt];
-bool ghostDead[ghostAmt];
+std::vector<bool> zombDead(zombAmt);
+std::vector<bool> skelDead(skelAmt);
+std::vector<bool> ortDead(ortAmt);
+std::vector<bool> ghostDead(ghostAmt);
 bool boss1Dead;
 
-Uint32 zombRespawn[zombAmt];
-Uint32 skelRespawn[skelAmt];
-Uint32 ortRespawn[ortAmt];
-Uint32 ghostRespawn[ghostAmt];
+std::vector<Uint32> zombRespawn(zombAmt);
+std::vector<Uint32> skelRespawn(skelAmt);
+std::vector<Uint32> ortRespawn(ortAmt);
+std::vector<Uint32> ghostRespawn(ghostAmt);
 
-unsigned int zombHealth[zombAmt];
-unsigned int skelHealth[skelAmt];
-unsigned int ortHealth[ortAmt];
-unsigned int ghostHealth[ghostAmt];
+std::vector<unsigned int> zombHealth(zombAmt);
+std::vector<unsigned int> skelHealth(skelAmt);
+std::vector<unsigned int> ortHealth(ortAmt);
+std::vector<unsigned int> ghostHealth(ghostAmt);
 unsigned int bossOneHealth;
 
 int mapAmt = 3;
@@ -224,15 +231,15 @@ SDL_Surface *levelTick = NULL;
 
 SDL_Surface *portalSurf = NULL;
 
-SDL_Surface *zombHealthShow[zombAmt];
-SDL_Surface *skelHealthShow[zombAmt];
-SDL_Surface *ortHealthShow[ortAmt];
-SDL_Surface *ghostHealthShow[ghostAmt];
+std::vector<SDL_Surface*> zombHealthShow(zombAmt);
+std::vector<SDL_Surface*> skelHealthShow(zombAmt);
+std::vector<SDL_Surface*> ortHealthShow(ortAmt);
+std::vector<SDL_Surface*> ghostHealthShow(ghostAmt);
 
-SDL_Surface *zombSurf[zombAmt];
-SDL_Surface *skelSurf[skelAmt];
-SDL_Surface *ortSurf[ortAmt];
-SDL_Surface *ghostSurf[ghostAmt];
+std::vector<SDL_Surface*> zombSurf(zombAmt);
+std::vector<SDL_Surface*> skelSurf(skelAmt);
+std::vector<SDL_Surface*> ortSurf(ortAmt);
+std::vector<SDL_Surface*> ghostSurf(ghostAmt);
 
 SDL_Surface *bossOneSurf = NULL;
 SDL_Surface *bossOneHealthSurf = NULL;

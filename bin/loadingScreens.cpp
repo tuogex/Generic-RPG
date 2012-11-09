@@ -228,6 +228,29 @@ void playerLose( SDL_Event event ) {
 
 
 bool settingsFile() {
+
+    ifstream zombNum;
+    zombNum.open("settings/zombAmt");
+
+    ifstream skelNum;
+    skelNum.open("settings/skelAmt");
+
+    ifstream ortNum;
+    ortNum.open("settings/ortAmt");
+
+    ifstream ghostNum;
+    ghostNum.open("settings/ghostAmt");
+
+    string zombStr;
+    string skelStr;
+    string ortStr;
+    string ghostStr;
+
+    zombNum >> zombAmt;
+    skelNum >> skelAmt;
+    ghostNum >> ghostAmt;
+    ortNum >> zombAmt;
+
     ifstream graphics;
     graphics.open("settings/graphics");
     string graphicsStr;

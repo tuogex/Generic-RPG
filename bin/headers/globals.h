@@ -8,6 +8,7 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_mixer.h>
 #include <string>
+#include <vector>
 
 #include "file_reader.h"
 #include "game_engine.h"
@@ -50,10 +51,10 @@ extern bool devModeError;
 
 extern bool initFail;
 
-extern const int zombAmt;
-extern const int skelAmt;
-extern const int ortAmt;
-extern const int ghostAmt;
+extern int zombAmt;
+extern int skelAmt;
+extern int ortAmt;
+extern int ghostAmt;
 extern const int healthPckNum;
 
 extern Uint32 startTime;
@@ -62,27 +63,34 @@ extern Uint32 gameTime;
 extern int controlMode;
 
 extern int xp;
-extern bool zombXp[];
+extern std::vector<bool> zombXp;
+extern std::vector<bool> skelXp;
+extern std::vector<bool> ortXp;
+extern std::vector<bool> ghostXp;
+
+/*
 extern bool skelXp[];
 extern bool ortXp[];
 extern bool ghostXp[];
+*/
+
 extern bool boss1Xp;
 
 
-extern signed int zombOffsetX[];
-extern signed int zombOffsetY[];
+extern std::vector<signed int> zombOffsetX;
+extern std::vector<signed int> zombOffsetY;
 
 extern signed int boss1OffsetX;
 extern signed int boss1OffsetY;
 
-extern signed int skelOffsetX[];
-extern signed int skelOffsetY[];
+extern std::vector<signed int> skelOffsetX;
+extern std::vector<signed int> skelOffsetY;
 
-extern signed int ortOffsetX[];
-extern signed int ortOffsetY[];
+extern std::vector<signed int> ortOffsetX;
+extern std::vector<signed int> ortOffsetY;
 
-extern signed int ghostOffsetX[];
-extern signed int ghostOffsetY[];
+extern std::vector<signed int> ghostOffsetX;
+extern std::vector<signed int> ghostOffsetY;
 
 extern int level;
 extern int gameLevel;
@@ -90,10 +98,10 @@ extern int totalEnemyKills;
 extern int previousLevelKills;
 extern int gameLevelKillsNeeded;
 
-extern SDL_Rect zombRect[];
-extern SDL_Rect skelRect[];
-extern SDL_Rect ortRect[];
-extern SDL_Rect ghostRect[];
+extern std::vector<SDL_Rect> zombRect;
+extern std::vector<SDL_Rect> skelRect;
+extern std::vector<SDL_Rect> ortRect;
+extern std::vector<SDL_Rect> ghostRect;
 extern SDL_Rect boss1Rect;
 
 extern int mapDetail[50][38];
@@ -135,26 +143,22 @@ extern int heroMagicaUpSpd;
 
 extern int swordType;
 
-extern bool zombDead[];
-extern bool skelDead[];
-extern bool ortDead[];
-extern bool ghostDead[];
+extern std::vector<bool> zombDead;
+extern std::vector<bool> skelDead;
+extern std::vector<bool> ortDead;
+extern std::vector<bool> ghostDead;
 extern bool boss1Dead;
 
-extern Uint32 zombRespawn[];
-extern Uint32 skelRespawn[];
-extern Uint32 ortRespawn[];
-extern Uint32 ghostRespawn[];
+extern std::vector<Uint32> zombRespawn;
+extern std::vector<Uint32> skelRespawn;
+extern std::vector<Uint32> ortRespawn;
+extern std::vector<Uint32> ghostRespawn;
 
-extern unsigned int zombHealth[];
-extern unsigned int skelHealth[];
-extern unsigned int ortHealth[];
-extern unsigned int ghostHealth[];
+extern std::vector<unsigned int> zombHealth;
+extern std::vector<unsigned int> skelHealth;
+extern std::vector<unsigned int> ortHealth;
+extern std::vector<unsigned int> ghostHealth;
 extern unsigned int bossOneHealth;
-
-extern unsigned int zomb1Health;
-extern unsigned int zomb2Health;
-extern unsigned int zomb3Health;
 
 extern int mapAmt;
 
@@ -237,15 +241,15 @@ extern SDL_Surface *levelTick;
 
 extern SDL_Surface *portalSurf;
 
-extern SDL_Surface *zombHealthShow[];
-extern SDL_Surface *skelHealthShow[];
-extern SDL_Surface *ortHealthShow[];
-extern SDL_Surface *ghostHealthShow[];
+extern std::vector<SDL_Surface*> zombHealthShow;
+extern std::vector<SDL_Surface*> skelHealthShow;
+extern std::vector<SDL_Surface*> ortHealthShow;
+extern std::vector<SDL_Surface*> ghostHealthShow;
 
-extern SDL_Surface *zombSurf[];
-extern SDL_Surface *skelSurf[];
-extern SDL_Surface *ortSurf[];
-extern SDL_Surface *ghostSurf[];
+extern std::vector<SDL_Surface*> zombSurf;
+extern std::vector<SDL_Surface*> skelSurf;
+extern std::vector<SDL_Surface*> ortSurf;
+extern std::vector<SDL_Surface*> ghostSurf;
 
 extern SDL_Surface *mapImage[];
 

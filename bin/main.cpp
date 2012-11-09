@@ -185,7 +185,7 @@ if( devModeB ) {
 
     if( devModeB) consoleThread = SDL_CreateThread( devConsole, NULL );
 
-    screen = SDL_SetVideoMode( 800, 600, SCREEN_BPP, SDL_SWSURFACE | SDL_RESIZABLE );
+    screen = SDL_SetVideoMode( 805, 605, SCREEN_BPP, SDL_SWSURFACE );
 
     while(quit == false) {
 
@@ -576,25 +576,44 @@ void Actor::mobs() {
 if( !ifPortal ) {
 
 if( mapLevel != 4 ) {
-    if( mapLevel >= 3 ) {
+/*    if( mapLevel >= 3 ) {
         for(int i = 0; i < zombAmt; i++ ) {
-            zombie.moveMob( 0, zombRect[i], zombRespawn[i], zombDead[i], zombHealth[i], zombHealthShow[i], zombXp[i], zombSurf[i], zombOffsetX[i], zombOffsetY[i] );
+            bool zombXpCon;
+            zombXpCon = zombXp[i];
+            bool zombDeadCon = zombDead[i];
+            zombie.moveMob( 0, zombRect[i], zombRespawn[i], zombDeadCon, zombHealth[i], zombHealthShow[i], zombXpCon, zombSurf[i], zombOffsetX[i], zombOffsetY[i] );
+            zombXp[i] = zombXpCon;
+            zombDead[i] = zombDeadCon;
         }
     }
-
+*/
     for(int j = 0; j < skelAmt; j++ ) {
-        skeleton.moveMob( 1, skelRect[j], skelRespawn[j], skelDead[j], skelHealth[j], skelHealthShow[j], skelXp[j], skelSurf[j], skelOffsetX[j], skelOffsetY[j] );
+        bool skelXpCon;
+        skelXpCon = skelXp[j];
+        bool skelDeadCon = skelDead[j];
+        skeleton.moveMob( 1, skelRect[j], skelRespawn[j], skelDeadCon, skelHealth[j], skelHealthShow[j], skelXpCon, skelSurf[j], skelOffsetX[j], skelOffsetY[j] );
+        skelXp[j] = skelXpCon;
+        skelDead[j] = skelDeadCon;
     }
 
     if(ifOrt) {
         for(int k = 0; k < ortAmt; k++ ) {
-            ortman.moveMob( 1, ortRect[k], ortRespawn[k], ortDead[k], ortHealth[k], ortHealthShow[k], ortXp[k], ortSurf[k], ortOffsetX[k], ortOffsetY[k] );
+            bool ortXpCon;
+            ortXpCon = ortXp[k];
+            bool ortDeadCon = ortDead[k];
+            ortman.moveMob( 1, ortRect[k], ortRespawn[k], ortDeadCon, ortHealth[k], ortHealthShow[k], ortXpCon, ortSurf[k], ortOffsetX[k], ortOffsetY[k] );
+            ortXp[k] = ortXpCon;
+            ortDead[k] = ortDeadCon;
         }
     }
 
 if( mapLevel >= 2 ) {
     for( int gh = 0; gh < ghostAmt; gh++ ) {
-        ghost.moveMob( 2, ghostRect[gh], ghostRespawn[gh], ghostDead[gh], ghostHealth[gh], ghostHealthShow[gh], ghostXp[gh], ghostSurf[gh], ghostOffsetX[gh], ghostOffsetY[gh] );
+        bool ghostXpCon = ghostXp[gh];
+        bool ghostDeadCon = ghostDead[gh];
+        ghost.moveMob( 2, ghostRect[gh], ghostRespawn[gh], ghostDeadCon, ghostHealth[gh], ghostHealthShow[gh], ghostXpCon, ghostSurf[gh], ghostOffsetX[gh], ghostOffsetY[gh] );
+        ghostXp[gh] = ghostXpCon;
+        ghostDead[gh] = ghostDeadCon;
     }
 }
 
@@ -670,9 +689,9 @@ void load_files() {
         }
     }
 
-    font = TTF_OpenFont( "arial.ttf", 28 );
+    font = TTF_OpenFont( "images/other/Arial.ttf", 28 );
 
-    largeFont = TTF_OpenFont( "arial.ttf", 72 );
+    largeFont = TTF_OpenFont( "images/other/Arial.ttf", 72 );
 
     introMusic = Mix_LoadMUS( "audio/intro.ogg" );
 
@@ -799,7 +818,7 @@ void Actor::keyReg(SDL_Event event) {
 
     //int x = 0, y = 0;
 
-
+/*
     if(event.type == SDL_VIDEORESIZE ) {
 
             if( event.resize.w < 500 ) {
@@ -818,7 +837,7 @@ void Actor::keyReg(SDL_Event event) {
 
             SCREEN_WIDTH = event.resize.w;
             SCREEN_HEIGHT = event.resize.h;
-    }
+    }*/
 
     if(event.type == SDL_KEYDOWN) {
 
@@ -1030,38 +1049,38 @@ void drawMapFast( int offsetX, int offsetY, int **intMap ) {
         for(int j = 0; j < MAP_HEIGHT; j++) {
             switch(intMap[j][i]) {
             case 2:
-                //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) >= -10 ) {
-                    //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
-                        //if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
-                            //if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
+                if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) >= -10 ) {
+                    if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
+                        if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
+                            if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
                             apply_surface( ((i * 16 ) - mapOffsetXAmt) - offsetX, (( j * 16 ) - mapOffsetYAmt) - offsetY, water, screen );
-                         //}
-                    //}
-                //}
+                         }
+                    }
+                }
 
                 //textureMap[i + offsetX][j + offsetY] = 2;
                 break;
             case 1:
-                    //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) >= -10 ) {
-                        //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
-                            //if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
-                                //if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
+                if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) >= -10 ) {
+                    if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
+                        if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
+                            if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
                                 apply_surface( ((i * 16 ) - mapOffsetXAmt ) - offsetX, (( j * 16 ) - mapOffsetYAmt) - offsetY, road, screen );
-                            //}
-                        //}
-                    //}
+                        }
+                    }
+                }
 
                     //textureMap[i + offsetX][j + offsetY] = 1;
                 break;
             case 0:
-                //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) >= -10 ) {
-                    //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 800 ) {
-                        //if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
-                            //if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
+                if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) >= -10 ) {
+                    if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 800 ) {
+                        if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
+                            if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
                                 apply_surface( ((i * 16 ) - mapOffsetXAmt) - offsetX, (( j * 16 ) - mapOffsetYAmt) - offsetY, grass, screen );
-                        //}
-                    //}
-                //}
+                            }
+                        }
+                    }
 
                 //textureMap[i + offsetX][j + offsetY] = 0;
                 break;
@@ -1087,7 +1106,7 @@ void drawMapFast1( int offsetX, int offsetY, int **intMap ) {
                     //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
                         //if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
                             //if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
-                            apply_surface( (((((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH) + resizeX), ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, water, screen );
+                                apply_surface( (((((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH) + resizeX), ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, water, screen );
                          //}
                     //}
                 //}
@@ -1095,14 +1114,14 @@ void drawMapFast1( int offsetX, int offsetY, int **intMap ) {
                 //textureMap[j + (offsetX / 16)][i + (offsetY / 16)] = 2;
                 break;
             case 1:
-                    //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) >= -10 ) {
-                        //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
-                            //if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
-                                //if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
+                //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) >= -10 ) {
+                    //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
+                        //if( ( (( j * 16 ) - mapOffsetYAmt) ) >= -100 ) {
+                            //if( (( j * 16 ) - mapOffsetYAmt) <= 1500 )
                                 apply_surface( (((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH+ resizeX, ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, road, screen );
-                            //}
                         //}
                     //}
+                //}
 
                     //textureMap[j + (offsetX / 16)][i + (offsetY / 16)] = 1;
                 break;

@@ -17,11 +17,11 @@ namespace StartApp
         TextWriter dm = new StreamWriter("bin/settings/development-mode");
         TextWriter tc = new StreamWriter("bin/settings/13centurycalamity");
         TextWriter fg = new StreamWriter("bin/settings/graphics");
-        TextWriter gl = new StreamWriter("bin/settings/login data/ifLauncher");
         TextWriter sg = new StreamWriter("bin/settings/saveGame");
         TextWriter mw = new StreamWriter("bin/settings/musicPref");
-        TextWriter xw = new StreamWriter("bin/settings/xWinSize");
-        TextWriter yw = new StreamWriter("bin/settings/yWinSize");
+        TextWriter xw = new StreamWriter("bin/settings/zombAmt");
+        TextWriter yw = new StreamWriter("bin/settings/skelAmt");
+        TextWriter gn = new StreamWriter("bin/settings/ghostAmt");
 
         Process rpg = new Process();
         Process reset_saves = new Process();
@@ -106,19 +106,18 @@ namespace StartApp
             sg.WriteLine(gameSave);
             mw.WriteLine(musicString);
 
-            xw.WriteLine(xWinBox.Text);
-            yw.WriteLine(yWinBox.Text);
-
-            gl.WriteLine("true");
+            xw.WriteLine(zombNum.Text);
+            yw.WriteLine(skelNum.Text);
+            gn.WriteLine(ghostNum.Text);
 
             xw.Close();
             yw.Close();
             dm.Close();
             tc.Close();
             fg.Close();
-            gl.Close();
             sg.Close();
             mw.Close();
+            gn.Close();
             rpg.Start();
             Environment.Exit(0);
 
