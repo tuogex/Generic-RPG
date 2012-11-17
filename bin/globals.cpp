@@ -40,14 +40,12 @@ bool graphicsFail= false;
 bool devModeError;
 
 bool initFail= false;
-int zombAmt = 8;
+int zombAmt = 5;
 int skelAmt = 5;
-int ortAmt = 30;
 int ghostAmt = 3;
 const int healthPckNum = 3;
 
-bool ifOrt;
-bool ifOrtSetting;
+int bossOneMiniAmt = 3;
 
 bool ifNoSound;
 
@@ -70,7 +68,6 @@ Uint32 mapOffsetTimer = 0;
 int xp;
 std::vector<bool> zombXp(zombAmt);
 std::vector<bool> skelXp(skelAmt);
-std::vector<bool> ortXp(ortAmt);
 std::vector<bool> ghostXp(ghostAmt);
 /*
 bool skelXp[skelAmt];
@@ -89,9 +86,6 @@ signed int boss1OffsetY;
 std::vector<signed int> skelOffsetX(skelAmt);
 std::vector<signed int> skelOffsetY(skelAmt);
 
-std::vector<signed int> ortOffsetX(ortAmt);
-std::vector<signed int> ortOffsetY(ortAmt);
-
 std::vector<signed int> ghostOffsetX(ghostAmt);
 std::vector<signed int> ghostOffsetY(ghostAmt);
 
@@ -104,9 +98,13 @@ int gameLevelKillsNeeded = 0;
 
 std::vector<SDL_Rect> zombRect(zombAmt);
 std::vector<SDL_Rect> skelRect(skelAmt);
-std::vector<SDL_Rect> ortRect(ortAmt);
 std::vector<SDL_Rect> ghostRect(ghostAmt);
 SDL_Rect boss1Rect;
+
+std::vector<SDL_Rect> ghostDeadCoord(ghostAmt);
+std::vector<SDL_Rect> zombDeadCoord(zombAmt);
+std::vector<SDL_Rect> skelDeadCoord(skelAmt);
+SDL_Rect boss1DeadCoord;
 
 int mapDetail[50][38];
 
@@ -135,18 +133,20 @@ int swordType = 0;
 
 std::vector<bool> zombDead(zombAmt);
 std::vector<bool> skelDead(skelAmt);
-std::vector<bool> ortDead(ortAmt);
 std::vector<bool> ghostDead(ghostAmt);
 bool boss1Dead;
 
+std::vector<bool> ghostDrop(ghostAmt);
+std::vector<bool> zombDrop(zombAmt);
+std::vector<bool> skelDrop(skelAmt);
+bool bossOneDrop;
+
 std::vector<Uint32> zombRespawn(zombAmt);
 std::vector<Uint32> skelRespawn(skelAmt);
-std::vector<Uint32> ortRespawn(ortAmt);
 std::vector<Uint32> ghostRespawn(ghostAmt);
 
 std::vector<unsigned int> zombHealth(zombAmt);
 std::vector<unsigned int> skelHealth(skelAmt);
-std::vector<unsigned int> ortHealth(ortAmt);
 std::vector<unsigned int> ghostHealth(ghostAmt);
 unsigned int bossOneHealth;
 
@@ -228,21 +228,30 @@ SDL_Surface *quad = NULL;
 SDL_Surface *xpAmt = NULL;
 SDL_Surface *levelSh = NULL;
 SDL_Surface *levelTick = NULL;
+SDL_Surface *introSelectRect = NULL;
+
+SDL_Surface *itemSlotOutline = NULL;
+SDL_Surface *itemSlotSurf[9];
+int itemSlotItem[9];
+
+SDL_Surface *magicaBall;
+SDL_Surface *healthBall;
 
 SDL_Surface *portalSurf = NULL;
 
 std::vector<SDL_Surface*> zombHealthShow(zombAmt);
 std::vector<SDL_Surface*> skelHealthShow(zombAmt);
-std::vector<SDL_Surface*> ortHealthShow(ortAmt);
 std::vector<SDL_Surface*> ghostHealthShow(ghostAmt);
 
 std::vector<SDL_Surface*> zombSurf(zombAmt);
 std::vector<SDL_Surface*> skelSurf(skelAmt);
-std::vector<SDL_Surface*> ortSurf(ortAmt);
 std::vector<SDL_Surface*> ghostSurf(ghostAmt);
 
 SDL_Surface *bossOneSurf = NULL;
 SDL_Surface *bossOneHealthSurf = NULL;
+
+std::vector<SDL_Surface*> bossOneMiniSurf(bossOneMiniAmt);
+std::vector<SDL_Surface*> bossOneMiniHealthSurf(bossOneMiniAmt);
 
 SDL_Surface *mapImage[5];
 
@@ -274,6 +283,8 @@ int zombSpawnY;
 int zomb2SpawnX;
 int zomb2SpawnY;
 
+Mix_Chunk *zombHitSound = NULL;
+
 SDL_Event event;
 
 bool quit = false;
@@ -301,7 +312,6 @@ SDL_Surface *healthPck[healthPckNum];
 Actor hero;
 Actor zombie;
 Actor skeleton;
-Actor ortman;
 Actor ghost;
 
 Actor bossOne;

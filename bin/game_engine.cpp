@@ -83,16 +83,6 @@ void Actor::miscMapItems() {
         skelOffsetY[w] = 600;
     }
 
-    for( int qx = 0; qx < ortAmt; qx++ ) {
-        ortRect[qx].x = rand() % (480 + 240) - 800;
-        ortRect[qx].y = rand() % (317 + 240) + 600;
-    }
-
-    for( int wx = 0; wx < ortAmt; wx++ ) {
-        ortOffsetX[wx] = 1000;
-        ortOffsetY[wx] = 1000;
-    }
-
     for( int gh = 0; gh < ghostAmt; gh++ ) {
         ghostRect[gh].x = rand() % (600 + 200) + 800;
         ghostRect[gh].y = rand() % (360 + 200) - 600;
@@ -275,6 +265,8 @@ if(fast) {
     else heroMaxMagica = 350 + (level * 20);
     heroMaxHealth = 500 + (level * 20);
 
+    if(heroMagica > heroMaxMagica) heroMagica = heroMaxMagica;
+
     heroMagicaUpSpd = 200;
 
     if( heroMagicaTimer >= heroMagicaUpSpd ) {
@@ -396,7 +388,7 @@ if(fast) {
 
 }
 
-void Actor::moveMob( int type, SDL_Rect& zomb, unsigned int& RespawnTimer, bool& ifDead, unsigned int& mobHealth, SDL_Surface *mobHealthShow, bool& ifXp, SDL_Surface *zombSurf, int respawnX, int respawnY ) {
+void Actor::moveMob( int type, SDL_Rect& zomb, unsigned int& RespawnTimer, bool& ifDead, unsigned int& mobHealth, SDL_Surface *mobHealthShow, bool& ifXp, SDL_Surface *zombSurf, int respawnX, int respawnY, bool& mobDrop, SDL_Rect& deadCoord ) {
 if(fast){
     zomb.x -= mapOffsetXAmt;
     zomb.y -= mapOffsetYAmt;
@@ -425,11 +417,22 @@ if( type != 5 ) {
 }
 
     if( zombie.zombHitDetect(type, zomb.x, zomb.y, zomb) && !ifDead ) ifDead = false;
-    else  mobHealth -= 25;
+    else  { mobHealth -= 25; }
 
     if( mobHealth <= 0 ) {
         ifDead = true;
         totalEnemyKills += 1;
+        deadCoord.x = zomb.x + mapOffsetXAmt;
+        deadCoord.y = zomb.y + mapOffsetYAmt;
+        int dropChance = rand() % 8+1;
+        switch(dropChance) {
+            case 1:
+                mobDrop = true;
+                break;
+            case 2:
+                mobDrop = false;
+                break;
+        }
     }
 /*
     stringstream ss;
@@ -454,7 +457,7 @@ if( type != 5 ) {
             maxMobHealth = 350.f;
             break;
         case 5:
-            maxMobHealth = 10000.f;
+            maxMobHealth = 7500.f;
             break;
     }
 
@@ -511,7 +514,9 @@ if(type != 5) {
 
     switch( type ) {
         case 0:
-            if( (heroR.x + 50) > (zombAcc.x + zombAcc.w)) zomb.x++;
+            if( (heroR.x + 50) > (zombAcc.x + zombAcc.w)) {
+                zomb.x++;
+            }
             else if( (heroR.x + 50) < zombAcc.x) zomb.x--;
 
             if( ( heroR.y + 63) > (zombAcc.y + zombAcc.h)) zomb.y++;
@@ -854,6 +859,8 @@ void saveGame(int location) {
     ofstream saveFileMPY;
     ofstream saveFileML;
 
+    ofstream saveItemSlots[9];
+
     ofstream saveFileZXL[zombAmt];
     ofstream saveFileZYL[zombAmt];
 
@@ -951,6 +958,16 @@ void saveGame(int location) {
             saveFileZYL[1].open("saves/gameOne/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameOne/mobs/zomb/ZYL2");
 
+            saveItemSlots[0].open("saves/gameOne/game/itemSlot1");
+            saveItemSlots[1].open("saves/gameOne/game/itemSlot2");
+            saveItemSlots[2].open("saves/gameOne/game/itemSlot3");
+            saveItemSlots[3].open("saves/gameOne/game/itemSlot4");
+            saveItemSlots[4].open("saves/gameOne/game/itemSlot5");
+            saveItemSlots[5].open("saves/gameOne/game/itemSlot6");
+            saveItemSlots[6].open("saves/gameOne/game/itemSlot7");
+            saveItemSlots[7].open("saves/gameOne/game/itemSlot8");
+            saveItemSlots[8].open("saves/gameOne/game/itemSlot9");
+
             break;
 
         case 2:
@@ -1003,6 +1020,16 @@ void saveGame(int location) {
             saveFileZYL[0].open("saves/gameTwo/mobs/zomb/ZYL0");
             saveFileZYL[1].open("saves/gameTwo/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameTwo/mobs/zomb/ZYL2");
+
+            saveItemSlots[0].open("saves/gameTwo/game/itemSlot1");
+            saveItemSlots[1].open("saves/gameTwo/game/itemSlot2");
+            saveItemSlots[2].open("saves/gameTwo/game/itemSlot3");
+            saveItemSlots[3].open("saves/gameTwo/game/itemSlot4");
+            saveItemSlots[4].open("saves/gameTwo/game/itemSlot5");
+            saveItemSlots[5].open("saves/gameTwo/game/itemSlot6");
+            saveItemSlots[6].open("saves/gameTwo/game/itemSlot7");
+            saveItemSlots[7].open("saves/gameTwo/game/itemSlot8");
+            saveItemSlots[8].open("saves/gameTwo/game/itemSlot9");
 
             break;
 
@@ -1057,6 +1084,16 @@ void saveGame(int location) {
             saveFileZYL[1].open("saves/gameThree/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameThree/mobs/zomb/ZYL2");
 
+            saveItemSlots[0].open("saves/gameThree/game/itemSlot1");
+            saveItemSlots[1].open("saves/gameThree/game/itemSlot2");
+            saveItemSlots[2].open("saves/gameThree/game/itemSlot3");
+            saveItemSlots[3].open("saves/gameThree/game/itemSlot4");
+            saveItemSlots[4].open("saves/gameThree/game/itemSlot5");
+            saveItemSlots[5].open("saves/gameThree/game/itemSlot6");
+            saveItemSlots[6].open("saves/gameThree/game/itemSlot7");
+            saveItemSlots[7].open("saves/gameThree/game/itemSlot8");
+            saveItemSlots[8].open("saves/gameThree/game/itemSlot9");
+
             break;
     }
 
@@ -1072,6 +1109,10 @@ void saveGame(int location) {
     saveFileMPX << mapPickX;
     saveFileMPY << mapPickY;
     saveFileML << mapLevel;
+
+    for(int is = 0; is < 9; is++ ) {
+        saveItemSlots[is] << itemSlotItem[is];
+    }
 
     for(int q = 0; q < skelAmt; q++) {
         saveFileSXL[q] << skelRect[q].x;
@@ -1096,28 +1137,11 @@ void saveGame(int location) {
         saveFileSOX[w].close();
         saveFileSOY[w].close();
     }
+
+
 }
 
 void loadSave(int position) {
-
-    ifstream newGame;
-    int newGameCheck;
-    switch(position) {
-        case 1:
-            newGame.open("settings/saves/one");
-        break;
-
-        case 2:
-            newGame.open("settings/saves/two");
-        break;
-
-        case 3:
-            newGame.open("settings/saves/three");
-        break;
-    }
-
-    newGame >> newGameCheck;
-    if( !newGameCheck == 0 ) {
 
     ifstream saveFileMOX;
     ifstream saveFileMOY;
@@ -1132,6 +1156,7 @@ void loadSave(int position) {
     ifstream saveFileMPX;
     ifstream saveFileMPY;
     ifstream saveFileML;
+    ifstream saveItemSlots[9];
 
     ifstream saveFileZXL[zombAmt];
     ifstream saveFileZYL[zombAmt];
@@ -1178,6 +1203,16 @@ void loadSave(int position) {
             saveFileZYL[1].open("saves/gameOne/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameOne/mobs/zomb/ZYL2");
 
+            saveItemSlots[0].open("saves/gameOne/game/itemSlot1");
+            saveItemSlots[1].open("saves/gameOne/game/itemSlot2");
+            saveItemSlots[2].open("saves/gameOne/game/itemSlot3");
+            saveItemSlots[3].open("saves/gameOne/game/itemSlot4");
+            saveItemSlots[4].open("saves/gameOne/game/itemSlot5");
+            saveItemSlots[5].open("saves/gameOne/game/itemSlot6");
+            saveItemSlots[6].open("saves/gameOne/game/itemSlot7");
+            saveItemSlots[7].open("saves/gameOne/game/itemSlot8");
+            saveItemSlots[8].open("saves/gameOne/game/itemSlot9");
+
             break;
 
         case 2:
@@ -1214,6 +1249,16 @@ void loadSave(int position) {
             saveFileZYL[0].open("saves/gameTwo/mobs/zomb/ZYL0");
             saveFileZYL[1].open("saves/gameTwo/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameTwo/mobs/zomb/ZYL2");
+
+            saveItemSlots[0].open("saves/gameTwo/game/itemSlot1");
+            saveItemSlots[1].open("saves/gameTwo/game/itemSlot2");
+            saveItemSlots[2].open("saves/gameTwo/game/itemSlot3");
+            saveItemSlots[3].open("saves/gameTwo/game/itemSlot4");
+            saveItemSlots[4].open("saves/gameTwo/game/itemSlot5");
+            saveItemSlots[5].open("saves/gameTwo/game/itemSlot6");
+            saveItemSlots[6].open("saves/gameTwo/game/itemSlot7");
+            saveItemSlots[7].open("saves/gameTwo/game/itemSlot8");
+            saveItemSlots[8].open("saves/gameTwo/game/itemSlot9");
 
             break;
 
@@ -1252,6 +1297,16 @@ void loadSave(int position) {
             saveFileZYL[1].open("saves/gameThree/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameThree/mobs/zomb/ZYL2");
 
+            saveItemSlots[0].open("saves/gameThree/game/itemSlot1");
+            saveItemSlots[1].open("saves/gameThree/game/itemSlot2");
+            saveItemSlots[2].open("saves/gameThree/game/itemSlot3");
+            saveItemSlots[3].open("saves/gameThree/game/itemSlot4");
+            saveItemSlots[4].open("saves/gameThree/game/itemSlot5");
+            saveItemSlots[5].open("saves/gameThree/game/itemSlot6");
+            saveItemSlots[6].open("saves/gameThree/game/itemSlot7");
+            saveItemSlots[7].open("saves/gameThree/game/itemSlot8");
+            saveItemSlots[8].open("saves/gameThree/game/itemSlot9");
+
             break;
     }
 
@@ -1280,6 +1335,10 @@ void loadSave(int position) {
         saveFileSOY[i] >> skelOffsetY[i];
     }
 
+    for(int is = 0; is < 9; is++) {
+        saveItemSlots[is] >> itemSlotItem[is];
+    }
+
 
     saveFileML.close();
     saveFileMOX.close();
@@ -1295,6 +1354,5 @@ void loadSave(int position) {
         saveFileSYL[j].close();
         saveFileSOX[j].close();
         saveFileSOY[j].close();
-    }
     }
 }

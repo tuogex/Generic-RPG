@@ -26,9 +26,9 @@ int intro() {
 
     introMessage = TTF_RenderText_Solid( font, "Sub-Par Game Dev presents...", whiteTextColor );
 
-    pressStart = TTF_RenderText_Solid( font, "Press 'Enter'", textColor );
-
-
+    pressStart = TTF_RenderText_Solid( font, "Start", textColor );
+    SDL_Surface *intructionOption = TTF_RenderText_Solid(font, "Instructions", textColor );
+    SDL_Surface *highScoreOption = TTF_RenderText_Solid(font, "High Scores", textColor );
 
     SDL_Flip(screen);
 
@@ -39,6 +39,11 @@ int intro() {
     int xSlow;
     int ySlow;
 
+    int selectLocation = 190;
+    int selectOptionPos = 1;
+
+    bool instructScreen = false;
+
 	while( ( endIntro == false ) && ( quit == false ) )
 	{
 		if( SDL_PollEvent( &event ) )
@@ -47,17 +52,32 @@ int intro() {
 			if( event.type == SDL_KEYDOWN )
 			{
 
-                if( event.key.keysym.sym == SDLK_ESCAPE )
-				{
-
-                    quit = true;
-                }
                 if(event.key.keysym.sym == SDLK_RETURN) {
-                    endIntro = true;
+                    switch( selectOptionPos ) {
+                        case 1:
+                            endIntro = true;
+                            break;
+                        case 2:
+                            instructScreen = true;
+                            break;
+                    }
                 }
-
-
-                endIntro = true;
+                if( !instructScreen ) {
+                    if(event.key.keysym.sym == SDLK_DOWN) {
+                        if( selectOptionPos < 3 ) {
+                            selectLocation += 75;
+                            selectOptionPos += 1;
+                        }
+                    }
+                    if(event.key.keysym.sym == SDLK_UP) {
+                        if(selectOptionPos > 1 ) {
+                            selectLocation -= 75;
+                            selectOptionPos -= 1;
+                        }
+                    }
+                } else {
+                    if( event.key.keysym.sym == SDLK_ESCAPE ) instructScreen = false;
+                }
 			}
 
 			if( event.type == SDL_QUIT )
@@ -67,7 +87,7 @@ int intro() {
 			}
 		}
 
-
+    if( !instructScreen ) {
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT * 2, fileReader12->map);
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT, fileReader11->map);
         drawMapFast1(SCREEN_WIDTH, 0, fileReader10->map);
@@ -80,9 +100,11 @@ int intro() {
         drawMapFast1(0, SCREEN_HEIGHT * 2, fileReader22->map);
         drawMapFast1(0, 0, fileReader20->map);
 
-
+    } else {
+        apply_surface( 0, 0, load_image("images/other/greyWall.png"), screen );
+    }
         //imageMapRender();
-
+    if( !instructScreen ) {
         if(xSlow == 0) {
             mapOffsetXAmt--;
             mapOffsetYAmt++;
@@ -90,12 +112,18 @@ int intro() {
         } else {
             xSlow = 0;
         }
-
+	}
+if( !instructScreen ) {
         apply_surface( 0, 0, introBackground, screen );
 
         apply_surface( 165, 30, TTF_RenderText_Solid( largeFont , "Generic RPG", textColor), screen );
 
-        apply_surface( 295, 300, pressStart, screen );
+        apply_surface( (SCREEN_WIDTH/2) - 50, 200, pressStart, screen );
+        apply_surface( (SCREEN_WIDTH/2) - 90, 275, intructionOption, screen );
+        apply_surface( ( SCREEN_WIDTH/2 ) - 93, 350, highScoreOption, screen );
+
+        apply_surface( (SCREEN_WIDTH/2) - 120, selectLocation, introSelectRect, screen );
+}
 
         SDL_Flip(screen);
 	}
@@ -104,6 +132,11 @@ int intro() {
 if(!quit) {
 	for( int i = 0; i <= x; i++ ) {
 
+        if(SDL_PollEvent(&event)) {
+            if(event.type == SDL_QUIT) {
+                quit == true;
+            }
+        }
 
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT * 2, fileReader12->map);
         drawMapFast1(SCREEN_WIDTH, SCREEN_HEIGHT, fileReader11->map);
@@ -117,9 +150,7 @@ if(!quit) {
         drawMapFast1(0, SCREEN_HEIGHT * 2, fileReader22->map);
         drawMapFast1(0, 0, fileReader20->map);
 
-
         //imageMapRender();
-
         mapOffsetXAmt++;
         mapOffsetYAmt--;
 
@@ -229,27 +260,18 @@ void playerLose( SDL_Event event ) {
 
 bool settingsFile() {
 
-    ifstream zombNum;
-    zombNum.open("settings/zombAmt");
-
     ifstream skelNum;
     skelNum.open("settings/skelAmt");
-
-    ifstream ortNum;
-    ortNum.open("settings/ortAmt");
 
     ifstream ghostNum;
     ghostNum.open("settings/ghostAmt");
 
-    string zombStr;
     string skelStr;
     string ortStr;
     string ghostStr;
 
-    zombNum >> zombAmt;
     skelNum >> skelAmt;
     ghostNum >> ghostAmt;
-    ortNum >> zombAmt;
 
     ifstream graphics;
     graphics.open("settings/graphics");
@@ -316,7 +338,7 @@ bool settingsFile() {
         devModeError = true;
         return false;
     }
-
+/*
     ifstream ifOrti;
     ifOrti.open("settings/13centurycalamity");
     string ifOrts;
@@ -328,6 +350,8 @@ bool settingsFile() {
     } else {
         return false;
     }
+*/
+
 
     ifstream musicPreference;
     musicPreference.open("settings/musicPref");

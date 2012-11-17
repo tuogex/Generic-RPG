@@ -8,10 +8,10 @@
 		<Cursor position="405" topLine="2" />
 	</File>
 	<File name="game_engine.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="41318" topLine="972" />
+		<Cursor position="11472" topLine="380" />
 	</File>
 	<File name="globals.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="727" topLine="29" />
+		<Cursor position="2927" topLine="123" />
 	</File>
 	<File name="headers\SDL_functions.h" open="0" top="0" tabpos="6">
 		<Cursor position="0" topLine="0" />
@@ -23,10 +23,10 @@
 		<Cursor position="281" topLine="0" />
 	</File>
 	<File name="headers\game_engine.h" open="1" top="0" tabpos="7">
-		<Cursor position="354" topLine="0" />
+		<Cursor position="444" topLine="0" />
 	</File>
 	<File name="headers\globals.h" open="1" top="0" tabpos="4">
-		<Cursor position="344" topLine="0" />
+		<Cursor position="3337" topLine="142" />
 	</File>
 	<File name="headers\loadingScreens.h" open="0" top="0" tabpos="6">
 		<Cursor position="0" topLine="0" />
@@ -38,10 +38,10 @@
 		<Cursor position="397" topLine="11" />
 	</File>
 	<File name="loadingScreens.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="5684" topLine="215" />
+		<Cursor position="1366" topLine="47" />
 	</File>
 	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="20805" topLine="679" />
+		<Cursor position="18420" topLine="589" />
 	</File>
 	<File name="timer.cpp" open="0" top="0" tabpos="11">
 		<Cursor position="822" topLine="8" />

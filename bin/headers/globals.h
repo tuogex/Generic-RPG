@@ -53,9 +53,10 @@ extern bool initFail;
 
 extern int zombAmt;
 extern int skelAmt;
-extern int ortAmt;
 extern int ghostAmt;
 extern const int healthPckNum;
+
+extern int bossOneMiniAmt;
 
 extern Uint32 startTime;
 extern Uint32 gameTime;
@@ -65,7 +66,6 @@ extern int controlMode;
 extern int xp;
 extern std::vector<bool> zombXp;
 extern std::vector<bool> skelXp;
-extern std::vector<bool> ortXp;
 extern std::vector<bool> ghostXp;
 
 /*
@@ -86,9 +86,6 @@ extern signed int boss1OffsetY;
 extern std::vector<signed int> skelOffsetX;
 extern std::vector<signed int> skelOffsetY;
 
-extern std::vector<signed int> ortOffsetX;
-extern std::vector<signed int> ortOffsetY;
-
 extern std::vector<signed int> ghostOffsetX;
 extern std::vector<signed int> ghostOffsetY;
 
@@ -100,9 +97,13 @@ extern int gameLevelKillsNeeded;
 
 extern std::vector<SDL_Rect> zombRect;
 extern std::vector<SDL_Rect> skelRect;
-extern std::vector<SDL_Rect> ortRect;
 extern std::vector<SDL_Rect> ghostRect;
 extern SDL_Rect boss1Rect;
+
+extern std::vector<SDL_Rect> ghostDeadCoord;
+extern std::vector<SDL_Rect> zombDeadCoord;
+extern std::vector<SDL_Rect> skelDeadCoord;
+extern SDL_Rect boss1DeadCoord;
 
 extern int mapDetail[50][38];
 
@@ -145,18 +146,20 @@ extern int swordType;
 
 extern std::vector<bool> zombDead;
 extern std::vector<bool> skelDead;
-extern std::vector<bool> ortDead;
 extern std::vector<bool> ghostDead;
 extern bool boss1Dead;
 
+extern std::vector<bool> ghostDrop;
+extern std::vector<bool> zombDrop;
+extern std::vector<bool> skelDrop;
+extern bool bossOneDrop;
+
 extern std::vector<Uint32> zombRespawn;
 extern std::vector<Uint32> skelRespawn;
-extern std::vector<Uint32> ortRespawn;
 extern std::vector<Uint32> ghostRespawn;
 
 extern std::vector<unsigned int> zombHealth;
 extern std::vector<unsigned int> skelHealth;
-extern std::vector<unsigned int> ortHealth;
 extern std::vector<unsigned int> ghostHealth;
 extern unsigned int bossOneHealth;
 
@@ -238,17 +241,23 @@ extern SDL_Surface *quad;
 extern SDL_Surface *xpAmt;
 extern SDL_Surface *levelSh;
 extern SDL_Surface *levelTick;
+extern SDL_Surface *introSelectRect;
+
+extern SDL_Surface *itemSlotOutline;
+extern SDL_Surface *itemSlotSurf[];
+extern int itemSlotItem[];
+
+extern SDL_Surface *magicaBall;
+extern SDL_Surface *healthBall;
 
 extern SDL_Surface *portalSurf;
 
 extern std::vector<SDL_Surface*> zombHealthShow;
 extern std::vector<SDL_Surface*> skelHealthShow;
-extern std::vector<SDL_Surface*> ortHealthShow;
 extern std::vector<SDL_Surface*> ghostHealthShow;
 
 extern std::vector<SDL_Surface*> zombSurf;
 extern std::vector<SDL_Surface*> skelSurf;
-extern std::vector<SDL_Surface*> ortSurf;
 extern std::vector<SDL_Surface*> ghostSurf;
 
 extern SDL_Surface *mapImage[];
@@ -269,6 +278,9 @@ extern SDL_Surface *mobHealthBarTick;
 extern SDL_Surface *bossOneSurf;
 extern SDL_Surface *bossOneHealthSurf;
 
+extern std::vector<SDL_Surface*> bossOneMiniSurf;
+extern std::vector<SDL_Surface*> bossOneMiniHealthSurf;
+
 extern SDL_Surface *swordTypeSurf;
 extern SDL_Surface *swordSquare;
 
@@ -288,6 +300,8 @@ extern int zombSpawnY;
 extern int zomb2SpawnX;
 extern int zomb2SpawnY;
 
+extern Mix_Chunk *zombHitSound;
+
 extern SDL_Event event;
 
 extern Mix_Music *introMusic;
@@ -298,7 +312,6 @@ extern Mix_Chunk *slash;
 extern Actor hero;
 extern Actor zombie;
 extern Actor skeleton;
-extern Actor ortman;
 extern Actor ghost;
 
 extern Actor bossOne;

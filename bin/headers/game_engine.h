@@ -14,7 +14,7 @@ public:
     Actor();
     ~Actor();
     void move(int dx, int dy);
-    void moveMob( int type, SDL_Rect& zomb, unsigned int& RespawnTimer, bool& ifDead, unsigned int& mobHealth, SDL_Surface *mobHealthShow, bool& ifXp, SDL_Surface *zombSurf, int respawnX, int respawnY );
+    void moveMob( int type, SDL_Rect& zomb, unsigned int& RespawnTimer, bool& ifDead, unsigned int& mobHealth, SDL_Surface *mobHealthShow, bool& ifXp, SDL_Surface *zombSurf, int respawnX, int respawnY, bool& mobDrop, SDL_Rect& deadCoord );
     bool zombHitDetect( int type, int x, int y, SDL_Rect locate);
     void slashTime();
     void mobs();

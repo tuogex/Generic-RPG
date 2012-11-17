@@ -72,6 +72,8 @@ int main(int argc, char **argv) {
 
     settingsFile();
 
+    load_files();
+
 if( devModeB ) {
     AllocConsole();
 
@@ -79,7 +81,7 @@ if( devModeB ) {
     freopen( "CON", "wt", stderr );
 }
 
-    bossOneHealth = 10000;
+    bossOneHealth = 7500;
     boss1Rect.w = 175;
     boss1Rect.h = 175;
 
@@ -103,23 +105,25 @@ if( devModeB ) {
         skelOffsetY[w] = rand() % (1800 + 0) - 600;
     }
 
-    for( int qx = 0; qx < ortAmt; qx++ ) {
-        ortRect[qx].x = rand() % (480 + 240) - 800;
-        ortRect[qx].y = rand() % (317 + 240) + 600;
-    }
-
-    for( int wx = 0; wx < ortAmt; wx++ ) {
-        ortOffsetX[wx] = rand() % (2400 + 0) - 800;
-        ortOffsetY[wx] = rand() % (1800 + 0) - 600;
-    }
-
     for( int gh = 0; gh < ghostAmt; gh++ ) {
         ghostRect[gh].x = rand() % (600 + 200) + 800;
         ghostRect[gh].y = rand() % (360 + 200) - 600;
 
         ghostOffsetX[gh] = rand() % (2400 + 0) - 800;
         ghostOffsetY[gh] = rand() % (1800 + 0) - 600;
+
+        SDL_SetAlpha( ghostSurf[gh], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
     }
+
+    SDL_SetAlpha( itemSlotSurf[0], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[1], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[2], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[3], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[4], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[5], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[6], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[7], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[8], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
 
 /*
     zombRect[0].x = rand() % 480 + 240;
@@ -131,7 +135,6 @@ if( devModeB ) {
     zombRect[2].x = ( rand() % 240 + 10 ) - 800;
     zombRect[2].y = ( rand() % 317 + 10 ) - 600;
 */
-    load_files();
 
     ifstream file;
     file.open("settings\login data\ifLauncher");
@@ -222,18 +225,6 @@ if( devModeB ) {
 
     }
 
-    ofstream arrayFile;
-    arrayFile.open("textureMap.txt");
-
-    for(int i = 1; i < 150; i++ ) {
-        for(int j = 1; j < 113; j++) {
-            arrayFile << textureMap[i][j];
-        }
-        arrayFile << endl;
-    }
-
-    arrayFile.close();
-
     saveGame(gameSaveInt);
 
     if( lose ) {
@@ -242,14 +233,13 @@ if( devModeB ) {
 
     //if( !devModeB ) credits();
 
-    logFile();
-    ofstream resetLauncher;
-    resetLauncher.open("settings/login data/ifLauncher");
-    resetLauncher << "false";
-    resetLauncher.close();
+    //logFile();
 
     uninit();
+
     SDL_KillThread(consoleThread);
+
+    system("clearMem.bat");
 
     return 0;
 }
@@ -542,6 +532,34 @@ void HUD() {
 
         apply_surface( SCREEN_WIDTH - 75, 150, swordTypeSurf, screen);
         apply_surface( SCREEN_WIDTH - 80, 145, swordSquare, screen );
+/*
+        apply_surface( 100, SCREEN_HEIGHT - 50, itemSlotSurf[0], screen );
+        apply_surface( 155, SCREEN_HEIGHT - 50, itemSlotSurf[1], screen );
+        apply_surface( 210, SCREEN_HEIGHT - 50, itemSlotSurf[2], screen );
+        apply_surface( 265, SCREEN_HEIGHT - 50, itemSlotSurf[3], screen );
+        apply_surface( 320, SCREEN_HEIGHT - 50, itemSlotSurf[4], screen );
+        apply_surface( 375, SCREEN_HEIGHT - 50, itemSlotSurf[5], screen );
+*/
+        for(int is = 0; is < 9; is++ ) {
+
+            apply_surface(98+(55*is), SCREEN_HEIGHT - 52, itemSlotOutline, screen );
+
+            switch(itemSlotItem[is])
+            {
+                case 0:
+                    apply_surface(100 + (55*is), SCREEN_HEIGHT-50, itemSlotSurf[is], screen);
+                    break;
+                case 1:
+                    apply_surface(100 + (55*is), SCREEN_HEIGHT-50, healthBall, screen );
+                    break;
+                case 2:
+                    apply_surface(100 + (55*is), SCREEN_HEIGHT-50, magicaBall, screen );
+                    break;
+                default:
+                    apply_surface(100 + (55*is), SCREEN_HEIGHT-50, itemSlotSurf[is], screen);
+                    break;
+            }
+        }
 
 
 }
@@ -555,17 +573,60 @@ void items() {
             if( ( heroR.x + (heroR.w/2) < ((healthPckR[i].x + healthPckR[i].w + 175) - mapOffsetXAmt) ) ) {
                 if( heroR.y < ((healthPckR[i].y + healthPckR[i].h + 175) - mapOffsetYAmt) ) {
                     if( wantHealthPck ) {
-                        heroHealth += 150;
-                        healthPck[i] = NULL;
-                        healthPckR[i].w = 0;
-                        healthPckR[i].h = 0;
-                        healthPckR[i].x = 99999999;
-                        healthPckR[i].y = 99999999;
-                    }
+                        bool emptySlot = false;
+                        int slotNum = 0;
+                        while(!emptySlot) {
+                            if(itemSlotItem[slotNum] == 0) {
+                                emptySlot = true;
+                                itemSlotItem[slotNum] = 1;
+                                healthPck[i] = NULL;
+                                healthPckR[i].w = 0;
+                                healthPckR[i].h = 0;
+                                healthPckR[i].x = 99999999;
+                                healthPckR[i].y = 99999999;
+                            } else {
+                                slotNum++;
+                            }
+                            if( slotNum > 10) {
+                                emptySlot = true;
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+
+
+
+
+    for( int sb = 0; sb < skelAmt; sb++ ) {
+        if( skelDrop[sb] ) apply_surface(skelDeadCoord[sb].x - mapOffsetXAmt, skelDeadCoord[sb].y - mapOffsetYAmt, bagSurf, screen );
+
+        if( ( heroR.x + (heroR.w/2) )> (skelDeadCoord[sb].x - mapOffsetXAmt - 50) && (heroR.y  > (skelDeadCoord[sb].y -mapOffsetYAmt - 50))) {
+            if( ( heroR.x + (heroR.w/2) < ((skelDeadCoord[sb].x + skelDeadCoord[sb].w + 50) - mapOffsetXAmt) ) ) {
+                if( heroR.y < ((skelDeadCoord[sb].y + skelDeadCoord[sb].h + 50) - mapOffsetYAmt) ) {
+                    if( wantHealthPck ) {
+                        bool emptySlot = false;
+                        int slotNum = 0;
+                        while(!emptySlot) {
+                            if(itemSlotItem[slotNum] == 0) {
+                                emptySlot = true;
+                                itemSlotItem[slotNum] = 2;
+                                skelDeadCoord[sb].x = 9999999;
+                                skelDeadCoord[sb].y = -999999;
+                            } else {
+                                slotNum++;
+                            }
+                            if( slotNum > 10 ) {
+                                emptySlot = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
         //apply_surface( 150 - mapOffsetXAmt, 150 - mapOffsetYAmt, rareBagSurf, screen );
 
@@ -576,42 +637,36 @@ void Actor::mobs() {
 if( !ifPortal ) {
 
 if( mapLevel != 4 ) {
-/*    if( mapLevel >= 3 ) {
+
+    if( mapLevel > 2 ) {
         for(int i = 0; i < zombAmt; i++ ) {
             bool zombXpCon;
             zombXpCon = zombXp[i];
             bool zombDeadCon = zombDead[i];
-            zombie.moveMob( 0, zombRect[i], zombRespawn[i], zombDeadCon, zombHealth[i], zombHealthShow[i], zombXpCon, zombSurf[i], zombOffsetX[i], zombOffsetY[i] );
+            bool zombDropCon = zombDrop[i];
+            zombie.moveMob( 0, zombRect[i], zombRespawn[i], zombDeadCon, zombHealth[i], zombHealthShow[i], zombXpCon, zombSurf[i], zombOffsetX[i], zombOffsetY[i], zombDropCon, zombDeadCoord[i] );
             zombXp[i] = zombXpCon;
             zombDead[i] = zombDeadCon;
         }
     }
-*/
+
     for(int j = 0; j < skelAmt; j++ ) {
         bool skelXpCon;
         skelXpCon = skelXp[j];
         bool skelDeadCon = skelDead[j];
-        skeleton.moveMob( 1, skelRect[j], skelRespawn[j], skelDeadCon, skelHealth[j], skelHealthShow[j], skelXpCon, skelSurf[j], skelOffsetX[j], skelOffsetY[j] );
+        bool skelDropCon = skelDrop[j];
+        skeleton.moveMob( 1, skelRect[j], skelRespawn[j], skelDeadCon, skelHealth[j], skelHealthShow[j], skelXpCon, skelSurf[j], skelOffsetX[j], skelOffsetY[j], skelDropCon, skelDeadCoord[j] );
         skelXp[j] = skelXpCon;
         skelDead[j] = skelDeadCon;
+        skelDrop[j] = skelDropCon;
     }
 
-    if(ifOrt) {
-        for(int k = 0; k < ortAmt; k++ ) {
-            bool ortXpCon;
-            ortXpCon = ortXp[k];
-            bool ortDeadCon = ortDead[k];
-            ortman.moveMob( 1, ortRect[k], ortRespawn[k], ortDeadCon, ortHealth[k], ortHealthShow[k], ortXpCon, ortSurf[k], ortOffsetX[k], ortOffsetY[k] );
-            ortXp[k] = ortXpCon;
-            ortDead[k] = ortDeadCon;
-        }
-    }
-
-if( mapLevel >= 2 ) {
+if( mapLevel > 1 ) {
     for( int gh = 0; gh < ghostAmt; gh++ ) {
         bool ghostXpCon = ghostXp[gh];
         bool ghostDeadCon = ghostDead[gh];
-        ghost.moveMob( 2, ghostRect[gh], ghostRespawn[gh], ghostDeadCon, ghostHealth[gh], ghostHealthShow[gh], ghostXpCon, ghostSurf[gh], ghostOffsetX[gh], ghostOffsetY[gh] );
+        bool ghostDropCon = ghostDrop[gh];
+        ghost.moveMob( 2, ghostRect[gh], ghostRespawn[gh], ghostDeadCon, ghostHealth[gh], ghostHealthShow[gh], ghostXpCon, ghostSurf[gh], ghostOffsetX[gh], ghostOffsetY[gh], ghostDropCon, ghostDeadCoord[gh] );
         ghostXp[gh] = ghostXpCon;
         ghostDead[gh] = ghostDeadCon;
     }
@@ -621,10 +676,12 @@ if( mapLevel >= 2 ) {
 }
     bool idk = true;
 
-    if( mapLevel == 4 )
-        bossOne.moveMob( 5, boss1Rect, ghostRespawn[1], boss1Dead, bossOneHealth, bossOneHealthSurf, boss1Xp, bossOneSurf, boss1OffsetX, boss1OffsetY );
+    if( mapLevel == 4 ) {
+        bossOne.moveMob( 5, boss1Rect, ghostRespawn[1], boss1Dead, bossOneHealth, bossOneHealthSurf, boss1Xp, bossOneSurf, boss1OffsetX, boss1OffsetY, bossOneDrop, boss1DeadCoord );
+    }
 
 }
+
 
 /////////////////////////////////////
 void init() {
@@ -721,21 +778,10 @@ void load_files() {
     heroR.w = 100;
     heroR.h = 126;
 
-    for( int i = 0; i < zombAmt; i++ ) {
-        zombSurf[i] = load_image("images/RPG Sprites/zombie/front.png");
-        zombRect[i].w = 100;
-        zombRect[i].h = 126;
-    }
     for( int j = 0; j < skelAmt; j++ ) {
         skelSurf[j] = load_image("images/RPG Sprites/skel/front.png");
         skelRect[j].w = 100;
         skelRect[j].h = 126;
-    }
-
-    for( int xy = 0; xy < ortAmt; xy++ ) {
-        ortSurf[xy] = load_image("images/RPG Sprites/ort/front.png");
-        ortRect[xy].w = 100;
-        ortRect[xy].h = 126;
     }
     for( int yy = 0; yy < ghostAmt; yy++ ) {
         ghostSurf[yy] = load_image("images/RPG Sprites/ghost/front.png");
@@ -754,9 +800,13 @@ void load_files() {
         skelHealth[y] = 250;
     }
 
-    for( int yx = 0; yx < ortAmt; yx++ ) {
-        ortHealth[yx] = 250;
+
+    for( int i = 0; i < zombAmt; i++ ) {
+        zombSurf[i] = load_image("images/RPG Sprites/zombie/front.png");
+        zombRect[i].w = 100;
+        zombRect[i].h = 126;
     }
+
 
     mobHealthBar = load_image("images/other/mobHealthBar.png");
     mobHealthBarTick = load_image("images/other/mobHealthBarTick.png");
@@ -801,6 +851,11 @@ void load_files() {
 
     bossOneSurf = load_image("images/RPG sprites/bosses/bossOne.png");
 
+
+    for(int boms = 0; boms < bossOneMiniAmt; boms++ ) {
+        bossOneMiniSurf[boms] = load_image("images/RPG sprites/bosses/bossOneMini.png");
+    }
+
     heroHealthBarBack = load_image("images/HUD/healthBack.png");
     heroHealthBarTick = load_image("images/HUD/healthTick.png");
     heroMagicaBarTick = load_image("images/HUD/magicaTick.png");
@@ -810,6 +865,25 @@ void load_files() {
 
     bagSurf = load_image("images/items/bag.png");
     rareBagSurf = load_image("images/items/rareBag.png");
+
+    introSelectRect = load_image("images/HUD/introSelect.png");
+
+    zombHitSound = Mix_LoadWAV("Audio/zombhit.wav");
+
+    itemSlotSurf[0] = load_image("images/HUD/itemSlots/1.png");
+    itemSlotSurf[1] = load_image("images/HUD/itemSlots/2.png");
+    itemSlotSurf[2] = load_image("images/HUD/itemSlots/3.png");
+    itemSlotSurf[3] = load_image("images/HUD/itemSlots/4.png");
+    itemSlotSurf[4] = load_image("images/HUD/itemSlots/5.png");
+    itemSlotSurf[5] = load_image("images/HUD/itemSlots/6.png");
+    itemSlotSurf[6] = load_image("images/HUD/itemSlots/7.png");
+    itemSlotSurf[7] = load_image("images/HUD/itemSlots/8.png");
+    itemSlotSurf[8] = load_image("images/HUD/itemSlots/9.png");
+
+    itemSlotOutline = load_image("images/HUD/itemSlots/outline.png");
+
+    healthBall = load_image("images/HUD/itemSlots/healthBall.png");
+    magicaBall = load_image("images/HUD/itemSlots/magicaBall.png");
 }
 
 /////////////////////////////////////
@@ -890,12 +964,135 @@ void Actor::keyReg(SDL_Event event) {
             wantPortal = true;
             useKey = true;
             break;
+
+        case SDLK_1:
+            switch(itemSlotItem[0]) {
+                case 1:
+                    heroHealth += 100;
+                    break;
+                case 2:
+                    heroMagica += 50;
+                    break;
+            }
+
+            itemSlotItem[0] = 0;
+
+            break;
+
+        case SDLK_2:
+            switch(itemSlotItem[1]) {
+                case 1:
+                    heroHealth += 100;
+                    break;
+                case 2:
+                    heroMagica += 50;
+                    break;
+            }
+
+            itemSlotItem[1] = 0;
+
+            break;
+
+        case SDLK_3:
+            switch(itemSlotItem[2]) {
+                case 1:
+                    heroHealth += 100;
+                    break;
+                case 2:
+                    heroMagica += 50;
+                    break;
+            }
+
+            itemSlotItem[2] = 0;
+
+            break;
+
+        case SDLK_4:
+            switch(itemSlotItem[3]) {
+                case 1:
+                    heroHealth += 100;
+                    break;
+                case 2:
+                    heroMagica += 50;
+                    break;
+            }
+
+            itemSlotItem[3] = 0;
+
+            break;
+
+        case SDLK_5:
+            switch(itemSlotItem[4]) {
+                case 1:
+                    heroHealth += 100;
+                    break;
+                case 2:
+                    heroMagica += 50;
+                    break;
+            }
+
+            itemSlotItem[4] = 0;
+
+            break;
+
+        case SDLK_6:
+            switch(itemSlotItem[5]) {
+                case 1:
+                    heroHealth += 100;
+                    break;
+                case 2:
+                    heroMagica += 50;
+                    break;
+            }
+
+            itemSlotItem[5] = 0;
+
+            break;
+
+        case SDLK_7:
+            switch(itemSlotItem[6]) {
+                case 1:
+                    heroHealth += 100;
+                    break;
+                case 2:
+                    heroMagica += 50;
+                    break;
+            }
+
+            itemSlotItem[6] = 0;
+
+            break;
+
+        case SDLK_8:
+            switch(itemSlotItem[7]) {
+                case 1:
+                    heroHealth += 100;
+                    break;
+                case 2:
+                    heroMagica += 50;
+                    break;
+            }
+
+            itemSlotItem[7] = 0;
+
+            break;
+
+        case SDLK_9:
+            switch(itemSlotItem[8]) {
+                case 1:
+                    heroHealth += 100;
+                    break;
+                case 2:
+                    heroMagica += 50;
+                    break;
+            }
+
+            itemSlotItem[8] = 0;
+
+            break;
+
         default:
             break;
-        }
-        if(event.type == SDL_KEYDOWN ) {
-            if((event.key.keysym.sym == SDLK_o)&&ifOrtSetting)
-                ifOrt = true;
         }
 
 
@@ -1010,7 +1207,7 @@ if(controlMode == 1) {
 }
 
 if( !ifNoSound ) {
-    if( !playSlash && playerSlash && !devModeB ) { /*Mix_PlayChannel( -1, slash, 0 );*/ playSlash = true; }
+    if( !playSlash && playerSlash && !devModeB ) { Mix_PlayChannel( -1, slash, 0 ); playSlash = true; }
 }
 
     hero.slashTime();
