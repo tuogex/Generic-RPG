@@ -744,13 +744,13 @@ if( mapLevel != 4 ) {
 
     if( mapLevel > 2 ) {
         for(int i = 0; i < zombAmt; i++ ) {
-            bool zombXpCon;
-            zombXpCon = zombXp[i];
+            bool zombXpCon = zombXp[i];
             bool zombDeadCon = zombDead[i];
             bool zombDropCon = zombDrop[i];
             zombie.moveMob( 0, zombRect[i], zombRespawn[i], zombDeadCon, zombHealth[i], zombHealthShow[i], zombXpCon, zombSurf[i], zombOffsetX[i], zombOffsetY[i], zombDropCon, zombDeadCoord[i] );
             zombXp[i] = zombXpCon;
             zombDead[i] = zombDeadCon;
+            zombDrop[i] = zombDropCon;
         }
     }
 
@@ -773,6 +773,7 @@ if( mapLevel > 1 ) {
         ghost.moveMob( 2, ghostRect[gh], ghostRespawn[gh], ghostDeadCon, ghostHealth[gh], ghostHealthShow[gh], ghostXpCon, ghostSurf[gh], ghostOffsetX[gh], ghostOffsetY[gh], ghostDropCon, ghostDeadCoord[gh] );
         ghostXp[gh] = ghostXpCon;
         ghostDead[gh] = ghostDeadCon;
+        ghostDrop[gh] = ghostDropCon;
     }
 }
 
@@ -782,6 +783,16 @@ if( mapLevel > 1 ) {
 
     if( mapLevel == 4 ) {
         bossOne.moveMob( 5, boss1Rect, ghostRespawn[1], boss1Dead, bossOneHealth, bossOneHealthSurf, boss1Xp, bossOneSurf, boss1OffsetX, boss1OffsetY, bossOneDrop, boss1DeadCoord );
+        for( int mbo = 0; mbo < bossOneMiniAmt; mbo++) {
+
+            bool bossOneMiniXpCon = bossOneMiniXp[mbo];
+            bool bossOneMiniDeadCon = bossOneMiniDead[mbo];
+            bool bossOneMiniDropCon = bossOneMiniDrop[mbo];
+            if(!boss1Dead) bossOne.moveMob( 6, bossOneMiniRect[mbo], bossOneMiniRespawn[mbo],bossOneMiniDeadCon, bossOneMiniHealth[mbo], bossOneMiniHealthSurf[mbo], bossOneMiniXpCon, bossOneMiniSurf[mbo], bossOneMiniOffsetX[mbo], bossOneMiniOffsetY[mbo], bossOneMiniDropCon, bossOneMiniDeadCoord[mbo] );
+            bossOneMiniDrop[mbo] = bossOneMiniDropCon;
+            bossOneMiniDead[mbo] = bossOneMiniDeadCon;
+            bossOneMiniXp[mbo] = bossOneMiniXpCon;
+        }
     }
 
 }
@@ -958,6 +969,13 @@ void load_files() {
 
     for(int boms = 0; boms < bossOneMiniAmt; boms++ ) {
         bossOneMiniSurf[boms] = load_image("images/RPG sprites/bosses/bossOneMini.png");
+        bossOneMiniHealth[boms] = 100;
+        bossOneMiniRect[boms].w = 35;
+        bossOneMiniRect[boms].h = 35;
+        bossOneMiniRect[boms].x = (rand() % 800 + 35);
+        bossOneMiniRect[boms].y = (rand() % 600 + 35);
+        bossOneMiniOffsetX[boms] = rand() % (2400 + 0) - 800;
+        bossOneMiniOffsetY[boms] = rand() % (1800 + 0) - 600;
     }
 
     heroHealthBarBack = load_image("images/HUD/healthBack.png");

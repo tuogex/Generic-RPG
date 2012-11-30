@@ -78,6 +78,7 @@ extern bool ghostXp[];
 */
 
 extern bool boss1Xp;
+extern std::vector<bool> bossOneMiniXp;
 
 
 extern std::vector<signed int> zombOffsetX;
@@ -85,6 +86,9 @@ extern std::vector<signed int> zombOffsetY;
 
 extern signed int boss1OffsetX;
 extern signed int boss1OffsetY;
+
+extern std::vector<signed int> bossOneMiniOffsetX;
+extern std::vector<signed int> bossOneMiniOffsetY;
 
 extern std::vector<signed int> skelOffsetX;
 extern std::vector<signed int> skelOffsetY;
@@ -101,12 +105,16 @@ extern int gameLevelKillsNeeded;
 extern std::vector<SDL_Rect> zombRect;
 extern std::vector<SDL_Rect> skelRect;
 extern std::vector<SDL_Rect> ghostRect;
+
 extern SDL_Rect boss1Rect;
+extern std::vector<SDL_Rect> bossOneMiniRect;
 
 extern std::vector<SDL_Rect> ghostDeadCoord;
 extern std::vector<SDL_Rect> zombDeadCoord;
 extern std::vector<SDL_Rect> skelDeadCoord;
+
 extern SDL_Rect boss1DeadCoord;
+extern std::vector<SDL_Rect> bossOneMiniDeadCoord;
 
 extern int mapDetail[50][38];
 
@@ -150,21 +158,28 @@ extern int swordType;
 extern std::vector<bool> zombDead;
 extern std::vector<bool> skelDead;
 extern std::vector<bool> ghostDead;
+
 extern bool boss1Dead;
+extern std::vector<bool> bossOneMiniDead;
 
 extern std::vector<bool> ghostDrop;
 extern std::vector<bool> zombDrop;
 extern std::vector<bool> skelDrop;
+
 extern bool bossOneDrop;
+extern std::vector<bool> bossOneMiniDrop;
 
 extern std::vector<Uint32> zombRespawn;
 extern std::vector<Uint32> skelRespawn;
 extern std::vector<Uint32> ghostRespawn;
+extern std::vector<Uint32> bossOneMiniRespawn;
 
 extern std::vector<unsigned int> zombHealth;
 extern std::vector<unsigned int> skelHealth;
 extern std::vector<unsigned int> ghostHealth;
+
 extern unsigned int bossOneHealth;
+extern std::vector<unsigned int> bossOneMiniHealth;
 
 extern int mapAmt;
 

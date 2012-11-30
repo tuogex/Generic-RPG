@@ -2538,7 +2538,7 @@
 	"headers/globals.h"
 	"headers/file_reader.h"
 
-1354243324 l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\headers\globals.h
+1354245590 l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\headers\globals.h
 	<SDL/SDL.h>
 	<SDL/SDL_ttf.h>
 	<SDL/SDL_image.h>
@@ -2557,7 +2557,7 @@
 
 1345505350 l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\headers\timer.h
 
-1354243324 source:l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\game_engine.cpp
+1354247606 source:l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\game_engine.cpp
 	<string>
 	<sstream>
 	<math.h>
@@ -2571,7 +2571,7 @@
 	<string>
 	<SDL\SDL.h>
 
-1354243356 source:l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\globals.cpp
+1354247198 source:l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\globals.cpp
 	"headers/globals.h"
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
@@ -2605,7 +2605,7 @@
 
 1349618220 l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\headers\loadingscreens.h
 
-1354243324 source:l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\main.cpp
+1354248306 source:l:\programming\windows\c++\sdl\generic rpg\generic rpg windows\bin\main.cpp
 	<windows.h>
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>

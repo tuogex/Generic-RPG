@@ -23,11 +23,14 @@ void Actor::miscMapItems() {
 
     bool levelOver = false;
 
-    if( ( gameLevel == 4 ) && ( bossOneHealth <= 0 ) ) {
+    if( ( mapLevel == 4 ) && boss1Dead ) {
         levelOver = true;
     }
+if(mapLevel != 4 ) {
+    if( totalEnemyKills > (mapLevel * 20) ) levelOver = true;
+}
 
-    if( ( totalEnemyKills > mapLevel * 20 ) || levelOver ) {
+    if( levelOver ) {
         apply_surface ( portalX, portalY, portalSurf, screen );
 
         levelOver = false;
@@ -207,23 +210,23 @@ void Actor::move(int dx, int dy) {
     heroR.y = y;
 
 if(fast) {
-    if( x < 100 ) {
-        x = 100;
+    if( x < 325 ) {
+        x = 325;
         mapOffsetXAmt -= 2;
     }
 
-    if( (x + heroR.w) > (SCREEN_WIDTH - 100) ) {
-        x = (SCREEN_WIDTH - 100) - heroR.w;
+    if( (x + heroR.w) > (SCREEN_WIDTH - 325) ) {
+        x = (SCREEN_WIDTH - 325) - heroR.w;
         mapOffsetXAmt += 2;
     }
 
-    if( y < 100 ) {
-        y = 100;
+    if( y < 212 ) {
+        y = 212;
         mapOffsetYAmt -= 2;
     }
 
-    if( (y + heroR.h) > (SCREEN_HEIGHT - 100) ) {
-        y = (SCREEN_HEIGHT - 100) - heroR.h;
+    if( (y + heroR.h) > (SCREEN_HEIGHT - 212) ) {
+        y = (SCREEN_HEIGHT - 212) - heroR.h;
         mapOffsetYAmt += 2;
     }
 }
@@ -244,6 +247,7 @@ if(fast) {
         heroMagica -= 1.5;
         magicAttack = true;
         apply_surface((heroR.x + (heroR.w/2)) - 265, (heroR.y + (heroR.h)) - 265, magicaAttackSprite, screen );
+
         SDL_SetAlpha(magicaAttackSprite, SDL_SRCALPHA, SDL_ALPHA_OPAQUE - magicaAlphaAmt );
 
         if(magicaAlphaAmtUp) {
@@ -433,6 +437,9 @@ if( type != 5 ) {
             case 2:
                 mobHealth = 350;
                 break;
+            case 6:
+                mobHealth = 100;
+                break;
         }
         zomb.w = 100;
         zomb.h = 126;
@@ -494,6 +501,9 @@ if( type != 2 ) {
         case 5:
             maxMobHealth = 7500.f;
             break;
+        case 6:
+            maxMobHealth = 100.f;
+            break;
     }
 
     float mobHealthFlt = mobHealth;
@@ -503,11 +513,13 @@ if( type != 2 ) {
         apply_surface( zomb.x, zomb.y, zombSurf, screen );
         //apply_surface(zomb.x + 30, zomb.y - 40, mobHealthShow, screen );
 
+    if(type != 6) {
         apply_surface( zomb.x, zomb.y - 35, mobHealthBar, screen );
 
         for( int mh = 0; mh < mobHealthAdj; mh++ ) {
             apply_surface( zomb.x + 2 + mh, zomb.y - 33, mobHealthBarTick, screen );
         }
+    }
 
         /*
         apply_surface( zomb.x - mapOffsetXAmt, zomb.y - mapOffsetYAmt, zombSurf, screen );
@@ -515,7 +527,7 @@ if( type != 2 ) {
         */
     }
 
-if(type != 5) {
+if(type != 5 && type != 6) {
     if( ifDead ) {
         zomb.w = 0;
         zomb.h = 0;
@@ -535,7 +547,6 @@ if(type != 5) {
         }
     }
 }
-
 
     signed int zombAcc1 = rand() % 200 + 50;
 
@@ -581,143 +592,24 @@ if(type != 5) {
             if( ( heroR.y + 63) > (zombAcc.y + zombAcc.h)) zomb.y+=2;
             else if( (heroR.y + 63) < zombAcc.y ) zomb.y-=2;
         break;
+
+        case 6:
+            if( (heroR.x + 50) > (zombAcc.x + zombAcc.w)) zomb.x+=3;
+            else if( (heroR.x + 50) < zombAcc.x) zomb.x-=3;
+
+            if( ( heroR.y + 63) > (zombAcc.y + zombAcc.h)) zomb.y+=3;
+            else if( (heroR.y + 63) < zombAcc.y ) zomb.y-=3;
+        break;
     }
-/*
-    switch( type ) {
-        case 0:
-            if( heroR.x > zomb.x ) {
-                zomb.x++;
-            } else if( heroR.x < ( zomb.x + zombAcc1 ) ) {
-                zomb.x--;
-            }
 
-            if( heroR.y > zomb.y ) {
-                zomb.y++;
-            } else if( heroR.y < ( zomb.y + zombAcc1) ) {
-                zomb.y--;
-            }
-            break;
-
-        case 1:
-            if( heroR.x > zomb.x ) zomb.x += 2;
-            else if( heroR.x < ( zomb.x + zombAcc1 ) ) zomb.x-= 2;
-
-            if( heroR.y > zomb.y ) zomb.y += 2;
-            else if( heroR.y < ( zomb.y + zombAcc1) ) zomb.y -= 2;
-            break;
-
-        case 2:
-            if( heroR.x > zomb.x ) zomb.x += 2;
-            else if( heroR.x < ( zomb.x + zombAcc1 ) ) zomb.x-= 2;
-
-            if( heroR.y > zomb.y ) zomb.y += 2;
-            else if( heroR.y < ( zomb.y + zombAcc1) ) zomb.y -= 2;
-            break;
+    if(fast) {
+        zomb.x += mapOffsetXAmt;
+        zomb.y += mapOffsetYAmt;
     }
-    */
-if(fast) {
-    zomb.x += mapOffsetXAmt;
-    zomb.y += mapOffsetYAmt;
-}
 
 }
 
 
-/*
-void Actor::moveZomb() {
-
-
-    if( ( SDL_GetTicks() - zomb1RespawnTimer >= 3000) && zomb1Dead ) {
-        zomb1Dead = false;
-        zomb1Xp = false;
-        zomb1.w = 100;
-        zomb1.h = 126;
-        zomb1.x = rand() % ( rand() % 240 + 10 ) + 800;
-        zomb1.y = rand() % 317 + 10;
-    }
-    if( ( SDL_GetTicks() - zomb2RespawnTimer >= 2500) && zomb2Dead ) {
-        zomb2Dead = false;
-        zomb2Xp = false;
-        zomb2.w = 100;
-        zomb2.h = 126;
-        zomb2.x = ( rand() % 240 + 10 ) + 800;
-        zomb2.y = ( rand() % 317 + 10 ) + 600;
-    }
-    if( ( SDL_GetTicks() - zomb3RespawnTimer >= 2000 ) && zomb3Dead ) {
-        zomb3Dead = false;
-        zomb3Xp = false;
-        zomb3.w = 100;
-        zomb3.h = 126;
-        zomb3.x = ( rand() % 240 + 10 ) - 800;
-        zomb3.y = ( rand() % 317 + 10 ) - 600;
-    }
-
-    if( zombie.zombHitDetect(zomb1.x, zomb1.y, zomb1) && !zomb1Dead ) zomb1Dead = false;
-    else zomb1Dead = true;
-
-    if( zombHitDetect(zomb2.x, zomb2.y, zomb2) && !zomb2Dead ) zomb2Dead = false;
-    else zomb2Dead = true;
-
-    if( zombHitDetect(zomb3.x, zomb3.y, zomb3) && !zomb3Dead ) zomb3Dead = false;
-    else zomb3Dead = true;
-
-    if( !zomb1Dead ) apply_surface( zomb1.x, zomb1.y, zombFront, screen );
-    if( !zomb2Dead ) apply_surface( zomb2.x, zomb2.y, zomb2Front, screen );
-    if( !zomb3Dead ) apply_surface( zomb3.x, zomb3.y, zomb2Front, screen );
-
-    if( zomb1Dead ) {
-        zomb1.w = 0;
-        zomb1.h = 0;
-        if( !zomb1Xp ) {
-            xp += 50;
-            zomb1Xp = true;
-            zomb1RespawnTimer = SDL_GetTicks();
-        }
-    }
-    if( zomb2Dead ) {
-        zomb2.w = 0;
-        zomb2.h = 0;
-        if( !zomb2Xp ) {
-            xp += 50;
-            zomb2Xp = true;
-            zomb2RespawnTimer = SDL_GetTicks();
-        }
-    }
-
-    if( zomb3Dead ) {
-        zomb3.w = 0;
-        zomb3.h = 0;
-        if( !zomb3Xp ) {
-            xp += 50;
-            zomb3Xp = true;
-            zomb3RespawnTimer = SDL_GetTicks();
-        }
-    }
-
-    signed int zombAcc1 = rand() % 400 - 400;
-    signed int zombAcc2 = rand() % 400 - 400;
-    signed int zombAcc3 = rand() % 400 - 400;
-
-
-    if( heroR.x > zomb1.x ) zomb1.x++;
-    else if( heroR.x < ( zomb1.x + zombAcc1 ) ) zomb1.x--;
-
-    if( heroR.y > zomb1.y ) zomb1.y++;
-    else if( heroR.y < ( zomb1.y + zombAcc1) ) zomb1.y--;
-
-    if( heroR.x > zomb2.x ) zomb2.x++;
-    else if( heroR.x < ( zomb2.x + zombAcc2 ) ) zomb2.x--;
-
-    if( heroR.y > zomb2.y ) zomb2.y++;
-    else if( heroR.y < ( zomb2.y + zombAcc2 ) ) zomb2.y--;
-
-    if( heroR.x > zomb3.x ) zomb3.x++;
-    else if( heroR.x < ( zomb3.x + zombAcc3 ) ) zomb3.x--;
-
-    if( heroR.y > zomb3.y ) zomb3.y++;
-    else if( heroR.y < ( zomb3.y + zombAcc3 ) ) zomb3.y--;
-}
-*/
 bool Actor::zombHitDetect( int type, int x, int y, SDL_Rect locate ) {
     hero.slashTime();
     if( playerSlash ) {
@@ -753,6 +645,13 @@ bool Actor::zombHitDetect( int type, int x, int y, SDL_Rect locate ) {
             if( ( (heroR.x + 50) > x ) && ((heroR.y + 63)> y) ) {
                 if( ( ( heroR.x + 50 ) < x + locate.w )  && ( ( heroR.y + 63 ) < y + locate.h ) )
                     heroHealth -= 4;
+            }
+        break;
+
+        case 6:
+            if( ( (heroR.x + 50) > x ) && ((heroR.y + 63)> y) ) {
+                if( ( ( heroR.x + 50 ) < x + locate.w )  && ( ( heroR.y + 63 ) < y + locate.h ) )
+                    heroHealth -= 1;
             }
         break;
     }

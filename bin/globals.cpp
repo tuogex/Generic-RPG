@@ -48,7 +48,7 @@ int skelAmt = 8;
 int ghostAmt = 3;
 const int healthPckNum = 3;
 
-int bossOneMiniAmt = 3;
+int bossOneMiniAmt = 12;
 
 bool ifNoSound;
 
@@ -79,12 +79,17 @@ bool ghostXp[ghostAmt];
 */
 
 bool boss1Xp;
+std::vector<bool> bossOneMiniXp(bossOneMiniAmt);
 
 std::vector<signed int> zombOffsetX(zombAmt);
 std::vector<signed int> zombOffsetY(zombAmt);
 
 signed int boss1OffsetX;
 signed int boss1OffsetY;
+std::vector<signed int> bossOneMiniOffsetX(bossOneMiniAmt);
+std::vector<signed int> bossOneMiniOffsetY(bossOneMiniAmt);
+
+
 
 std::vector<signed int> skelOffsetX(skelAmt);
 std::vector<signed int> skelOffsetY(skelAmt);
@@ -102,12 +107,16 @@ int gameLevelKillsNeeded = 0;
 std::vector<SDL_Rect> zombRect(zombAmt);
 std::vector<SDL_Rect> skelRect(skelAmt);
 std::vector<SDL_Rect> ghostRect(ghostAmt);
+
 SDL_Rect boss1Rect;
+std::vector<SDL_Rect> bossOneMiniRect(bossOneMiniAmt);
 
 std::vector<SDL_Rect> ghostDeadCoord(ghostAmt);
 std::vector<SDL_Rect> zombDeadCoord(zombAmt);
 std::vector<SDL_Rect> skelDeadCoord(skelAmt);
+
 SDL_Rect boss1DeadCoord;
+std::vector<SDL_Rect> bossOneMiniDeadCoord(bossOneMiniAmt);
 
 int mapDetail[50][38];
 
@@ -137,21 +146,29 @@ int swordType = 0;
 std::vector<bool> zombDead(zombAmt);
 std::vector<bool> skelDead(skelAmt);
 std::vector<bool> ghostDead(ghostAmt);
+
 bool boss1Dead;
+std::vector<bool> bossOneMiniDead(bossOneMiniAmt);
 
 std::vector<bool> ghostDrop(ghostAmt);
 std::vector<bool> zombDrop(zombAmt);
 std::vector<bool> skelDrop(skelAmt);
+
 bool bossOneDrop;
+std::vector<bool> bossOneMiniDrop(bossOneMiniAmt);
 
 std::vector<Uint32> zombRespawn(zombAmt);
 std::vector<Uint32> skelRespawn(skelAmt);
 std::vector<Uint32> ghostRespawn(ghostAmt);
 
+std::vector<Uint32> bossOneMiniRespawn(bossOneMiniAmt);
+
 std::vector<unsigned int> zombHealth(zombAmt);
 std::vector<unsigned int> skelHealth(skelAmt);
 std::vector<unsigned int> ghostHealth(ghostAmt);
+
 unsigned int bossOneHealth;
+std::vector<unsigned int> bossOneMiniHealth(bossOneMiniAmt);
 
 int mapAmt = 3;
 
