@@ -15,6 +15,9 @@ bool wantPortal;
 
 bool useKey;
 
+bool magicAttackUse;
+bool magicAttack;
+
 bool devPortalSkip;
 
 bool moveOn;
@@ -41,7 +44,7 @@ bool devModeError;
 
 bool initFail= false;
 int zombAmt = 5;
-int skelAmt = 5;
+int skelAmt = 8;
 int ghostAmt = 3;
 const int healthPckNum = 3;
 
@@ -229,6 +232,10 @@ SDL_Surface *xpAmt = NULL;
 SDL_Surface *levelSh = NULL;
 SDL_Surface *levelTick = NULL;
 SDL_Surface *introSelectRect = NULL;
+
+int magicaAlphaAmt = 60;
+bool magicaAlphaAmtUp;
+SDL_Surface *magicaAttackSprite = NULL;
 
 SDL_Surface *itemSlotOutline = NULL;
 SDL_Surface *itemSlotSurf[9];

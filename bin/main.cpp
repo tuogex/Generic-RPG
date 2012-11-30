@@ -36,32 +36,8 @@ OF THE AUTHORS OF THE SOURCE CODE.
 using namespace std;
 
 
-int devConsole( void *data ) {
-
-    while(!quit) {
-
-        system("cls");
-
-        cout << "Generic RPG Developer Console" << endl << endl;
-
-        cout << "Total Time: " << (totalGameTime.get_ticks() / 1000) << " seconds" << endl;
-        cout << "Frames: " << totalGameFrames << endl;
-        cout << "Current FPS: " << currentFps << endl;
-        cout << "Average FPS: " << ( (totalGameFrames * 1000)/ totalGameTime.get_ticks() ) << endl << endl;
-
-        cout << "Player XP: " << xp << endl;
-        cout << "Player Level: " << level << endl << endl;
-
-        SDL_Delay(1000);
-
-    }
-
-}
-
-/////////////////////////////////////
-int main(int argc, char **argv) {
-/////////////////////////////////////
-
+void preLoop() {
+/*
     bool failSkip = false;
 
     srand(time(NULL));
@@ -144,12 +120,7 @@ if( devModeB ) {
     if( test == "false") noLogin = true;
     else if(test == "true" ) noLogin = false;
 
-    if( noLogin ) return -1;
-
     if( !devModeB) intro();
-
-    apply_surface( 0, 0, introBackground, screen );
-    SDL_Flip(screen);
 
     Uint32 fpsReg = SDL_GetTicks();
 
@@ -164,7 +135,7 @@ if( devModeB ) {
     mapOffsetXAmt = 0;
     mapOffsetYAmt = 0;
 
-    loadSave(gameSaveInt);
+    //loadSave(gameSaveInt);
     hero.getLastHeroCord();
 
 
@@ -186,9 +157,139 @@ if( devModeB ) {
                     road = load_image("images/other/level4/concrete.png");
                 }
 
-    if( devModeB) consoleThread = SDL_CreateThread( devConsole, NULL );
+    screen = SDL_SetVideoMode( 805, 605, SCREEN_BPP, SDL_SWSURFACE );
+
+}
+
+/////////////////////////////////////
+int main(int argc, char **argv) {
+/////////////////////////////////////
+
+    //preLoop();
+
+    bool failSkip = false;
+
+    srand(time(NULL));
+
+    bool lose = false;
+
+    init();
+
+    settingsFile();
+
+    load_files();
+
+if( devModeB ) {
+    AllocConsole();
+
+    freopen( "CON", "wt", stdout );
+    freopen( "CON", "wt", stderr );
+}
+
+    bossOneHealth = 7500;
+    boss1Rect.w = 175;
+    boss1Rect.h = 175;
+
+    for( int j = 0; j < zombAmt; j++ ) {
+        zombRect[j].x = rand() % (480 + 240) + 800;
+        zombRect[j].y = rand() % (317 + 240) + 600;
+    }
+
+    for( int t = 0; t < zombAmt; t++ ) {
+        zombOffsetX[t] = rand() % (2400 + 0) - 800;
+        zombOffsetY[t] = rand() % (1800 + 0) - 600;
+    }
+
+    for( int q = 0; q < skelAmt; q++ ) {
+        skelRect[q].x = rand() % (480 + 240) - 800;
+        skelRect[q].y = rand() % (317 + 240) - 600;
+    }
+
+    for( int w = 0; w < skelAmt; w++ ) {
+        skelOffsetX[w] = rand() % (2400 + 0) - 800;
+        skelOffsetY[w] = rand() % (1800 + 0) - 600;
+    }
+
+    for( int gh = 0; gh < ghostAmt; gh++ ) {
+        ghostRect[gh].x = rand() % (600 + 200) + 800;
+        ghostRect[gh].y = rand() % (360 + 200) - 600;
+
+        ghostOffsetX[gh] = rand() % (2400 + 0) - 800;
+        ghostOffsetY[gh] = rand() % (1800 + 0) - 600;
+
+        SDL_SetAlpha( ghostSurf[gh], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    }
+
+    SDL_SetAlpha( itemSlotSurf[0], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[1], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[2], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[3], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[4], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[5], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[6], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[7], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+    SDL_SetAlpha( itemSlotSurf[8], SDL_SRCALPHA, SDL_ALPHA_OPAQUE - 80 );
+
+
+/*
+    zombRect[0].x = rand() % 480 + 240;
+    zombRect[0].y = rand() % 317 + 10;
+
+    zombRect[1].x = rand() % 240 + 10;
+    zombRect[1].y = rand() % 317 + 10;
+
+    zombRect[2].x = ( rand() % 240 + 10 ) - 800;
+    zombRect[2].y = ( rand() % 317 + 10 ) - 600;
+*/
+
+    ifstream file;
+    file.open("settings\login data\ifLauncher");
+    string test;
+    file >> test;
+    bool noLogin = false;
+    if( test == "false") noLogin = true;
+    else if(test == "true" ) noLogin = false;
+
+    if( !devModeB) intro();
+
+    Uint32 fpsReg = SDL_GetTicks();
+
+    if( !ifNoSound ) Mix_PlayMusic( gameMusic, -1 );
+    if( devModeB ) Mix_CloseAudio();
+    if( ifNoSound ) Mix_CloseAudio();
+
+    fpsTime.start();
+    update.start();
+    totalGameTime.start();
+
+    mapOffsetXAmt = 0;
+    mapOffsetYAmt = 0;
+
+    //loadSave(gameSaveInt);
+    hero.getLastHeroCord();
+
+
+                if( mapLevel == 2 ) {
+                    water = load_image("images/other/level2/water.png");
+                    grass = load_image("images/other/level2/grass.png");
+                    road = load_image("images/other/level2/concrete.png");
+                }
+
+                if( mapLevel == 3 ) {
+                    water = load_image("images/other/level3/water.png");
+                    grass = load_image("images/other/level3/grass.png");
+                    road = load_image("images/other/level3/concrete.png");
+                }
+
+                if( mapLevel == 4 ) {
+                    water = load_image("images/other/level4/water.png");
+                    grass = load_image("images/other/level4/grass.png");
+                    road = load_image("images/other/level4/concrete.png");
+                }
 
     screen = SDL_SetVideoMode( 805, 605, SCREEN_BPP, SDL_SWSURFACE );
+
+
 
     while(quit == false) {
 
@@ -214,6 +315,9 @@ if( devModeB ) {
         frameCount++;
         totalGameFrames++;
         fpsCalc();
+
+
+        if(event.type == SDL_QUIT ) quit = true;
 
         if( heroHealth <= 0 ) {
             quit = true;
@@ -884,6 +988,8 @@ void load_files() {
 
     healthBall = load_image("images/HUD/itemSlots/healthBall.png");
     magicaBall = load_image("images/HUD/itemSlots/magicaBall.png");
+
+    magicaAttackSprite = load_image("images/other/magicaAttackSprite.png");
 }
 
 /////////////////////////////////////
@@ -963,6 +1069,10 @@ void Actor::keyReg(SDL_Event event) {
             wantHealthPck = true;
             wantPortal = true;
             useKey = true;
+            break;
+
+        case SDLK_f:
+            magicAttackUse = true;
             break;
 
         case SDLK_1:
@@ -1126,6 +1236,11 @@ void Actor::keyReg(SDL_Event event) {
             wantPortal = false;
             useKey = false;
             break;
+
+        case SDLK_f:
+            magicAttackUse = false;
+            break;
+
         case SDLK_SPACE:
             spaceClick = false;
             playerSlash = false;

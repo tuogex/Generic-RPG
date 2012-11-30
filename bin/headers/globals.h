@@ -22,6 +22,9 @@ extern bool wantPortal;
 
 extern bool useKey;
 
+extern bool magicAttackUse;
+extern bool magicAttack;
+
 extern bool devPortalSkip;
 
 extern bool moveOn;
@@ -242,6 +245,10 @@ extern SDL_Surface *xpAmt;
 extern SDL_Surface *levelSh;
 extern SDL_Surface *levelTick;
 extern SDL_Surface *introSelectRect;
+
+extern int magicaAlphaAmt;
+extern bool magicaAlphaAmtUp;
+extern SDL_Surface *magicaAttackSprite;
 
 extern SDL_Surface *itemSlotOutline;
 extern SDL_Surface *itemSlotSurf[];

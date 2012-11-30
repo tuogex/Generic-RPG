@@ -239,6 +239,31 @@ if(fast) {
     }
     if( heroMagica <= 0 ) heroMagica = 0;
     if( heroHealth > heroMaxHealth ) heroHealth = heroMaxHealth;
+
+    if( magicAttackUse && heroMagica > 10 ) {
+        heroMagica -= 1.5;
+        magicAttack = true;
+        apply_surface((heroR.x + (heroR.w/2)) - 265, (heroR.y + (heroR.h)) - 265, magicaAttackSprite, screen );
+        SDL_SetAlpha(magicaAttackSprite, SDL_SRCALPHA, SDL_ALPHA_OPAQUE - magicaAlphaAmt );
+
+        if(magicaAlphaAmtUp) {
+            if(magicaAlphaAmt < 240 ) {
+                magicaAlphaAmt += 7;
+            } else {
+                magicaAlphaAmtUp = false;
+            }
+        } else {
+            if(magicaAlphaAmt > 30 ) {
+                magicaAlphaAmt -= 7;
+            } else {
+                magicaAlphaAmtUp = true;
+            }
+        }
+
+    } else {
+        magicAttack = false;
+    }
+
 /*
     switch(difficultyLevel) {
 
@@ -418,6 +443,16 @@ if( type != 5 ) {
 
     if( zombie.zombHitDetect(type, zomb.x, zomb.y, zomb) && !ifDead ) ifDead = false;
     else  { mobHealth -= 25; }
+
+if( type != 2 ) {
+    if(magicAttack) {
+        if( ( zomb.x - heroR.x < 250 ) && (zomb.x - heroR.x > -250) ) {
+            if( ( zomb.y - heroR.y < 250 ) && (zomb.y - heroR.y > -250) ) {
+                mobHealth -= 50;
+            }
+        }
+    }
+}
 
     if( mobHealth <= 0 ) {
         ifDead = true;
@@ -1156,7 +1191,7 @@ void loadSave(int position) {
     ifstream saveFileMPX;
     ifstream saveFileMPY;
     ifstream saveFileML;
-    ifstream saveItemSlots[9];
+    //ifstream saveItemSlots[9];
 
     ifstream saveFileZXL[zombAmt];
     ifstream saveFileZYL[zombAmt];
@@ -1202,7 +1237,7 @@ void loadSave(int position) {
             saveFileZYL[0].open("saves/gameOne/mobs/zomb/ZYL0");
             saveFileZYL[1].open("saves/gameOne/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameOne/mobs/zomb/ZYL2");
-
+/*
             saveItemSlots[0].open("saves/gameOne/game/itemSlot1");
             saveItemSlots[1].open("saves/gameOne/game/itemSlot2");
             saveItemSlots[2].open("saves/gameOne/game/itemSlot3");
@@ -1212,6 +1247,7 @@ void loadSave(int position) {
             saveItemSlots[6].open("saves/gameOne/game/itemSlot7");
             saveItemSlots[7].open("saves/gameOne/game/itemSlot8");
             saveItemSlots[8].open("saves/gameOne/game/itemSlot9");
+            */
 
             break;
 
@@ -1249,7 +1285,7 @@ void loadSave(int position) {
             saveFileZYL[0].open("saves/gameTwo/mobs/zomb/ZYL0");
             saveFileZYL[1].open("saves/gameTwo/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameTwo/mobs/zomb/ZYL2");
-
+/*
             saveItemSlots[0].open("saves/gameTwo/game/itemSlot1");
             saveItemSlots[1].open("saves/gameTwo/game/itemSlot2");
             saveItemSlots[2].open("saves/gameTwo/game/itemSlot3");
@@ -1258,7 +1294,7 @@ void loadSave(int position) {
             saveItemSlots[5].open("saves/gameTwo/game/itemSlot6");
             saveItemSlots[6].open("saves/gameTwo/game/itemSlot7");
             saveItemSlots[7].open("saves/gameTwo/game/itemSlot8");
-            saveItemSlots[8].open("saves/gameTwo/game/itemSlot9");
+            saveItemSlots[8].open("saves/gameTwo/game/itemSlot9");*/
 
             break;
 
@@ -1296,7 +1332,7 @@ void loadSave(int position) {
             saveFileZYL[0].open("saves/gameThree/mobs/zomb/ZYL0");
             saveFileZYL[1].open("saves/gameThree/mobs/zomb/ZYL1");
             saveFileZYL[2].open("saves/gameThree/mobs/zomb/ZYL2");
-
+/*
             saveItemSlots[0].open("saves/gameThree/game/itemSlot1");
             saveItemSlots[1].open("saves/gameThree/game/itemSlot2");
             saveItemSlots[2].open("saves/gameThree/game/itemSlot3");
@@ -1305,7 +1341,7 @@ void loadSave(int position) {
             saveItemSlots[5].open("saves/gameThree/game/itemSlot6");
             saveItemSlots[6].open("saves/gameThree/game/itemSlot7");
             saveItemSlots[7].open("saves/gameThree/game/itemSlot8");
-            saveItemSlots[8].open("saves/gameThree/game/itemSlot9");
+            saveItemSlots[8].open("saves/gameThree/game/itemSlot9");*/
 
             break;
     }
@@ -1336,7 +1372,7 @@ void loadSave(int position) {
     }
 
     for(int is = 0; is < 9; is++) {
-        saveItemSlots[is] >> itemSlotItem[is];
+        //saveItemSlots[is] >> itemSlotItem[is];
     }
 
 
