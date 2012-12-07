@@ -13,10 +13,14 @@ int mapLevel = 1;
 bool ifPortal;
 bool wantPortal;
 
+bool endLevelOnce = true;
+
 bool useKey;
 
 bool magicAttackUse;
 bool magicAttack;
+
+Timer magicaAttackDropTimer;
 
 bool devPortalSkip;
 
@@ -238,17 +242,21 @@ SDL_Surface *zombLeft = NULL;
 SDL_Surface *zombRight = NULL;
 SDL_Surface *backbackground = NULL;
 SDL_Surface *fpsDisplay = NULL;
-SDL_Surface *tileType = NULL;
 SDL_Surface *playerXLocSurf = NULL;
 SDL_Surface *playerYLocSurf = NULL;
 SDL_Surface *grass = NULL;
 SDL_Surface *road = NULL;
 SDL_Surface *water = NULL;
+SDL_Surface *wall = NULL;
 SDL_Surface *quad = NULL;
 SDL_Surface *xpAmt = NULL;
 SDL_Surface *levelSh = NULL;
 SDL_Surface *levelTick = NULL;
 SDL_Surface *introSelectRect = NULL;
+
+int wallDetectArr[150][113];
+bool wallDetectArrBool[150][113];
+int tileType;
 
 int magicaAlphaAmt = 60;
 bool magicaAlphaAmtUp;

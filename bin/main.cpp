@@ -120,6 +120,7 @@ if( devModeB ) {
     if( test == "false") noLogin = true;
     else if(test == "true" ) noLogin = false;
 
+    arrayPicker();
     if( !devModeB) intro();
 
     Uint32 fpsReg = SDL_GetTicks();
@@ -250,6 +251,7 @@ if( devModeB ) {
     if( test == "false") noLogin = true;
     else if(test == "true" ) noLogin = false;
 
+    arrayPicker();
     if( !devModeB) intro();
 
     Uint32 fpsReg = SDL_GetTicks();
@@ -289,6 +291,11 @@ if( devModeB ) {
 
     screen = SDL_SetVideoMode( 805, 605, SCREEN_BPP, SDL_SWSURFACE );
 
+    loadChars();
+
+    zombAmt = 5;
+    skelAmt = 8;
+    ghostAmt = 3;
 
 
     while(quit == false) {
@@ -338,6 +345,15 @@ if( devModeB ) {
     //if( !devModeB ) credits();
 
     //logFile();
+
+    ofstream arrayO;
+    arrayO.open("array.txt");
+    for(int ah = 0; ah < 113; ah++ ) {
+        for(int aw = 0; aw < 150; aw++ ) {
+            arrayO << wallDetectArr[aw][ah];
+        }
+        arrayO << "\n";
+    }
 
     uninit();
 
@@ -551,15 +567,33 @@ void HUD() {
         string heroMagicaString;
         qq >> heroMagicaString;
 */
-        stringstream xLocStrStr;
-        string xLocStr;
-        xLocStrStr << mapXAxis / 16;
-        xLocStrStr >> xLocStr;
 
-        stringstream yLocStrStr;
-        string yLocStr;
-        yLocStrStr << mapYAxis / 16;
-        yLocStrStr >> yLocStr;
+        stringstream posSS;
+        posSS << "type:" <<wallDetectArr[((mapOffsetXAmt+heroR.x) + 800)/16][((mapOffsetYAmt+heroR.y) + 600)/16];
+        string posS;
+        posSS >> posS;
+
+        SDL_Surface* posSurf = NULL;
+        posSurf = TTF_RenderText_Solid(font, posS.c_str(), textColor);
+        apply_surface(0, 60, posSurf, screen );
+
+
+        stringstream xpos;
+        xpos << "x:" <<(mapOffsetXAmt+heroR.x) + 800;
+        string xposS;
+        xpos >> xposS;
+
+        SDL_Surface *xposSurf = TTF_RenderText_Solid(font, xposS.c_str(), textColor);
+        apply_surface(0, 0, xposSurf, screen );
+
+        stringstream ypos;
+        ypos << "y:" <<(mapOffsetYAmt+heroR.y) + 600;
+        string yposS;
+        ypos >> yposS;
+
+        SDL_Surface *yposSurf = TTF_RenderText_Solid(font, yposS.c_str(), textColor);
+        apply_surface(0, 30, yposSurf, screen );
+
 /*
         stringstream tileTypeStrStr;
         string tileTypeStr;
@@ -609,9 +643,6 @@ void HUD() {
         //healthDisplay = TTF_RenderText_Solid( font, healthString.c_str(), textColor );
         levelSh = TTF_RenderText_Solid( font, levelS.c_str(), textColor);
         //heroMagicaShow = TTF_RenderText_Solid(font, heroMagicaString.c_str(), textColor );
-        playerXLocSurf = TTF_RenderText_Solid(font, xLocStr.c_str(), textColor);
-        playerYLocSurf = TTF_RenderText_Solid(font, yLocStr.c_str(), textColor);
-        tileType = TTF_RenderText_Solid(font, tileTypeStr.c_str(), textColor );
 
 
         apply_surface( SCREEN_WIDTH-70, 3, xpAmt, screen );
@@ -705,7 +736,7 @@ void items() {
 
 
     for( int sb = 0; sb < skelAmt; sb++ ) {
-        if( skelDrop[sb] ) apply_surface(skelDeadCoord[sb].x - mapOffsetXAmt, skelDeadCoord[sb].y - mapOffsetYAmt, bagSurf, screen );
+        if( skelDrop[sb] ) apply_surface(skelDeadCoord[sb].x - mapOffsetXAmt, skelDeadCoord[sb].y - mapOffsetYAmt, rareBagSurf, screen );
 
         if( ( heroR.x + (heroR.w/2) )> (skelDeadCoord[sb].x - mapOffsetXAmt - 50) && (heroR.y  > (skelDeadCoord[sb].y -mapOffsetYAmt - 50))) {
             if( ( heroR.x + (heroR.w/2) < ((skelDeadCoord[sb].x + skelDeadCoord[sb].w + 50) - mapOffsetXAmt) ) ) {
@@ -952,6 +983,7 @@ void load_files() {
     grass = load_image( "Images/Other/level1/grass4.png" );
     road = load_image( "Images/Other/level1/concrete2.png" );
     water = load_image( "Images/Other/level1/water.png" );
+    wall = load_image( "Images/Other/level1/wall.png" );
 
     backbackground = load_image( "images/Other/backbackground.png" );
     levelTick = load_image("images/HUD/levelTick.png");
@@ -1101,9 +1133,12 @@ void Actor::keyReg(SDL_Event event) {
                 case 2:
                     heroMagica += 50;
                     break;
+                case 3:
+                    magicaAttackDropTimer.start();
+                    break;
             }
 
-            itemSlotItem[0] = 0;
+            itemSlotItem[1] = 0;
 
             break;
 
@@ -1114,6 +1149,9 @@ void Actor::keyReg(SDL_Event event) {
                     break;
                 case 2:
                     heroMagica += 50;
+                    break;
+                case 3:
+                    magicaAttackDropTimer.start();
                     break;
             }
 
@@ -1129,6 +1167,9 @@ void Actor::keyReg(SDL_Event event) {
                 case 2:
                     heroMagica += 50;
                     break;
+                case 3:
+                    magicaAttackDropTimer.start();
+                    break;
             }
 
             itemSlotItem[2] = 0;
@@ -1142,6 +1183,9 @@ void Actor::keyReg(SDL_Event event) {
                     break;
                 case 2:
                     heroMagica += 50;
+                    break;
+                case 3:
+                    magicaAttackDropTimer.start();
                     break;
             }
 
@@ -1157,6 +1201,9 @@ void Actor::keyReg(SDL_Event event) {
                 case 2:
                     heroMagica += 50;
                     break;
+                case 3:
+                    magicaAttackDropTimer.start();
+                    break;
             }
 
             itemSlotItem[4] = 0;
@@ -1170,6 +1217,9 @@ void Actor::keyReg(SDL_Event event) {
                     break;
                 case 2:
                     heroMagica += 50;
+                    break;
+                case 3:
+                    magicaAttackDropTimer.start();
                     break;
             }
 
@@ -1185,6 +1235,9 @@ void Actor::keyReg(SDL_Event event) {
                 case 2:
                     heroMagica += 50;
                     break;
+                case 3:
+                    magicaAttackDropTimer.start();
+                    break;
             }
 
             itemSlotItem[6] = 0;
@@ -1199,6 +1252,9 @@ void Actor::keyReg(SDL_Event event) {
                 case 2:
                     heroMagica += 50;
                     break;
+                case 3:
+                    magicaAttackDropTimer.start();
+                    break;
             }
 
             itemSlotItem[7] = 0;
@@ -1212,6 +1268,9 @@ void Actor::keyReg(SDL_Event event) {
                     break;
                 case 2:
                     heroMagica += 50;
+                    break;
+                case 3:
+                    magicaAttackDropTimer.start();
                     break;
             }
 
@@ -1431,6 +1490,11 @@ void drawMapFast1( int offsetX, int offsetY, int **intMap ) {
     for(int i = 0; i < MAP_WIDTH; i++) {
         for(int j = 0; j < MAP_HEIGHT; j++) {
             switch(intMap[j][i]) {
+
+            case 3:
+                apply_surface( (((((i * 16 ) - mapOffsetXAmt) - offsetX) + SCREEN_WIDTH) + resizeX), ((( j * 16 ) - mapOffsetYAmt) - offsetY) + SCREEN_HEIGHT, wall, screen );
+            break;
+
             case 2:
                 //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) >= -10 ) {
                     //if( ( ((i * 16 ) - mapOffsetXAmt) - offsetX ) <= 810 ) {
@@ -1466,12 +1530,76 @@ void drawMapFast1( int offsetX, int offsetY, int **intMap ) {
                 //}
 
                 //textureMap[i + offsetX][j + offsetY] = 0;
+
                 break;
             default:
                 break;
             }
         }
     }
+
+}
+
+/////////////////////////////////////
+void drawArrayFast( int offsetX, int offsetY, int **intMap ) {
+/////////////////////////////////////
+
+    for(int i = 0; i < MAP_WIDTH; i++) {
+        for(int j = 0; j < MAP_HEIGHT; j++) {
+            switch(intMap[j][i]) {
+
+            case 3:
+                wallDetectArr[i + ((offsetX)/16)][j+((offsetY)/16)] = 3;
+            break;
+
+            case 2:
+                wallDetectArr[i + ((offsetX)/16)][j+((offsetY)/16)] = 2;
+                break;
+
+            case 1:
+                wallDetectArr[i + ((offsetX)/16)][j+((offsetY)/16)] = 1;
+                break;
+
+            case 0:
+                //wallDetectArr[i + ((800 + offsetX)/16)][j+((600+offsetY)/16)] = 0;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+}
+
+
+void arrayPicker() {
+
+/*
+    drawArrayFast(800, 600 * 2, fileReader12->map);
+    drawArrayFast(800, 600, fileReader11->map);
+    drawArrayFast(800, 0, fileReader10->map);
+
+    drawArrayFast(800 * 2, 600, fileReader01->map);
+    drawArrayFast(800 * 2, 600 * 2, fileReader02->map);
+    drawArrayFast(800 * 2, 0, fileReader00->map);
+
+    drawArrayFast(0, 600, errorFix->map);
+    drawArrayFast(0, 600 * 2, fileReader22->map);
+    drawArrayFast(0, 0, fileReader20->map);
+    */
+
+    drawArrayFast(800, 0, fileReader12->map);
+    drawArrayFast(800, 600, fileReader11->map);
+    drawArrayFast(800, 600 * 2, fileReader10->map);
+
+    drawArrayFast(0, 600, fileReader01->map);
+    drawArrayFast(0, 0, fileReader02->map);
+    drawArrayFast(0, 600 * 2, fileReader00->map);
+
+    drawArrayFast(800 * 2, 600, errorFix->map);
+    drawArrayFast(800 * 2, 0, fileReader22->map);
+    drawArrayFast(800 * 2, 600 * 2, fileReader20->map);
+
 
 }
 

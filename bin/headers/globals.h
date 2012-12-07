@@ -20,10 +20,14 @@ extern int mapLevel;
 extern bool ifPortal;
 extern bool wantPortal;
 
+extern bool endLevelOnce;
+
 extern bool useKey;
 
 extern bool magicAttackUse;
 extern bool magicAttack;
+
+extern Timer magicaAttackDropTimer;
 
 extern bool devPortalSkip;
 
@@ -249,17 +253,21 @@ extern SDL_Surface *zombLeft;
 extern SDL_Surface *zombRight;
 extern SDL_Surface *backbackground;
 extern SDL_Surface *fpsDisplay;
-extern SDL_Surface *tileType;
 extern SDL_Surface *playerXLocSurf;
 extern SDL_Surface *playerYLocSurf;
 extern SDL_Surface *grass;
 extern SDL_Surface *road;
 extern SDL_Surface *water;
+extern SDL_Surface *wall;
 extern SDL_Surface *quad;
 extern SDL_Surface *xpAmt;
 extern SDL_Surface *levelSh;
 extern SDL_Surface *levelTick;
 extern SDL_Surface *introSelectRect;
+
+extern int wallDetectArr[][113];
+extern bool wallDetectArrBool[][113];
+extern int tileType;
 
 extern int magicaAlphaAmt;
 extern bool magicaAlphaAmtUp;

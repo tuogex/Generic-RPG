@@ -8,6 +8,37 @@ using namespace std;
 #include "headers/globals.h"
 #include "headers/SDL_functions.h"
 
+void loadChars() {
+    for( int j = 0; j < skelAmt; j++ ) {
+        skelSurf[j] = load_image("images/RPG Sprites/skel/front.png");
+        skelRect[j].w = 100;
+        skelRect[j].h = 126;
+    }
+    for( int yy = 0; yy < ghostAmt; yy++ ) {
+        ghostSurf[yy] = load_image("images/RPG Sprites/ghost/front.png");
+        ghostRect[yy].w = 100;
+        ghostRect[yy].h = 126;
+
+        ghostHealth[yy] = 350;
+    }
+
+
+    for( int u = 0; u < zombAmt; u++ ) {
+        zombHealth[u] = 500;
+    }
+
+    for( int y = 0; y < skelAmt; y++ ) {
+        skelHealth[y] = 250;
+    }
+
+
+    for( int i = 0; i < zombAmt; i++ ) {
+        zombSurf[i] = load_image("images/RPG Sprites/zombie/front.png");
+        zombRect[i].w = 100;
+        zombRect[i].h = 126;
+    }
+}
+
 Actor::Actor() {
     hero.getLastHeroCord();
     float x = heroR.x;
@@ -26,12 +57,22 @@ void Actor::miscMapItems() {
     if( ( mapLevel == 4 ) && boss1Dead ) {
         levelOver = true;
     }
-if(mapLevel != 4 ) {
-    if( totalEnemyKills > (mapLevel * 20) ) levelOver = true;
-}
+
+    if(mapLevel != 4 ) {
+        if( totalEnemyKills > (mapLevel * 20) ) levelOver = true;
+    }
 
     if( levelOver ) {
+
+
         apply_surface ( portalX, portalY, portalSurf, screen );
+
+
+        //zombAmt = 5 + (mapLevel * 3);
+        //skelAmt = 8 + (mapLevel * 2);
+        //ghostAmt = 3 + (mapLevel * 2);
+
+        //if( endLevelOnce ) {loadChars(); endLevelOnce = false; };
 
         levelOver = false;
 
@@ -101,6 +142,7 @@ if(mapLevel != 4 ) {
 
     } else {
         ifPortal = false;
+        endLevelOnce = true;
     }
 
 }
@@ -172,6 +214,23 @@ void Actor::showHero() {
             else apply_surface( x, y, heroSlashRight, screen );
             break;
     }
+/*
+    apply_surface(heroR.x - 20, heroR.y - 6, load_image("Images/Other/magicaAttackDrop/1.png"), screen);
+        apply_surface(heroR.x - 70, heroR.y - 56, load_image("Images/Other/magicaAttackDrop/2.png"), screen);
+            apply_surface(heroR.x - 105, heroR.y - 86, load_image("Images/Other/magicaAttackDrop/3.png"), screen);
+*/
+    int i;
+
+    if( magicaAttackDropTimer.get_ticks() > 1 ) i = 1;
+    if( magicaAttackDropTimer.get_ticks() > 100 ) i = 2;
+    if( magicaAttackDropTimer.get_ticks() > 200 ) i = 3;
+    if( magicaAttackDropTimer.get_ticks() > 300 ) { i = 0; magicaAttackDropTimer.pause(); }
+
+    std::stringstream magicaAttackDropSS;
+    magicaAttackDropSS << "Images/Other/magicaAttackDrop/" << i << ".png";
+    std::string j;
+    magicaAttackDropSS >> j;
+    apply_surface(heroR.x - (20 + ((i-1)*45)), heroR.y - (6 + (40 * (i-1))), load_image(j.c_str()), screen);
 }
 
 
@@ -187,10 +246,45 @@ void Actor::move(int dx, int dy) {
     //} else if( heroTileType == 2 ) {
         //x += dx;
         //y += dy;
-    //}
 
-        x += dx * 2;
-        y += dy * 2;
+    int preX = x;
+    int preY = y;
+
+    x += dx * 2;
+    y += dy * 2;
+
+    //top
+    for( int ts = 1; ts <= 8; ts++ ) {
+        if(wallDetectArr[((mapOffsetXAmt+(x + (10*ts) + 10)) + 800)/16][((mapOffsetYAmt+(y - 8)) + 600)/16] == 3) {
+            //y -= dy * 2;
+            y = preY;
+        }
+    }
+
+    //bottom
+    for( int bs = 1; bs <= 8; bs++ ) {
+        if(wallDetectArr[((mapOffsetXAmt+(x + (10*bs) + 10)) + 800)/16][((mapOffsetYAmt+(y + heroR.h)) + 600)/16] == 3) {
+            //y -= dy * 2;
+            y = preY;
+        }
+    }
+
+    //left side
+    for(int ls = 1; ls <= 9; ls++ ) {
+        if(wallDetectArr[((mapOffsetXAmt+(x + 15)) + 800)/16][((mapOffsetYAmt+(y + (14 * ls))) + 600)/16] == 3) {
+            //x -= dx * 2;
+            x = preX;
+        }
+    }
+
+    //right side
+    for(int rs = 1; rs <= 9; rs++ ) {
+        if(wallDetectArr[((mapOffsetXAmt+((x + heroR.w) - 15)) + 800)/16][((mapOffsetYAmt+(y + (rs * 14))) + 600)/16] == 3) {
+            //x -= dx * 2;
+            x = preX;
+        }
+    }
+
 
     if(!heroSpawn) {
         x = (SCREEN_WIDTH/2) - 63;
@@ -244,7 +338,7 @@ if(fast) {
     if( heroHealth > heroMaxHealth ) heroHealth = heroMaxHealth;
 
     if( magicAttackUse && heroMagica > 10 ) {
-        heroMagica -= 1.5;
+        heroMagica -= 13;
         magicAttack = true;
         apply_surface((heroR.x + (heroR.w/2)) - 265, (heroR.y + (heroR.h)) - 265, magicaAttackSprite, screen );
 

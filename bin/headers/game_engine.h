@@ -27,5 +27,6 @@ public:
 
 void saveGame(int location);
 void loadSave(int location);
+void loadChars();
 
 #endif
